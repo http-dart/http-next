@@ -24,10 +24,6 @@ class MultipartBody implements Body {
   @override
   final int contentLength;
 
-  /// Multipart forms do not have an encoding.
-  @override
-  Encoding get encoding => null;
-
   /// Creates a [MultipartBody] from the given [fields] and [files].
   ///
   /// The [boundary] is used to separate key value pairs within the body.
@@ -85,6 +81,10 @@ class MultipartBody implements Body {
   }
 
   MultipartBody._(this._stream, this.contentLength);
+
+  /// Multipart forms do not have an encoding.
+  @override
+  Encoding get encoding => null;
 
   @override
   Stream<List<int>> read() {

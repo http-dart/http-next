@@ -22,7 +22,7 @@ class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
   /// [source] is copied to a new [Map] to ensure changes to the parameter value
   /// after constructions are not reflected.
   factory HttpUnmodifiableMap(Map<String, V> source,
-      {bool ignoreKeyCase: false}) {
+      {bool ignoreKeyCase = false}) {
     if (source is HttpUnmodifiableMap<V> &&
         //        !ignoreKeyCase: no transformation of the input is required
         // source._ignoreKeyCase: the input cannot be transformed any more

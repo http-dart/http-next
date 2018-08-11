@@ -105,7 +105,7 @@ void main() {
           expect(accessLocation, 2);
           accessLocation = 3;
         }))
-          ..close();
+        .close();
 
     expect(accessLocation, 3);
   });

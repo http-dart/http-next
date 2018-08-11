@@ -14,17 +14,13 @@ final _uri = Uri.parse('http://localhost/');
 
 void main() {
   group('Request', () {
-    _testChange(({body, headers, context}) {
-      return Request('GET', _uri,
-          body: body, headers: headers, context: context);
-    });
+    _testChange(({body, headers, context}) =>
+        Request('GET', _uri, body: body, headers: headers, context: context));
   });
 
   group('Response', () {
-    _testChange(({body, headers, context}) {
-      return Response(_uri, 200,
-          body: body, headers: headers, context: context);
-    });
+    _testChange(({body, headers, context}) =>
+        Response(_uri, 200, body: body, headers: headers, context: context));
   });
 }
 

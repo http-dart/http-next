@@ -107,7 +107,7 @@ class _MultipartBodyMatches extends Matcher {
 
     final http.Request request = item;
 
-    final future = request.readAsBytes().then((List<int> bodyBytes) {
+    final future = request.readAsBytes().then((bodyBytes) {
       final body = utf8.decode(bodyBytes);
       final contentType = MediaType.parse(request.headers['content-type']);
       final boundary = contentType.parameters['boundary'];
@@ -131,7 +131,7 @@ class _MultipartBodyMatches extends Matcher {
 ///
 /// [message] can be a String or a [Matcher].
 Matcher isClientException([message]) => predicate((error) {
-      expect(error, TypeMatcher<http.ClientException>());
+      expect(error, const TypeMatcher<http.ClientException>());
       if (message != null) {
         expect(error.message, message);
       }

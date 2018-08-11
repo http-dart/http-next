@@ -95,7 +95,8 @@ Future<Null> hybridMain(StreamChannel channel) async {
         return;
       }
 
-      (content['headers'] as Map)[name] = value;
+      final Map<String, String> headers = content['headers'];
+      headers[name] = value;
     });
 
     final encodingName = request.url.queryParameters['response-encoding'];

@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import 'package:http_next/src/message.dart';
 
 /// A non-ASCII string.
-final _nonAscii = 'föøbãr';
+const _nonAscii = 'föøbãr';
 
 /// The UTF-8 encoding of [_nonAscii].
 final _utf8Bytes = utf8.encode(_nonAscii);
@@ -98,8 +98,9 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller.add(_worldBytes);
-      controller.close();
+      controller
+        ..add(_worldBytes)
+        ..close();
     });
 
     test('defaults to decoding the message as UTF-8', () {
@@ -124,8 +125,9 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller.add(_worldBytes);
-      controller.close();
+      controller
+        ..add(_worldBytes)
+        ..close();
     });
   });
 
@@ -143,8 +145,9 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller.add(_worldBytes);
-      controller.close();
+      controller
+        ..add(_worldBytes)
+        ..close();
     });
 
     test('returns a List<int> body', () {

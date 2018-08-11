@@ -81,9 +81,8 @@ class MultipartFile {
   /// [contentType] if not specified will attempt to be looked up from the
   /// [filename] if provided. It will default to `application/octet-stream`.
   MultipartFile.fromStream(this.field, Stream<List<int>> stream, this.length,
-      {String filename, MediaType contentType})
+      {this.filename, MediaType contentType})
       : _stream = stream,
-        filename = filename,
         contentType = contentType ??
             _lookUpMediaType(filename) ??
             MediaType('application', 'octet-stream');

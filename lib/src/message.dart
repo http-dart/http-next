@@ -102,8 +102,7 @@ abstract class Message {
       return null;
     }
 
-    _contentLengthCache = int.parse(contentLengthHeader);
-    return _contentLengthCache;
+    return _contentLengthCache = int.parse(contentLengthHeader);
   }
 
   int _contentLengthCache;
@@ -138,8 +137,7 @@ abstract class Message {
       return null;
     }
 
-    _contentTypeCache = MediaType.parse(contentLengthHeader);
-    return _contentTypeCache;
+    return _contentTypeCache = MediaType.parse(contentLengthHeader);
   }
 
   MediaType _contentTypeCache;

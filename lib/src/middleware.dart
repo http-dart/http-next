@@ -48,16 +48,14 @@ Middleware createMiddleware(
   requestHandler ??= (request) async => request;
   responseHandler ??= (response) async => response;
 
-  return (inner) {
-    return HandlerClient(
-        (request) => requestHandler(request)
-            .then((req) => inner.send(req))
-            .then((res) => responseHandler(res), onError: errorHandler),
-        onClose == null
-            ? inner.close
-            : () {
-                onClose();
-                inner.close();
-              });
-  };
+  return (inner) => HandlerClient(
+      (request) => requestHandler(request)
+          .then((req) => inner.send(req))
+          .then((res) => responseHandler(res), onError: errorHandler),
+      onClose == null
+          ? inner.close
+          : () {
+              onClose();
+              inner.close();
+            });
 }

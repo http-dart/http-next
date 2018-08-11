@@ -45,10 +45,12 @@ class BrowserClient extends BaseClient {
     final xhr = html.HttpRequest();
     _xhrs.add(xhr);
 
-    xhr.open(request.method, request.url.toString());
-    xhr.responseType = 'arraybuffer';
-    xhr.withCredentials =
-        request.context['http.html.with_credentials'] as bool ?? false;
+    final bool withCredentials = request.context['http.html.with_credentials'];
+
+    xhr
+      ..open(request.method, request.url.toString())
+      ..responseType = 'arraybuffer'
+      ..withCredentials = withCredentials ?? false;
     request.headers.forEach(xhr.setRequestHeader);
 
     final completer = Completer<Response>();
