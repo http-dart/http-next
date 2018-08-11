@@ -8,9 +8,12 @@ import 'dart:io';
 import 'package:async/async.dart';
 
 import 'base_client.dart';
+import 'client.dart';
 import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
+
+Client platformClient() => new IOClient();
 
 /// A `dart:io`-based HTTP client.
 ///

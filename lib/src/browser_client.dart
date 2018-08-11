@@ -3,18 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:html';
+import 'dart:html' as html;
 import 'dart:typed_data';
 
 import 'package:async/async.dart';
 
-import 'src/base_client.dart';
-import 'src/exception.dart';
-import 'src/request.dart';
-import 'src/response.dart';
+import 'base_client.dart';
+import 'client.dart';
+import 'exception.dart';
+import 'request.dart';
+import 'response.dart';
 
-// TODO(nweiz): Move this under src/, re-export from lib/http.dart, and use this
-// automatically from [new Client] once sdk#24581 is fixed.
+Client platformClient() => new BrowserClient();
 
 /// A `dart:html`-based HTTP client that runs in the browser and is backed by
 /// XMLHttpRequests.
@@ -34,14 +34,14 @@ class BrowserClient extends BaseClient {
   /// The currently active XHRs.
   ///
   /// These are aborted if the client is closed.
-  final _xhrs = new Set<HttpRequest>();
+  final _xhrs = new Set<html.HttpRequest>();
 
   /// Creates a new HTTP client.
   BrowserClient();
 
   Future<Response> send(Request request) async {
     var bytes = await collectBytes(request.read());
-    var xhr = new HttpRequest();
+    var xhr = new html.HttpRequest();
     _xhrs.add(xhr);
 
     xhr.open(request.method, request.url.toString());

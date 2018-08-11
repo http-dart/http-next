@@ -4,9 +4,4 @@
 
 import 'dart:html' as html;
 
-import 'package:http_next/http.dart';
-import 'package:http_next/browser_client.dart';
-
-Client platformClient() => new BrowserClient();
-
 String userAgent() => html.window.navigator.userAgent;

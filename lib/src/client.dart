@@ -9,7 +9,9 @@ import 'dart:typed_data';
 import 'base_client.dart';
 import 'handler.dart';
 import 'handler_client.dart';
-import 'io_client.dart';
+import 'platform_client.dart'
+    if (dart.library.html) 'browser_client.dart'
+    if (dart.library.io) 'io_client.dart';
 import 'request.dart';
 import 'response.dart';
 
@@ -25,10 +27,9 @@ import 'response.dart';
 abstract class Client {
   /// Creates a new client.
   ///
-  /// Currently this will create an [IOClient] if `dart:io` is available and
-  /// throw an [UnsupportedError] otherwise. In the future, it will create a
-  /// [BrowserClient] if `dart:html` is available.
-  factory Client() => new IOClient();
+  /// This will create a [BrowserClient] if `dart:html` is available, otherwise
+  /// it will create an [IOClient].
+  factory Client() => platformClient();
 
   /// Creates a new [Client] from a [handler] callback.
   ///

@@ -6,9 +6,11 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
-import 'client.dart'
-    if (dart.library.io) 'hybrid/client_io.dart'
-    if (dart.library.html) 'hybrid/client_html.dart';
+import 'package:http_next/http.dart';
+
+import 'user_agent.dart'
+    if (dart.library.html) 'hybrid/user_agent_html.dart'
+    if (dart.library.io) 'hybrid/user_agent_io.dart';
 import 'utils.dart';
 
 void main() {
@@ -22,7 +24,7 @@ void main() {
     });
 
     test('head', () async {
-      var response = await platformClient().head(serverUrl);
+      var response = await Client().head(serverUrl);
       var body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -30,7 +32,7 @@ void main() {
     });
 
     test('get', () async {
-      var response = await platformClient().get(serverUrl, headers: {
+      var response = await Client().get(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -52,8 +54,7 @@ void main() {
     });
 
     test('post with string', () async {
-      var response =
-          await platformClient().post(serverUrl, 'request body', headers: {
+      var response = await Client().post(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -77,7 +78,7 @@ void main() {
     });
 
     test('post with string and encoding', () async {
-      var response = await platformClient()
+      var response = await Client()
           .post(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
@@ -103,8 +104,8 @@ void main() {
     });
 
     test('post with bytes', () async {
-      var response = await platformClient()
-          .post(serverUrl, ascii.encode('hello'), headers: {
+      var response =
+          await Client().post(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -128,7 +129,7 @@ void main() {
     });
 
     test('post with fields', () async {
-      var response = await platformClient().post(serverUrl, {
+      var response = await Client().post(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -156,8 +157,7 @@ void main() {
     });
 
     test('put with string', () async {
-      var response =
-          await platformClient().put(serverUrl, 'request body', headers: {
+      var response = await Client().put(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -181,7 +181,7 @@ void main() {
     });
 
     test('put with string and encoding', () async {
-      var response = await platformClient()
+      var response = await Client()
           .put(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
@@ -207,8 +207,8 @@ void main() {
     });
 
     test('put with bytes', () async {
-      var response = await platformClient()
-          .put(serverUrl, ascii.encode('hello'), headers: {
+      var response =
+          await Client().put(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -232,7 +232,7 @@ void main() {
     });
 
     test('put with fields', () async {
-      var response = await platformClient().put(serverUrl, {
+      var response = await Client().put(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -260,8 +260,7 @@ void main() {
     });
 
     test('patch with string', () async {
-      var response =
-          await platformClient().patch(serverUrl, 'request body', headers: {
+      var response = await Client().patch(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -285,7 +284,7 @@ void main() {
     });
 
     test('patch with string and encoding', () async {
-      var response = await platformClient()
+      var response = await Client()
           .patch(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
@@ -311,8 +310,8 @@ void main() {
     });
 
     test('patch with bytes', () async {
-      var response = await platformClient()
-          .patch(serverUrl, ascii.encode('hello'), headers: {
+      var response =
+          await Client().patch(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -336,7 +335,7 @@ void main() {
     });
 
     test('patch with fields', () async {
-      var response = await platformClient().patch(serverUrl, {
+      var response = await Client().patch(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -364,7 +363,7 @@ void main() {
     });
 
     test('delete', () async {
-      var response = await platformClient().delete(serverUrl, headers: {
+      var response = await Client().delete(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -387,7 +386,7 @@ void main() {
     });
 
     test('read', () async {
-      var body = await platformClient().read(serverUrl, headers: {
+      var body = await Client().read(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -407,12 +406,12 @@ void main() {
     });
 
     test('read throws an error for a 4** status code', () async {
-      expect(() => platformClient().read(serverUrl.resolve('/error')),
+      expect(() => Client().read(serverUrl.resolve('/error')),
           throwsClientException());
     });
 
     test('readBytes', () async {
-      var body = await platformClient().readBytes(serverUrl, headers: {
+      var body = await Client().readBytes(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -432,7 +431,7 @@ void main() {
     });
 
     test('readBytes throws an error for a 4** status code', () async {
-      expect(() => platformClient().readBytes(serverUrl.resolve('/error')),
+      expect(() => Client().readBytes(serverUrl.resolve('/error')),
           throwsClientException());
     });
   });
