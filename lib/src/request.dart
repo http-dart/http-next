@@ -182,6 +182,7 @@ class Request extends Message {
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body.
+  @override
   Request change(
       {Map<String, String> headers, Map<String, Object> context, body}) {
     var updatedHeaders = updateMap(this.headers, headers);

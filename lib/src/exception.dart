@@ -15,5 +15,6 @@ class ClientException implements Exception {
   /// The [uri] points to the URL being requested if applicable.
   ClientException(this.message, [this.uri]);
 
+  @override
   String toString() => message;
 }

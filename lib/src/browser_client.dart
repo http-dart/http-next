@@ -39,6 +39,7 @@ class BrowserClient extends BaseClient {
   /// Creates a new HTTP client.
   BrowserClient();
 
+  @override
   Future<Response> send(Request request) async {
     var bytes = await collectBytes(request.read());
     var xhr = new html.HttpRequest();
@@ -83,6 +84,7 @@ class BrowserClient extends BaseClient {
     }
   }
 
+  @override
   void close() {
     for (var xhr in _xhrs) {
       xhr.abort();

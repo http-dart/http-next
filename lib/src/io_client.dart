@@ -43,6 +43,7 @@ class IOClient extends BaseClient {
   /// Creates a new HTTP client.
   IOClient([HttpClient inner]) : _inner = inner ?? new HttpClient();
 
+  @override
   Future<Response> send(Request request) async {
     try {
       var ioRequest = await _inner.openUrl(request.method, request.url);
@@ -82,6 +83,7 @@ class IOClient extends BaseClient {
     }
   }
 
+  @override
   void close() {
     if (_inner != null) _inner.close(force: true);
     _inner = null;

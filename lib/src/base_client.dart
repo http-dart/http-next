@@ -19,27 +19,34 @@ import 'utils.dart';
 /// Subclasses only need to implement [send] and maybe [close], and then they
 /// get various convenience methods for free.
 abstract class BaseClient implements Client {
+  @override
   Future<Response> head(url, {Map<String, String> headers}) =>
       send(new Request.head(url, headers: headers));
 
+  @override
   Future<Response> get(url, {Map<String, String> headers}) =>
       send(new Request.get(url, headers: headers));
 
+  @override
   Future<Response> post(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
       send(new Request.post(url, body, headers: headers, encoding: encoding));
 
+  @override
   Future<Response> put(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
       send(new Request.put(url, body, headers: headers, encoding: encoding));
 
+  @override
   Future<Response> patch(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
       send(new Request.patch(url, body, headers: headers, encoding: encoding));
 
+  @override
   Future<Response> delete(url, {Map<String, String> headers}) =>
       send(new Request.delete(url, headers: headers));
 
+  @override
   Future<String> read(url, {Map<String, String> headers}) async {
     var response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
@@ -47,6 +54,7 @@ abstract class BaseClient implements Client {
     return await response.readAsString();
   }
 
+  @override
   Future<Uint8List> readBytes(url, {Map<String, String> headers}) async {
     var response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
@@ -54,8 +62,10 @@ abstract class BaseClient implements Client {
     return await collectBytes(response.read());
   }
 
+  @override
   Future<Response> send(Request request);
 
+  @override
   void close() {}
 
   /// Throws an error if [response] is not successful.

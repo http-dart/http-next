@@ -21,9 +21,11 @@ class MultipartBody implements Body {
   /// This will be `null` after [read] is called.
   Stream<List<int>> _stream;
 
+  @override
   final int contentLength;
 
   /// Multipart forms do not have an encoding.
+  @override
   Encoding get encoding => null;
 
   /// Creates a [MultipartBody] from the given [fields] and [files].
@@ -84,6 +86,7 @@ class MultipartBody implements Body {
 
   MultipartBody._(this._stream, this.contentLength);
 
+  @override
   Stream<List<int>> read() {
     if (_stream == null) {
       throw new StateError("The 'read' method can only be called once on a "

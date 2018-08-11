@@ -58,10 +58,16 @@ class _EmptyHttpUnmodifiableMap<V> extends MapView<String, V>
     implements HttpUnmodifiableMap<V> {
   const _EmptyHttpUnmodifiableMap() : super(const <String, Null>{});
 
+  @override
   bool get _ignoreKeyCase => true;
 
+  @override
   void operator []=(String key, Object value) => super[key] = null;
+
+  @override
   void addAll(Map<String, Object> other) => super.addAll({});
+
+  @override
   V putIfAbsent(String key, Object ifAbsent()) =>
       super.putIfAbsent(key, () => null);
 }

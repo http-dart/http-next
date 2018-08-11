@@ -29,6 +29,7 @@ class _TestMessage extends Message {
       Encoding encoding)
       : super(body, headers: headers, context: context, encoding: encoding);
 
+  @override
   Message change(
       {Map<String, String> headers, Map<String, Object> context, body}) {
     throw new UnimplementedError();
