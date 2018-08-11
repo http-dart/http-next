@@ -70,7 +70,9 @@ abstract class BaseClient implements Client {
 
   /// Throws an error if [response] is not successful.
   void _checkResponseSuccess(url, Response response) {
-    if (response.statusCode < 400) return;
+    if (response.statusCode < 400) {
+      return;
+    }
     var message = "Request to $url failed with status ${response.statusCode}";
     if (response.reasonPhrase.isNotEmpty) {
       message = "$message: ${response.reasonPhrase}";

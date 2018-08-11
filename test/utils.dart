@@ -23,7 +23,9 @@ Uri get dummyUrl => Uri.parse('http://dartlang.org/');
 /// This does nothing if text is only a single line.
 String cleanUpLiteral(String text) {
   final lines = text.split('\n');
-  if (lines.length <= 1) return text;
+  if (lines.length <= 1) {
+    return text;
+  }
 
   final leadingSpaces = _getLeadingSpaces(lines[0]);
   final lineCount = lines.length;
@@ -64,10 +66,13 @@ class _Parse extends Matcher {
 
   @override
   bool matches(item, Map matchState) {
-    if (item is! String) return false;
-    final String encoded = item;
+    if (item is! String) {
+      return false;
+    }
 
+    final String encoded = item;
     dynamic parsed;
+
     try {
       parsed = jsonDecode(encoded);
     } catch (e) {
@@ -96,7 +101,10 @@ class _MultipartBodyMatches extends Matcher {
 
   @override
   bool matches(item, Map matchState) {
-    if (item is! http.Request) return false;
+    if (item is! http.Request) {
+      return false;
+    }
+
     final http.Request request = item;
 
     final future = request.readAsBytes().then((List<int> bodyBytes) {

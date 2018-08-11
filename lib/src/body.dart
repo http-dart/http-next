@@ -36,9 +36,12 @@ class Body {
   /// [Stream<List<int>>], or `null`. If it's a [String], [encoding] will be
   /// used to convert it to a [Stream<List<int>>].
   factory Body(body, [Encoding encoding]) {
-    if (body is Body) return body;
-    if (body == null)
+    if (body is Body) {
+      return body;
+    }
+    if (body == null) {
       return Body._(const Stream<List<int>>.empty(), encoding, 0);
+    }
 
     if (body is Map<String, String>) {
       final Map<String, String> t = body;
@@ -52,7 +55,9 @@ class Body {
         final encoded = utf8.encode(body);
         // If the text is plain ASCII, don't modify the encoding. This means
         // that an encoding of "text/plain" will stay put.
-        if (!_isPlainAscii(encoded, body.length)) encoding = utf8;
+        if (!_isPlainAscii(encoded, body.length)) {
+          encoding = utf8;
+        }
         contentLength = encoded.length;
         stream = Stream<List<int>>.fromIterable([encoded]);
       } else {
@@ -79,7 +84,9 @@ class Body {
   static bool _isPlainAscii(List<int> bytes, int codeUnits) {
     // Most non-ASCII code units will produce multiple bytes and make the text
     // longer.
-    if (bytes.length != codeUnits) return false;
+    if (bytes.length != codeUnits) {
+      return false;
+    }
 
     // Non-ASCII code units between U+0080 and U+009F produce 8-bit characters
     // with the high bit set.

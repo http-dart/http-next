@@ -4,6 +4,8 @@ analyzer:
 
 linter:
   rules:
+    - always_put_control_body_on_new_line
     - annotate_overrides
+    - curly_braces_in_flow_control_structures
     - prefer_final_locals
     - unnecessary_new

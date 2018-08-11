@@ -93,9 +93,15 @@ abstract class Message {
   ///
   /// If not set, `null`.
   int get contentLength {
-    if (_contentLengthCache != null) return _contentLengthCache;
+    if (_contentLengthCache != null) {
+      return _contentLengthCache;
+    }
+
     final contentLengthHeader = getHeader(headers, 'content-length');
-    if (contentLengthHeader == null) return null;
+    if (contentLengthHeader == null) {
+      return null;
+    }
+
     _contentLengthCache = int.parse(contentLengthHeader);
     return _contentLengthCache;
   }
@@ -123,9 +129,15 @@ abstract class Message {
   ///
   /// This is cached for efficient access.
   MediaType get _contentType {
-    if (_contentTypeCache != null) return _contentTypeCache;
+    if (_contentTypeCache != null) {
+      return _contentTypeCache;
+    }
+
     final contentLengthHeader = getHeader(headers, 'content-type');
-    if (contentLengthHeader == null) return null;
+    if (contentLengthHeader == null) {
+      return null;
+    }
+
     _contentTypeCache = MediaType.parse(contentLengthHeader);
     return _contentTypeCache;
   }
@@ -179,8 +191,12 @@ abstract class Message {
     }
 
     final newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
-    if (contentType != null) newHeaders['content-type'] = contentType;
-    if (contentLength != null) newHeaders['content-length'] = contentLength;
+    if (contentType != null) {
+      newHeaders['content-type'] = contentType;
+    }
+    if (contentLength != null) {
+      newHeaders['content-length'] = contentLength;
+    }
     return newHeaders;
   }
 
@@ -190,7 +206,9 @@ abstract class Message {
   /// modified, otherwise it returns `null`.
   static String _contentLengthHeader(Map<String, String> headers, Body body) {
     final bodyLength = body.contentLength;
-    if (bodyLength == null) return null;
+    if (bodyLength == null) {
+      return null;
+    }
 
     final contentLengthHeader = bodyLength.toString();
     if (contentLengthHeader == getHeader(headers, 'content-length')) {

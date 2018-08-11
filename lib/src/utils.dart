@@ -17,7 +17,9 @@ import 'http_unmodifiable_map.dart';
 ///
 /// If [updates] is `null` or empty, [original] is returned unchanged.
 Map<K, V> updateMap<K, V>(Map<K, V> original, Map<K, V> updates) {
-  if (updates == null || updates.isEmpty) return original;
+  if (updates == null || updates.isEmpty) {
+    return original;
+  }
 
   return Map<K, V>.from(original)..addAll(updates);
 }
@@ -59,11 +61,17 @@ Future<Null> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
 /// This works even if [headers] is `null`, or if it's not yet a
 /// case-insensitive map.
 String getHeader(Map<String, String> headers, String name) {
-  if (headers == null) return null;
-  if (headers is HttpUnmodifiableMap) return headers[name];
+  if (headers == null) {
+    return null;
+  }
+  if (headers is HttpUnmodifiableMap) {
+    return headers[name];
+  }
 
   for (var key in headers.keys) {
-    if (equalsIgnoreAsciiCase(key, name)) return headers[key];
+    if (equalsIgnoreAsciiCase(key, name)) {
+      return headers[key];
+    }
   }
   return null;
 }

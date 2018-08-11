@@ -121,7 +121,9 @@ class MultipartFile {
   /// Looks up the [MediaType] from the [filename]'s extension or from
   /// magic numbers contained within a file header's [bytes].
   static MediaType _lookUpMediaType(String filename, [List<int> bytes]) {
-    if (filename == null && bytes == null) return null;
+    if (filename == null && bytes == null) {
+      return null;
+    }
 
     // lookupMimeType expects filename to be non-null but its possible that
     // this can be called with bytes but no filename.
