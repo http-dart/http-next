@@ -43,7 +43,8 @@ class BrowserClient extends BaseClient {
     var bytes = await collectBytes(request.read());
     var xhr = new HttpRequest();
     _xhrs.add(xhr);
-    _openHttpRequest(xhr, request.method, request.url.toString(), asynch: true);
+
+    xhr.open(request.method, request.url.toString());
     xhr.responseType = 'blob';
     xhr.withCredentials =
         request.context['http.html.with_credentials'] ?? false;
@@ -95,12 +96,6 @@ class BrowserClient extends BaseClient {
     } finally {
       _xhrs.remove(xhr);
     }
-  }
-
-  // TODO(nweiz): Remove this when sdk#24637 is fixed.
-  void _openHttpRequest(HttpRequest request, String method, String url,
-      {bool asynch, String user, String password}) {
-    request.open(method, url, async: asynch, user: user, password: password);
   }
 
   void close() {
