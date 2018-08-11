@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
-import 'package:http/src/message.dart';
+import 'package:http_next/src/message.dart';
 
 /// A non-ASCII string.
 final _nonAscii = "föøbãr";

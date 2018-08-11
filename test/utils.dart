@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:http_next/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:test/test.dart';
 
@@ -103,7 +103,7 @@ class _MultipartBodyMatches extends Matcher {
 ///
 /// [message] can be a String or a [Matcher].
 Matcher isClientException([message]) => predicate((error) {
-      expect(error, new isInstanceOf<http.ClientException>());
+      expect(error, new TypeMatcher<http.ClientException>());
       if (message != null) {
         expect(error.message, message);
       }

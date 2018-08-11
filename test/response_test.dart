@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import 'package:http/http.dart' as http;
+import 'package:http_next/http.dart' as http;
 
 import 'utils.dart';
 

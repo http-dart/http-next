@@ -7,8 +7,8 @@ import 'dart:convert';
 
 import 'package:test/test.dart';
 
-import 'package:http/http.dart';
-import 'package:http/src/message.dart';
+import 'package:http_next/http.dart';
+import 'package:http_next/src/message.dart';
 
 final _uri = Uri.parse('http://localhost/');
 

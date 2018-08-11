@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import 'package:http/http.dart';
+import 'package:http_next/http.dart';
 
 void main() {
   test('compose middleware with Pipeline', () async {

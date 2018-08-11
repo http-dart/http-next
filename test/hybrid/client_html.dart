@@ -4,8 +4,8 @@
 
 import 'dart:html' as html;
 
-import 'package:http/http.dart';
-import 'package:http/browser_client.dart';
+import 'package:http_next/http.dart';
+import 'package:http_next/browser_client.dart';
 
 Client platformClient() => new BrowserClient();
 

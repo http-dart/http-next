@@ -1,19 +1,20 @@
-name: http
-version: 0.12.0
-author: "Dart Team <misc@dartlang.org>"
-homepage: https://github.com/dart-lang/http
-description: A composable, Future-based API for making HTTP requests.
-dependencies:
-  async: ">=1.13.0 <3.0.0"
-  collection: "^1.5.0"
-  http_parser: ">=0.0.1 <4.0.0"
-  mime: "^0.9.0"
-  typed_data: "^1.0.0"
-dev_dependencies:
-  test: "^0.12.28"
-  shelf: ">=0.6.0 <0.8.0"
-# Override dependency on package_resolver to enable test
-dependency_overrides:
-  package_resolver: '^1.0.0'
+name: http_next
+version: 2.0.0-dev
+
+description: HTTP request middleware for Dart
+author: Don Olmstead <don.j.olmstead@gmail.com>
+homepage: https://github.com/http-dart/http-next
+
 environment:
-  sdk: ">=2.0.0-dev.17.0 <2.0.0"
+  sdk: '>=2.0.0 < 3.0.0'
+
+dependencies:
+  async: '>=1.13.0 <3.0.0'
+  collection: ^1.5.0
+  http_parser: '>=0.0.1 <4.0.0'
+  mime: ^0.9.0
+  typed_data: ^1.0.0
+
+dev_dependencies:
+  shelf: '>=0.6.0 <0.8.0'
+  test: '>=0.12.42 <2.0.0'
