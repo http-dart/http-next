@@ -21,21 +21,36 @@ Uri get dummyUrl => Uri.parse('http://dartlang.org/');
 ///     Close is on the same line.'''
 ///
 /// This does nothing if text is only a single line.
-// TODO(nweiz): Make this auto-detect the indentation level from the first
-// non-whitespace line.
 String cleanUpLiteral(String text) {
   var lines = text.split('\n');
   if (lines.length <= 1) return text;
 
-  for (var j = 0; j < lines.length; j++) {
-    if (lines[j].length > 8) {
-      lines[j] = lines[j].substring(8, lines[j].length);
-    } else {
-      lines[j] = '';
-    }
+  final leadingSpaces = _getLeadingSpaces(lines[0]);
+  final lineCount = lines.length;
+
+  for (var i = 0; i < lineCount; i++) {
+    final line = lines[i];
+    final lineLength = line.length;
+
+    lines[i] =
+        (lineLength > leadingSpaces) ? line.substring(leadingSpaces) : '';
   }
 
   return lines.join('\n');
+}
+
+/// Returns the number of leading spaces in the [value].
+int _getLeadingSpaces(String value) {
+  var count = value.length;
+
+  for (var i = 0; i < count; ++i) {
+    // An ascii value of 32 corresponds to a space
+    if (value.codeUnitAt(i) != 32) {
+      return i;
+    }
+  }
+
+  return count;
 }
 
 /// A matcher that matches JSON that parses to a value that matches the inner
