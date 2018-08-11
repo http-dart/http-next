@@ -51,8 +51,17 @@ class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
 }
 
 /// A const implementation of an empty [HttpUnmodifiableMap].
+///
+/// This overrides modifier methods that care about the type of key the use so
+/// that when V is Null, they throw UnsuppotedErrors instead of type errors.
 class _EmptyHttpUnmodifiableMap<V> extends MapView<String, V>
     implements HttpUnmodifiableMap<V> {
+  const _EmptyHttpUnmodifiableMap() : super(const <String, Null>{});
+
   bool get _ignoreKeyCase => true;
-  const _EmptyHttpUnmodifiableMap() : super(const {});
+
+  void operator []=(String key, Object value) => super[key] = null;
+  void addAll(Map<String, Object> other) => super.addAll({});
+  V putIfAbsent(String key, Object ifAbsent()) =>
+      super.putIfAbsent(key, () => null);
 }
