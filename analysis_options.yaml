@@ -8,4 +8,5 @@ linter:
     - annotate_overrides
     - curly_braces_in_flow_control_structures
     - prefer_final_locals
+    - prefer_single_quotes
     - unnecessary_new

@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:async/async.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelf_io;
-import "package:stream_channel/stream_channel.dart";
+import 'package:stream_channel/stream_channel.dart';
 
 /// The list of headers to ignore when sending back confirmation.
 final _ignoreHeaders = <String>[
@@ -103,7 +103,7 @@ Future<Null> hybridMain(StreamChannel channel) async {
         encodingName == null ? ascii : Encoding.getByName(encodingName);
 
     return shelf.Response.ok(jsonEncode(content), headers: {
-      "content-type": "application/json; charset=${outputEncoding.name}",
+      'content-type': 'application/json; charset=${outputEncoding.name}',
 
       // CORS headers for browser testing
       'access-control-allow-origin': '*',

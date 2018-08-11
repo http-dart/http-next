@@ -73,10 +73,11 @@ abstract class BaseClient implements Client {
     if (response.statusCode < 400) {
       return;
     }
-    var message = "Request to $url failed with status ${response.statusCode}";
+
+    var message = 'Request to $url failed with status ${response.statusCode}';
     if (response.reasonPhrase.isNotEmpty) {
-      message = "$message: ${response.reasonPhrase}";
+      message = '$message: ${response.reasonPhrase}';
     }
-    throw ClientException("$message.", getUrl(url));
+    throw ClientException('$message.', getUrl(url));
   }
 }

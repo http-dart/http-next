@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import 'package:http_next/src/message.dart';
 
 /// A non-ASCII string.
-final _nonAscii = "föøbãr";
+final _nonAscii = 'föøbãr';
 
 /// The UTF-8 encoding of [_nonAscii].
 final _utf8Bytes = utf8.encode(_nonAscii);
@@ -19,10 +19,10 @@ final _utf8Bytes = utf8.encode(_nonAscii);
 final _latin1Bytes = latin1.encode(_nonAscii);
 
 /// The ASCII bytes in the string "hello,".
-final _helloBytes = ascii.encode("hello,");
+final _helloBytes = ascii.encode('hello,');
 
 /// The ASCII bytes in the string " world".
-final _worldBytes = ascii.encode(" world");
+final _worldBytes = ascii.encode(' world');
 
 class _TestMessage extends Message {
   _TestMessage(Map<String, String> headers, Map<String, Object> context, body,
@@ -85,16 +85,16 @@ void main() {
     });
   });
 
-  group("readAsString()", () {
-    test("returns an empty string for an empty body", () {
+  group('readAsString()', () {
+    test('returns an empty string for an empty body', () {
       final message = _createMessage();
       expect(message.readAsString(), completion(isEmpty));
     });
 
-    test("collects a streamed body", () async {
+    test('collects a streamed body', () async {
       final controller = StreamController<List<int>>();
       final message = _createMessage(body: controller.stream);
-      expect(message.readAsString(), completion(equals("hello, world")));
+      expect(message.readAsString(), completion(equals('hello, world')));
 
       controller.add(_helloBytes);
       await pumpEventQueue();
@@ -102,19 +102,19 @@ void main() {
       controller.close();
     });
 
-    test("defaults to decoding the message as UTF-8", () {
+    test('defaults to decoding the message as UTF-8', () {
       final message = _createMessage(body: _utf8Bytes);
       expect(message.readAsString(), completion(equals(_nonAscii)));
     });
   });
 
-  group("readAsBytes()", () {
-    test("returns an empty list for an empty body", () {
+  group('readAsBytes()', () {
+    test('returns an empty list for an empty body', () {
       final message = _createMessage();
       expect(message.readAsBytes(), completion(isEmpty));
     });
 
-    test("collects a streamed body", () async {
+    test('collects a streamed body', () async {
       final controller = StreamController<List<int>>();
       final message = _createMessage(body: controller.stream);
       expect(
@@ -129,13 +129,13 @@ void main() {
     });
   });
 
-  group("read()", () {
-    test("returns an empty stream for an empty body", () {
+  group('read()', () {
+    test('returns an empty stream for an empty body', () {
       final message = _createMessage();
       expect(message.read().toList(), completion(isEmpty));
     });
 
-    test("returns a streamed body", () async {
+    test('returns a streamed body', () async {
       final controller = StreamController<List<int>>();
       final message = _createMessage(body: controller.stream);
       expect(message.read().toList(),
@@ -147,12 +147,12 @@ void main() {
       controller.close();
     });
 
-    test("returns a List<int> body", () {
+    test('returns a List<int> body', () {
       final message = _createMessage(body: _helloBytes);
       expect(message.read().toList(), completion(equals([_helloBytes])));
     });
 
-    test("throws when calling read()/readAsString() multiple times", () {
+    test('throws when calling read()/readAsString() multiple times', () {
       var message = _createMessage();
       expect(message.read().toList(), completion(isEmpty));
       expect(() => message.read(), throwsStateError);
@@ -171,25 +171,25 @@ void main() {
     });
   });
 
-  group("content-length", () {
-    test("is 0 with a default body and without a content-length header", () {
+  group('content-length', () {
+    test('is 0 with a default body and without a content-length header', () {
       final request = _createMessage();
       expect(request.contentLength, 0);
     });
 
-    test("comes from a byte body", () {
+    test('comes from a byte body', () {
       final message = _createMessage(body: [1, 2, 3]);
       expect(message.contentLength, 3);
       expect(message.isEmpty, isFalse);
     });
 
-    test("comes from a string body", () {
+    test('comes from a string body', () {
       final message = _createMessage(body: 'foobar');
       expect(message.contentLength, 6);
       expect(message.isEmpty, isFalse);
     });
 
-    test("is set based on byte length for a string body", () {
+    test('is set based on byte length for a string body', () {
       var message = _createMessage(body: 'fööbär');
       expect(message.contentLength, 9);
       expect(message.isEmpty, isFalse);
@@ -199,12 +199,12 @@ void main() {
       expect(message.isEmpty, isFalse);
     });
 
-    test("is null for a stream body", () {
+    test('is null for a stream body', () {
       final message = _createMessage(body: const Stream<List<int>>.empty());
       expect(message.contentLength, isNull);
     });
 
-    test("uses the content-length header for a stream body", () {
+    test('uses the content-length header for a stream body', () {
       final message = _createMessage(
           body: const Stream<List<int>>.empty(),
           headers: {'content-length': '42'});
@@ -212,44 +212,44 @@ void main() {
       expect(message.isEmpty, isFalse);
     });
 
-    test("real body length takes precedence over content-length header", () {
+    test('real body length takes precedence over content-length header', () {
       final message =
           _createMessage(body: [1, 2, 3], headers: {'content-length': '42'});
       expect(message.contentLength, 3);
       expect(message.isEmpty, isFalse);
     });
 
-    test("is null for a chunked transfer encoding", () {
+    test('is null for a chunked transfer encoding', () {
       final message = _createMessage(
-          body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'chunked'});
+          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'chunked'});
       expect(message.contentLength, isNull);
     });
 
-    test("is null for a non-identity transfer encoding", () {
+    test('is null for a non-identity transfer encoding', () {
       final message = _createMessage(
-          body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'custom'});
+          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'custom'});
       expect(message.contentLength, isNull);
     });
 
-    test("is set for identity transfer encoding", () {
+    test('is set for identity transfer encoding', () {
       final message = _createMessage(
-          body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'identity'});
+          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'identity'});
       expect(message.contentLength, equals(9));
       expect(message.isEmpty, isFalse);
     });
   });
 
-  group("mimeType", () {
-    test("is null without a content-type header", () {
+  group('mimeType', () {
+    test('is null without a content-type header', () {
       expect(_createMessage().mimeType, isNull);
     });
 
-    test("comes from the content-type header", () {
+    test('comes from the content-type header', () {
       expect(_createMessage(headers: {'content-type': 'text/plain'}).mimeType,
           equals('text/plain'));
     });
 
-    test("doesn't include parameters", () {
+    test('doesn\'t include parameters', () {
       expect(
           _createMessage(
                   headers: {'content-type': 'text/plain; foo=bar; bar=baz'})
@@ -268,7 +268,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          final message = _createMessage(body: "foo");
+          final message = _createMessage(body: 'foo');
           expect(message.encoding, isNull);
           expect(message.headers, isNot(contains('content-type')));
         });
@@ -293,7 +293,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          final message = _createMessage(body: "foo", headers: {
+          final message = _createMessage(body: 'foo', headers: {
             'Content-Type': 'text/plain; charset=not-a-real-charset'
           });
           expect(message.encoding, isNull);
@@ -351,7 +351,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          final message = _createMessage(body: "foo", encoding: latin1);
+          final message = _createMessage(body: 'foo', encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
               message.headers,
@@ -399,7 +399,7 @@ void main() {
 
         test('a plain ASCII body', () {
           final message = _createMessage(
-              body: "foo",
+              body: 'foo',
               encoding: latin1,
               headers: {'Content-Type': 'text/plain; charset=utf-8'});
           expect(message.encoding, equals(latin1));
@@ -442,7 +442,7 @@ void main() {
 
       test('a plain ASCII body', () {
         final message = _createMessage(
-            body: "foo",
+            body: 'foo',
             headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
         expect(message.encoding.name, equals(latin1.name));
         expect(message.headers,

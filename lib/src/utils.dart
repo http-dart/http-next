@@ -34,12 +34,12 @@ String mapToQuery(Map<String, String> map, Encoding encoding) {
         Uri.encodeQueryComponent(key, encoding: encoding),
         Uri.encodeQueryComponent(value, encoding: encoding)
       ]));
-  return pairs.map((pair) => "${pair[0]}=${pair[1]}").join("&");
+  return pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&');
 }
 
 /// A regular expression that matches strings that are composed entirely of
 /// ASCII-compatible characters.
-final RegExp _asciiOnly = RegExp(r"^[\x00-\x7F]+$");
+final RegExp _asciiOnly = RegExp(r'^[\x00-\x7F]+$');
 
 /// Returns whether [string] is composed entirely of ASCII-compatible
 /// characters.
