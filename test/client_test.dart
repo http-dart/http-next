@@ -19,25 +19,25 @@ void main() {
     Uri serverUrl;
 
     setUp(() async {
-      var channel = spawnHybridUri('hybrid/server.dart');
+      final channel = spawnHybridUri('hybrid/server.dart');
       serverUrl = Uri.parse(await channel.stream.cast<String>().first);
     });
 
     test('head', () async {
-      var response = await Client().head(serverUrl);
-      var body = await response.readAsString();
+      final response = await Client().head(serverUrl);
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(body, equals(''));
     });
 
     test('get', () async {
-      var response = await Client().get(serverUrl, headers: {
+      final response = await Client().get(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -54,12 +54,12 @@ void main() {
     });
 
     test('post with string', () async {
-      var response = await Client().post(serverUrl, 'request body', headers: {
+      final response = await Client().post(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -78,13 +78,13 @@ void main() {
     });
 
     test('post with string and encoding', () async {
-      var response = await Client()
+      final response = await Client()
           .post(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -104,13 +104,13 @@ void main() {
     });
 
     test('post with bytes', () async {
-      var response =
+      final response =
           await Client().post(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -129,7 +129,7 @@ void main() {
     });
 
     test('post with fields', () async {
-      var response = await Client().post(serverUrl, {
+      final response = await Client().post(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -137,7 +137,7 @@ void main() {
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -157,12 +157,12 @@ void main() {
     });
 
     test('put with string', () async {
-      var response = await Client().put(serverUrl, 'request body', headers: {
+      final response = await Client().put(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -181,13 +181,13 @@ void main() {
     });
 
     test('put with string and encoding', () async {
-      var response = await Client()
+      final response = await Client()
           .put(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -207,13 +207,13 @@ void main() {
     });
 
     test('put with bytes', () async {
-      var response =
+      final response =
           await Client().put(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -232,7 +232,7 @@ void main() {
     });
 
     test('put with fields', () async {
-      var response = await Client().put(serverUrl, {
+      final response = await Client().put(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -240,7 +240,7 @@ void main() {
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -260,12 +260,13 @@ void main() {
     });
 
     test('patch with string', () async {
-      var response = await Client().patch(serverUrl, 'request body', headers: {
+      final response =
+          await Client().patch(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -284,13 +285,13 @@ void main() {
     });
 
     test('patch with string and encoding', () async {
-      var response = await Client()
+      final response = await Client()
           .patch(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -310,13 +311,13 @@ void main() {
     });
 
     test('patch with bytes', () async {
-      var response =
+      final response =
           await Client().patch(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -335,7 +336,7 @@ void main() {
     });
 
     test('patch with fields', () async {
-      var response = await Client().patch(serverUrl, {
+      final response = await Client().patch(serverUrl, {
         'some-field': 'value',
         'other-field': 'other value'
       }, headers: {
@@ -343,7 +344,7 @@ void main() {
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -363,12 +364,12 @@ void main() {
     });
 
     test('delete', () async {
-      var response = await Client().delete(serverUrl, headers: {
+      final response = await Client().delete(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
       });
-      var body = await response.readAsString();
+      final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
@@ -386,7 +387,7 @@ void main() {
     });
 
     test('read', () async {
-      var body = await Client().read(serverUrl, headers: {
+      final body = await Client().read(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -411,7 +412,7 @@ void main() {
     });
 
     test('readBytes', () async {
-      var body = await Client().readBytes(serverUrl, headers: {
+      final body = await Client().readBytes(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()

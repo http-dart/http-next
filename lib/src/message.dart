@@ -94,7 +94,7 @@ abstract class Message {
   /// If not set, `null`.
   int get contentLength {
     if (_contentLengthCache != null) return _contentLengthCache;
-    var contentLengthHeader = getHeader(headers, 'content-length');
+    final contentLengthHeader = getHeader(headers, 'content-length');
     if (contentLengthHeader == null) return null;
     _contentLengthCache = int.parse(contentLengthHeader);
     return _contentLengthCache;
@@ -124,7 +124,7 @@ abstract class Message {
   /// This is cached for efficient access.
   MediaType get _contentType {
     if (_contentTypeCache != null) return _contentTypeCache;
-    var contentLengthHeader = getHeader(headers, 'content-type');
+    final contentLengthHeader = getHeader(headers, 'content-type');
     if (contentLengthHeader == null) return null;
     _contentTypeCache = MediaType.parse(contentLengthHeader);
     return _contentTypeCache;
@@ -167,8 +167,8 @@ abstract class Message {
   /// Returns a new map without modifying [headers].
   static Map<String, String> _adjustHeaders(
       Map<String, String> headers, Body body, originalBody) {
-    var contentType = _contentTypeHeader(headers, body, originalBody);
-    var contentLength = _contentLengthHeader(headers, body);
+    final contentType = _contentTypeHeader(headers, body, originalBody);
+    final contentLength = _contentLengthHeader(headers, body);
 
     if (contentType == null) {
       if (contentLength == null) {
@@ -178,7 +178,7 @@ abstract class Message {
       }
     }
 
-    var newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
+    final newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
     if (contentType != null) newHeaders['content-type'] = contentType;
     if (contentLength != null) newHeaders['content-length'] = contentLength;
     return newHeaders;
@@ -189,15 +189,15 @@ abstract class Message {
   /// Returns the value for the `content-length` header if it should be
   /// modified, otherwise it returns `null`.
   static String _contentLengthHeader(Map<String, String> headers, Body body) {
-    var bodyLength = body.contentLength;
+    final bodyLength = body.contentLength;
     if (bodyLength == null) return null;
 
-    var contentLengthHeader = bodyLength.toString();
+    final contentLengthHeader = bodyLength.toString();
     if (contentLengthHeader == getHeader(headers, 'content-length')) {
       return null;
     }
 
-    var coding = getHeader(headers, 'transfer-encoding');
+    final coding = getHeader(headers, 'transfer-encoding');
     return coding == null || equalsIgnoreAsciiCase(coding, 'identity')
         ? contentLengthHeader
         : null;
@@ -215,7 +215,7 @@ abstract class Message {
   /// modified, otherwise it returns `null`.
   static String _contentTypeHeader(
       Map<String, String> headers, Body body, originalBody) {
-    var contentTypeHeader = getHeader(headers, 'content-type');
+    final contentTypeHeader = getHeader(headers, 'content-type');
     var changed = false;
     MediaType mediaType;
     Encoding mediaEncoding;

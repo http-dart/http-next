@@ -31,8 +31,8 @@ final Random _random = Random();
 
 /// Returns a randomly-generated multipart boundary string
 String boundaryString() {
-  var prefix = 'dart-http-boundary-';
-  var list = List<int>.generate(
+  final prefix = 'dart-http-boundary-';
+  final list = List<int>.generate(
       _boundaryLength - prefix.length,
       (index) =>
           _boundaryCharacters[_random.nextInt(_boundaryCharacters.length)],

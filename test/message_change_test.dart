@@ -35,65 +35,65 @@ void _testChange(
         {body, Map<String, String> headers, Map<String, Object> context})) {
   group('body', () {
     test('with String', () async {
-      var request = factory(body: 'Hello, world');
-      var copy = request.change(body: 'Goodbye, world');
+      final request = factory(body: 'Hello, world');
+      final copy = request.change(body: 'Goodbye, world');
 
-      var newBody = await copy.readAsString();
+      final newBody = await copy.readAsString();
 
       expect(newBody, equals('Goodbye, world'));
     });
 
     test('with Stream', () async {
-      var request = factory(body: 'Hello, world');
-      var copy = request.change(
+      final request = factory(body: 'Hello, world');
+      final copy = request.change(
           body:
               Stream.fromIterable(['Goodbye, world']).transform(utf8.encoder));
 
-      var newBody = await copy.readAsString();
+      final newBody = await copy.readAsString();
 
       expect(newBody, equals('Goodbye, world'));
     });
   });
 
   test('with empty headers returns identical instance', () {
-    var request = factory(headers: {'header1': 'header value 1'});
-    var copy = request.change(headers: {});
+    final request = factory(headers: {'header1': 'header value 1'});
+    final copy = request.change(headers: {});
 
     expect(copy.headers, same(request.headers));
   });
 
   test('with empty context returns identical instance', () {
-    var request = factory(context: {'context1': 'context value 1'});
-    var copy = request.change(context: {});
+    final request = factory(context: {'context1': 'context value 1'});
+    final copy = request.change(context: {});
 
     expect(copy.context, same(request.context));
   });
 
   test('new header values are added', () {
-    var request = factory(headers: {'test': 'test value'});
-    var copy = request.change(headers: {'test2': 'test2 value'});
+    final request = factory(headers: {'test': 'test value'});
+    final copy = request.change(headers: {'test2': 'test2 value'});
 
     expect(copy.headers,
         {'test': 'test value', 'test2': 'test2 value', 'content-length': '0'});
   });
 
   test('existing header values are overwritten', () {
-    var request = factory(headers: {'test': 'test value'});
-    var copy = request.change(headers: {'test': 'new test value'});
+    final request = factory(headers: {'test': 'test value'});
+    final copy = request.change(headers: {'test': 'new test value'});
 
     expect(copy.headers, {'test': 'new test value', 'content-length': '0'});
   });
 
   test('new context values are added', () {
-    var request = factory(context: {'test': 'test value'});
-    var copy = request.change(context: {'test2': 'test2 value'});
+    final request = factory(context: {'test': 'test value'});
+    final copy = request.change(context: {'test2': 'test2 value'});
 
     expect(copy.context, {'test': 'test value', 'test2': 'test2 value'});
   });
 
   test('existing context values are overwritten', () {
-    var request = factory(context: {'test': 'test value'});
-    var copy = request.change(context: {'test': 'new test value'});
+    final request = factory(context: {'test': 'test value'});
+    final copy = request.change(context: {'test': 'new test value'});
 
     expect(copy.context, {'test': 'new test value'});
   });

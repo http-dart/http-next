@@ -48,7 +48,7 @@ abstract class BaseClient implements Client {
 
   @override
   Future<String> read(url, {Map<String, String> headers}) async {
-    var response = await get(url, headers: headers);
+    final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
     return await response.readAsString();
@@ -56,7 +56,7 @@ abstract class BaseClient implements Client {
 
   @override
   Future<Uint8List> readBytes(url, {Map<String, String> headers}) async {
-    var response = await get(url, headers: headers);
+    final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
     return await collectBytes(response.read());

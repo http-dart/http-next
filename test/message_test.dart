@@ -46,7 +46,7 @@ Message _createMessage(
 void main() {
   group('headers', () {
     test('are case insensitive', () {
-      var message = _createMessage(headers: {'foo': 'bar'});
+      final message = _createMessage(headers: {'foo': 'bar'});
 
       expect(message.headers, containsPair('foo', 'bar'));
       expect(message.headers, containsPair('Foo', 'bar'));
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('default to a constant map', () {
-      var message = _createMessage();
+      final message = _createMessage();
       expect(message.headers, hasLength(1));
       expect(message.headers.containsKey('content-length'), isTrue);
       expect(message.headers, same(_createMessage().headers));
@@ -62,38 +62,38 @@ void main() {
     });
 
     test('are immutable', () {
-      var message = _createMessage(headers: {'h1': 'value'});
+      final message = _createMessage(headers: {'h1': 'value'});
       expect(() => message.headers['h1'] = 'value', throwsUnsupportedError);
     });
   });
 
   group('context', () {
     test('is accessible', () {
-      var message = _createMessage(context: {'foo': 'bar'});
+      final message = _createMessage(context: {'foo': 'bar'});
       expect(message.context, containsPair('foo', 'bar'));
     });
 
     test('defaults to an empty immutable map', () {
-      var message = _createMessage();
+      final message = _createMessage();
       expect(message.context, isEmpty);
       expect(() => message.context['key'] = 'value', throwsUnsupportedError);
     });
 
     test('is immutable', () {
-      var message = _createMessage(context: {'key': 'value'});
+      final message = _createMessage(context: {'key': 'value'});
       expect(() => message.context['key'] = 'value', throwsUnsupportedError);
     });
   });
 
   group("readAsString()", () {
     test("returns an empty string for an empty body", () {
-      var message = _createMessage();
+      final message = _createMessage();
       expect(message.readAsString(), completion(isEmpty));
     });
 
     test("collects a streamed body", () async {
-      var controller = StreamController<List<int>>();
-      var message = _createMessage(body: controller.stream);
+      final controller = StreamController<List<int>>();
+      final message = _createMessage(body: controller.stream);
       expect(message.readAsString(), completion(equals("hello, world")));
 
       controller.add(_helloBytes);
@@ -103,20 +103,20 @@ void main() {
     });
 
     test("defaults to decoding the message as UTF-8", () {
-      var message = _createMessage(body: _utf8Bytes);
+      final message = _createMessage(body: _utf8Bytes);
       expect(message.readAsString(), completion(equals(_nonAscii)));
     });
   });
 
   group("readAsBytes()", () {
     test("returns an empty list for an empty body", () {
-      var message = _createMessage();
+      final message = _createMessage();
       expect(message.readAsBytes(), completion(isEmpty));
     });
 
     test("collects a streamed body", () async {
-      var controller = StreamController<List<int>>();
-      var message = _createMessage(body: controller.stream);
+      final controller = StreamController<List<int>>();
+      final message = _createMessage(body: controller.stream);
       expect(
           message.readAsBytes(),
           completion(
@@ -131,13 +131,13 @@ void main() {
 
   group("read()", () {
     test("returns an empty stream for an empty body", () {
-      var message = _createMessage();
+      final message = _createMessage();
       expect(message.read().toList(), completion(isEmpty));
     });
 
     test("returns a streamed body", () async {
-      var controller = StreamController<List<int>>();
-      var message = _createMessage(body: controller.stream);
+      final controller = StreamController<List<int>>();
+      final message = _createMessage(body: controller.stream);
       expect(message.read().toList(),
           completion(equals([_helloBytes, _worldBytes])));
 
@@ -148,7 +148,7 @@ void main() {
     });
 
     test("returns a List<int> body", () {
-      var message = _createMessage(body: _helloBytes);
+      final message = _createMessage(body: _helloBytes);
       expect(message.read().toList(), completion(equals([_helloBytes])));
     });
 
@@ -173,18 +173,18 @@ void main() {
 
   group("content-length", () {
     test("is 0 with a default body and without a content-length header", () {
-      var request = _createMessage();
+      final request = _createMessage();
       expect(request.contentLength, 0);
     });
 
     test("comes from a byte body", () {
-      var message = _createMessage(body: [1, 2, 3]);
+      final message = _createMessage(body: [1, 2, 3]);
       expect(message.contentLength, 3);
       expect(message.isEmpty, isFalse);
     });
 
     test("comes from a string body", () {
-      var message = _createMessage(body: 'foobar');
+      final message = _createMessage(body: 'foobar');
       expect(message.contentLength, 6);
       expect(message.isEmpty, isFalse);
     });
@@ -200,12 +200,12 @@ void main() {
     });
 
     test("is null for a stream body", () {
-      var message = _createMessage(body: const Stream<List<int>>.empty());
+      final message = _createMessage(body: const Stream<List<int>>.empty());
       expect(message.contentLength, isNull);
     });
 
     test("uses the content-length header for a stream body", () {
-      var message = _createMessage(
+      final message = _createMessage(
           body: const Stream<List<int>>.empty(),
           headers: {'content-length': '42'});
       expect(message.contentLength, 42);
@@ -213,26 +213,26 @@ void main() {
     });
 
     test("real body length takes precedence over content-length header", () {
-      var message =
+      final message =
           _createMessage(body: [1, 2, 3], headers: {'content-length': '42'});
       expect(message.contentLength, 3);
       expect(message.isEmpty, isFalse);
     });
 
     test("is null for a chunked transfer encoding", () {
-      var message = _createMessage(
+      final message = _createMessage(
           body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'chunked'});
       expect(message.contentLength, isNull);
     });
 
     test("is null for a non-identity transfer encoding", () {
-      var message = _createMessage(
+      final message = _createMessage(
           body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'custom'});
       expect(message.contentLength, isNull);
     });
 
     test("is set for identity transfer encoding", () {
-      var message = _createMessage(
+      final message = _createMessage(
           body: "1\r\na0\r\n\r\n", headers: {'transfer-encoding': 'identity'});
       expect(message.contentLength, equals(9));
       expect(message.isEmpty, isFalse);
@@ -262,19 +262,19 @@ void main() {
     group('is null and content-type header is unchanged with', () {
       group('no content-type header and', () {
         test('no body', () {
-          var message = _createMessage();
+          final message = _createMessage();
           expect(message.encoding, isNull);
           expect(message.headers, isNot(contains('content-type')));
         });
 
         test('a plain ASCII body', () {
-          var message = _createMessage(body: "foo");
+          final message = _createMessage(body: "foo");
           expect(message.encoding, isNull);
           expect(message.headers, isNot(contains('content-type')));
         });
 
         test('body bytes', () {
-          var message = _createMessage(body: _utf8Bytes);
+          final message = _createMessage(body: _utf8Bytes);
           expect(message.encoding, isNull);
           expect(message.headers, isNot(contains('content-type')));
         });
@@ -282,7 +282,7 @@ void main() {
 
       group('an unknown content-type header and', () {
         test('no body', () {
-          var message = _createMessage(headers: {
+          final message = _createMessage(headers: {
             'Content-Type': 'text/plain; charset=not-a-real-charset'
           });
           expect(message.encoding, isNull);
@@ -293,7 +293,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          var message = _createMessage(body: "foo", headers: {
+          final message = _createMessage(body: "foo", headers: {
             'Content-Type': 'text/plain; charset=not-a-real-charset'
           });
           expect(message.encoding, isNull);
@@ -304,7 +304,7 @@ void main() {
         });
 
         test('body bytes', () {
-          var message = _createMessage(body: _utf8Bytes, headers: {
+          final message = _createMessage(body: _utf8Bytes, headers: {
             'Content-Type': 'text/plain; charset=not-a-real-charset'
           });
           expect(message.encoding, isNull);
@@ -319,7 +319,7 @@ void main() {
 
     group('defaults to UTF-8 with a non-ASCII body and', () {
       test('no content-type header', () {
-        var message = _createMessage(body: _nonAscii);
+        final message = _createMessage(body: _nonAscii);
         expect(message.encoding, equals(utf8));
         expect(
             message.headers,
@@ -329,7 +329,7 @@ void main() {
       });
 
       test('a content-type header', () {
-        var message = _createMessage(
+        final message = _createMessage(
             body: _nonAscii,
             headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
         expect(message.encoding, equals(utf8));
@@ -342,7 +342,7 @@ void main() {
     group('uses the encoding parameter with', () {
       group('no content-type header and', () {
         test('no body', () {
-          var message = _createMessage(encoding: latin1);
+          final message = _createMessage(encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
               message.headers,
@@ -351,7 +351,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          var message = _createMessage(body: "foo", encoding: latin1);
+          final message = _createMessage(body: "foo", encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
               message.headers,
@@ -360,7 +360,7 @@ void main() {
         });
 
         test('a non-ASCII body', () {
-          var message = _createMessage(body: _nonAscii, encoding: latin1);
+          final message = _createMessage(body: _nonAscii, encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
               message.headers,
@@ -370,7 +370,7 @@ void main() {
         });
 
         test('body bytes', () {
-          var message = _createMessage(encoding: latin1, body: _latin1Bytes);
+          final message = _createMessage(encoding: latin1, body: _latin1Bytes);
           expect(message.encoding, equals(latin1));
           expect(
               message.headers,
@@ -381,7 +381,7 @@ void main() {
       });
 
       test('a content-type header without a charset', () {
-        var message = _createMessage(
+        final message = _createMessage(
             encoding: latin1, headers: {'Content-Type': 'text/plain'});
         expect(message.headers,
             containsPair('content-type', 'text/plain; charset=iso-8859-1'));
@@ -389,7 +389,7 @@ void main() {
 
       group('a content-type header and', () {
         test('no body', () {
-          var message = _createMessage(
+          final message = _createMessage(
               encoding: latin1,
               headers: {'Content-Type': 'text/plain; charset=utf-8'});
           expect(message.encoding, equals(latin1));
@@ -398,7 +398,7 @@ void main() {
         });
 
         test('a plain ASCII body', () {
-          var message = _createMessage(
+          final message = _createMessage(
               body: "foo",
               encoding: latin1,
               headers: {'Content-Type': 'text/plain; charset=utf-8'});
@@ -408,7 +408,7 @@ void main() {
         });
 
         test('a non-ASCII body', () {
-          var message = _createMessage(
+          final message = _createMessage(
               body: _nonAscii,
               encoding: latin1,
               headers: {'Content-Type': 'text/plain; charset=utf-8'});
@@ -419,7 +419,7 @@ void main() {
         });
 
         test('body bytes', () {
-          var message = _createMessage(
+          final message = _createMessage(
               encoding: latin1,
               body: _latin1Bytes,
               headers: {'Content-Type': 'text/plain; charset=utf-8'});
@@ -433,7 +433,7 @@ void main() {
 
     group('uses the content-type header with', () {
       test('no body', () {
-        var message = _createMessage(
+        final message = _createMessage(
             headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
         expect(message.encoding.name, equals(latin1.name));
         expect(message.headers,
@@ -441,7 +441,7 @@ void main() {
       });
 
       test('a plain ASCII body', () {
-        var message = _createMessage(
+        final message = _createMessage(
             body: "foo",
             headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
         expect(message.encoding.name, equals(latin1.name));
@@ -450,7 +450,7 @@ void main() {
       });
 
       test('body bytes', () {
-        var message = _createMessage(
+        final message = _createMessage(
             body: _latin1Bytes,
             headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
         expect(message.encoding.name, equals(latin1.name));

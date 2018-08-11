@@ -51,11 +51,11 @@ final _ignoreHeaders = <String>[
 ///     }
 Future<Null> hybridMain(StreamChannel channel) async {
   Uri serverUrl;
-  var server = await shelf_io.serve((request) async {
+  final server = await shelf_io.serve((request) async {
     if (request.url.path == 'error') return shelf.Response(400);
 
     if (request.url.path == 'loop') {
-      var n = int.parse(request.url.query);
+      final n = int.parse(request.url.query);
       return shelf.Response.found(serverUrl.resolve('/loop?${n + 1}'));
     }
 
@@ -67,18 +67,18 @@ Future<Null> hybridMain(StreamChannel channel) async {
       return shelf.Response.ok(Stream.fromIterable([ascii.encode('body')]));
     }
 
-    var content = <String, dynamic>{
+    final content = <String, dynamic>{
       'method': request.method,
       'path': request.url.path,
       'headers': <String, String>{}
     };
 
     if (request.encoding != null) {
-      var requestBody = await request.readAsString();
+      final requestBody = await request.readAsString();
 
       if (requestBody.isNotEmpty) content['body'] = requestBody;
     } else {
-      var requestBody = await collectBytes(request.read());
+      final requestBody = await collectBytes(request.read());
 
       if (requestBody.isNotEmpty) content['body'] = requestBody;
     }
@@ -90,8 +90,8 @@ Future<Null> hybridMain(StreamChannel channel) async {
       (content['headers'] as Map)[name] = value;
     });
 
-    var encodingName = request.url.queryParameters['response-encoding'];
-    var outputEncoding =
+    final encodingName = request.url.queryParameters['response-encoding'];
+    final outputEncoding =
         encodingName == null ? ascii : Encoding.getByName(encodingName);
 
     return shelf.Response.ok(jsonEncode(content), headers: {

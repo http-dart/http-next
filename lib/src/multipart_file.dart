@@ -99,7 +99,7 @@ class MultipartFile {
   static Future<MultipartFile> loadStream(
       String field, Stream<List<int>> stream,
       {String filename, MediaType contentType}) async {
-    var bytes = await collectBytes(stream);
+    final bytes = await collectBytes(stream);
 
     return MultipartFile(field, bytes,
         filename: filename, contentType: contentType);
@@ -113,7 +113,7 @@ class MultipartFile {
       throw StateError('The "read" method can only be called once on a '
           'http.MultipartFile object.');
     }
-    var stream = _stream;
+    final stream = _stream;
     _stream = null;
     return stream;
   }
@@ -126,7 +126,7 @@ class MultipartFile {
     // lookupMimeType expects filename to be non-null but its possible that
     // this can be called with bytes but no filename.
     // FIXME: https://github.com/dart-lang/mime/issues/11
-    var mimeType = lookupMimeType(filename ?? '', headerBytes: bytes);
+    final mimeType = lookupMimeType(filename ?? '', headerBytes: bytes);
 
     return mimeType != null ? MediaType.parse(mimeType) : null;
   }

@@ -10,7 +10,7 @@ void main() {
   test('compose middleware with Pipeline', () async {
     var accessLocation = 0;
 
-    var middlewareA = createMiddleware(requestHandler: (request) async {
+    final middlewareA = createMiddleware(requestHandler: (request) async {
       expect(accessLocation, 0);
       accessLocation = 1;
       return request;
@@ -20,7 +20,7 @@ void main() {
       return response;
     });
 
-    var middlewareB = createMiddleware(requestHandler: (request) async {
+    final middlewareB = createMiddleware(requestHandler: (request) async {
       expect(accessLocation, 1);
       accessLocation = 2;
       return request;
@@ -30,7 +30,7 @@ void main() {
       return response;
     });
 
-    var client = const Pipeline()
+    final client = const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
         .addClient(Client.handler((request) async {
@@ -39,7 +39,7 @@ void main() {
       return Response(Uri.parse('dart:http'), 200);
     }));
 
-    var response = await client.get(Uri.parse('dart:http'));
+    final response = await client.get(Uri.parse('dart:http'));
 
     expect(response, isNotNull);
     expect(accessLocation, 5);
@@ -48,7 +48,7 @@ void main() {
   test('Pipeline can be used as middleware', () async {
     var accessLocation = 0;
 
-    var middlewareA = createMiddleware(requestHandler: (request) async {
+    final middlewareA = createMiddleware(requestHandler: (request) async {
       expect(accessLocation, 0);
       accessLocation = 1;
       return request;
@@ -58,7 +58,7 @@ void main() {
       return response;
     });
 
-    var middlewareB = createMiddleware(requestHandler: (request) async {
+    final middlewareB = createMiddleware(requestHandler: (request) async {
       expect(accessLocation, 1);
       accessLocation = 2;
       return request;
@@ -68,10 +68,10 @@ void main() {
       return response;
     });
 
-    var innerPipeline =
+    final innerPipeline =
         const Pipeline().addMiddleware(middlewareA).addMiddleware(middlewareB);
 
-    var client = const Pipeline()
+    final client = const Pipeline()
         .addMiddleware(innerPipeline.middleware)
         .addClient(Client.handler((request) async {
       expect(accessLocation, 2);
@@ -79,7 +79,7 @@ void main() {
       return Response(Uri.parse('dart:http'), 200);
     }));
 
-    var response = await client.get(Uri.parse('dart:http'));
+    final response = await client.get(Uri.parse('dart:http'));
 
     expect(response, isNotNull);
     expect(accessLocation, 5);
@@ -88,12 +88,12 @@ void main() {
   test('Pipeline calls close on all middleware', () {
     var accessLocation = 0;
 
-    var middlewareA = createMiddleware(onClose: () {
+    final middlewareA = createMiddleware(onClose: () {
       expect(accessLocation, 0);
       accessLocation = 1;
     });
 
-    var middlewareB = createMiddleware(onClose: () {
+    final middlewareB = createMiddleware(onClose: () {
       expect(accessLocation, 1);
       accessLocation = 2;
     });

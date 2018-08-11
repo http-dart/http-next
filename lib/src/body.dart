@@ -41,7 +41,7 @@ class Body {
       return Body._(const Stream<List<int>>.empty(), encoding, 0);
 
     if (body is Map<String, String>) {
-      Map<String, String> t = body;
+      final Map<String, String> t = body;
       body = mapToQuery(t, encoding ?? utf8);
     }
 
@@ -49,14 +49,14 @@ class Body {
     int contentLength;
     if (body is String) {
       if (encoding == null) {
-        var encoded = utf8.encode(body);
+        final encoded = utf8.encode(body);
         // If the text is plain ASCII, don't modify the encoding. This means
         // that an encoding of "text/plain" will stay put.
         if (!_isPlainAscii(encoded, body.length)) encoding = utf8;
         contentLength = encoded.length;
         stream = Stream<List<int>>.fromIterable([encoded]);
       } else {
-        var encoded = encoding.encode(body);
+        final encoded = encoding.encode(body);
         contentLength = encoded.length;
         stream = Stream<List<int>>.fromIterable([encoded]);
       }
@@ -94,7 +94,7 @@ class Body {
       throw StateError("The 'read' method can only be called once on a "
           "http.Request/http.Response object.");
     }
-    var stream = _stream;
+    final stream = _stream;
     _stream = null;
     return stream;
   }

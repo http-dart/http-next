@@ -27,7 +27,7 @@ Map<K, V> updateMap<K, V>(Map<K, V> original, Map<K, V> updates) {
 ///     mapToQuery({"foo": "bar", "baz": "bang"});
 ///     //=> "foo=bar&baz=bang"
 String mapToQuery(Map<String, String> map, Encoding encoding) {
-  var pairs = <List<String>>[];
+  final pairs = <List<String>>[];
   map.forEach((key, value) => pairs.add([
         Uri.encodeQueryComponent(key, encoding: encoding),
         Uri.encodeQueryComponent(value, encoding: encoding)
@@ -48,7 +48,7 @@ bool isPlainAscii(String string) => _asciiOnly.hasMatch(string);
 /// Completes [Future] once [stream] is done. [sink] remains open after [stream]
 /// is done.
 Future<Null> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
-  var completer = Completer<Null>();
+  final completer = Completer<Null>();
   stream.listen(sink.add,
       onError: sink.addError, onDone: () => completer.complete());
   return completer.future;

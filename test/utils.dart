@@ -22,7 +22,7 @@ Uri get dummyUrl => Uri.parse('http://dartlang.org/');
 ///
 /// This does nothing if text is only a single line.
 String cleanUpLiteral(String text) {
-  var lines = text.split('\n');
+  final lines = text.split('\n');
   if (lines.length <= 1) return text;
 
   final leadingSpaces = _getLeadingSpaces(lines[0]);
@@ -41,7 +41,7 @@ String cleanUpLiteral(String text) {
 
 /// Returns the number of leading spaces in the [value].
 int _getLeadingSpaces(String value) {
-  var count = value.length;
+  final count = value.length;
 
   for (var i = 0; i < count; ++i) {
     // An ascii value of 32 corresponds to a space
@@ -65,7 +65,7 @@ class _Parse extends Matcher {
   @override
   bool matches(item, Map matchState) {
     if (item is! String) return false;
-    String encoded = item;
+    final String encoded = item;
 
     dynamic parsed;
     try {
@@ -97,13 +97,13 @@ class _MultipartBodyMatches extends Matcher {
   @override
   bool matches(item, Map matchState) {
     if (item is! http.Request) return false;
-    http.Request request = item;
+    final http.Request request = item;
 
-    var future = request.readAsBytes().then((List<int> bodyBytes) {
-      var body = utf8.decode(bodyBytes);
-      var contentType = MediaType.parse(request.headers['content-type']);
-      var boundary = contentType.parameters['boundary'];
-      var expected = cleanUpLiteral(_pattern)
+    final future = request.readAsBytes().then((List<int> bodyBytes) {
+      final body = utf8.decode(bodyBytes);
+      final contentType = MediaType.parse(request.headers['content-type']);
+      final boundary = contentType.parameters['boundary'];
+      final expected = cleanUpLiteral(_pattern)
           .replaceAll('\n', '\r\n')
           .replaceAll('{{boundary}}', boundary);
 

@@ -11,18 +11,18 @@ import 'utils.dart';
 void main() {
   group('expires', () {
     test('is null by default', () {
-      var response = http.Response(dummyUrl, 200);
+      final response = http.Response(dummyUrl, 200);
       expect(response.expires, isNull);
     });
 
     test('is parsed from the header', () {
-      var response = http.Response(dummyUrl, 200,
+      final response = http.Response(dummyUrl, 200,
           headers: {'Expires': 'Wed, 21 Oct 2015 07:28:00 GMT'});
       expect(response.expires, equals(DateTime.utc(2015, 10, 21, 7, 28)));
     });
 
     test('throws a FormatException if the header is invalid', () {
-      var message =
+      final message =
           http.Response(dummyUrl, 200, headers: {'Expires': 'foobar'});
       expect(() => message.expires, throwsFormatException);
     });
@@ -30,18 +30,18 @@ void main() {
 
   group('lastModified', () {
     test('is null by default', () {
-      var response = http.Response(dummyUrl, 200);
+      final response = http.Response(dummyUrl, 200);
       expect(response.lastModified, isNull);
     });
 
     test('is parsed from the header', () {
-      var response = http.Response(dummyUrl, 200,
+      final response = http.Response(dummyUrl, 200,
           headers: {'Last-Modified': 'Wed, 21 Oct 2015 07:28:00 GMT'});
       expect(response.lastModified, equals(DateTime.utc(2015, 10, 21, 7, 28)));
     });
 
     test('throws a FormatException if the header is invalid', () {
-      var message =
+      final message =
           http.Response(dummyUrl, 200, headers: {'Last-Modified': 'foobar'});
       expect(() => message.lastModified, throwsFormatException);
     });

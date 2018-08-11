@@ -46,12 +46,13 @@ class IOClient extends BaseClient {
   @override
   Future<Response> send(Request request) async {
     try {
-      var ioRequest = await _inner.openUrl(request.method, request.url);
-      var context = request.context;
+      final ioRequest = await _inner.openUrl(request.method, request.url);
+      final context = request.context;
 
-      bool followRedirects = context['http.io.follow_redirects'];
-      int maxRedirects = context['http.io.max_redirects'];
-      bool persistentConnection = context['http.io.persistent_connection'];
+      final bool followRedirects = context['http.io.follow_redirects'];
+      final int maxRedirects = context['http.io.max_redirects'];
+      final bool persistentConnection =
+          context['http.io.persistent_connection'];
 
       ioRequest
         ..followRedirects = followRedirects ?? true
@@ -62,9 +63,9 @@ class IOClient extends BaseClient {
       });
 
       request.read().pipe(DelegatingStreamConsumer.typed<List<int>>(ioRequest));
-      var response = await ioRequest.done;
+      final response = await ioRequest.done;
 
-      var headers = <String, String>{};
+      final headers = <String, String>{};
       response.headers.forEach((key, values) {
         headers[key] = values.join(',');
       });
@@ -95,7 +96,7 @@ class IOClient extends BaseClient {
     var finalUrl = request.url;
 
     for (var redirect in response.redirects) {
-      var location = redirect.location;
+      final location = redirect.location;
 
       // Redirects can either be absolute or relative
       finalUrl = location.isAbsolute ? location : finalUrl.resolveUri(location);

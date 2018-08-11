@@ -73,8 +73,8 @@ class Response extends Message {
   @override
   Response change(
       {Map<String, String> headers, Map<String, Object> context, body}) {
-    var updatedHeaders = updateMap(this.headers, headers);
-    var updatedContext = updateMap(this.context, context);
+    final updatedHeaders = updateMap(this.headers, headers);
+    final updatedContext = updateMap(this.context, context);
 
     return Response._(finalUrl, statusCode, reasonPhrase, body ?? getBody(this),
         encoding, updatedHeaders, updatedContext);

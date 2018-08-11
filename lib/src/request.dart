@@ -155,7 +155,7 @@ class Request extends Message {
     files ??= const [];
     headers ??= {};
 
-    var boundary = boundaryString();
+    final boundary = boundaryString();
 
     return Request._(
         method ?? 'POST',
@@ -185,8 +185,8 @@ class Request extends Message {
   @override
   Request change(
       {Map<String, String> headers, Map<String, Object> context, body}) {
-    var updatedHeaders = updateMap(this.headers, headers);
-    var updatedContext = updateMap(this.context, context);
+    final updatedHeaders = updateMap(this.headers, headers);
+    final updatedContext = updateMap(this.context, context);
 
     return Request._(method, url, body ?? getBody(this), encoding,
         updatedHeaders, updatedContext);

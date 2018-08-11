@@ -41,8 +41,8 @@ class BrowserClient extends BaseClient {
 
   @override
   Future<Response> send(Request request) async {
-    var bytes = await collectBytes(request.read());
-    var xhr = html.HttpRequest();
+    final bytes = await collectBytes(request.read());
+    final xhr = html.HttpRequest();
     _xhrs.add(xhr);
 
     xhr.open(request.method, request.url.toString());
@@ -51,9 +51,9 @@ class BrowserClient extends BaseClient {
         request.context['http.html.with_credentials'] as bool ?? false;
     request.headers.forEach(xhr.setRequestHeader);
 
-    var completer = Completer<Response>();
+    final completer = Completer<Response>();
     xhr.onLoad.first.then((_) {
-      ByteBuffer buffer = xhr.response;
+      final ByteBuffer buffer = xhr.response;
       completer.complete(Response(xhr.responseUrl, xhr.status,
           reasonPhrase: xhr.statusText,
           body: Stream.fromIterable([buffer.asUint8List()]),

@@ -33,8 +33,8 @@ class MultipartBody implements Body {
   /// The [boundary] is used to separate key value pairs within the body.
   factory MultipartBody(Map<String, String> fields,
       Iterable<MultipartFile> files, String boundary) {
-    var controller = StreamController<List<int>>(sync: true);
-    var buffer = Uint8Buffer();
+    final controller = StreamController<List<int>>(sync: true);
+    final buffer = Uint8Buffer();
 
     void writeAscii(String string) {
       buffer.addAll(string.codeUnits);
@@ -60,12 +60,12 @@ class MultipartBody implements Body {
 
     // Iterate over the files to get the length and compute the headers ahead of
     // time so the length can be synchronously accessed.
-    var fileList = files.toList();
-    var fileHeaders = <List<int>>[];
+    final fileList = files.toList();
+    final fileHeaders = <List<int>>[];
     var fileContentsLength = 0;
 
     for (var file in fileList) {
-      var header = <int>[]
+      final header = <int>[]
         ..addAll('--$boundary\r\n'.codeUnits)
         ..addAll(utf8.encode(_headerForFile(file)));
 
@@ -74,7 +74,7 @@ class MultipartBody implements Body {
     }
 
     // Ending characters.
-    var ending = '--$boundary--\r\n'.codeUnits;
+    final ending = '--$boundary--\r\n'.codeUnits;
     fileContentsLength += ending.length;
 
     // Write the files to the stream asynchronously.
@@ -92,7 +92,7 @@ class MultipartBody implements Body {
       throw StateError("The 'read' method can only be called once on a "
           'http.Request/http.Response object.');
     }
-    var stream = _stream;
+    final stream = _stream;
     _stream = null;
     return stream;
   }
