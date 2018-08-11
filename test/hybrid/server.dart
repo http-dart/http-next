@@ -52,20 +52,19 @@ final _ignoreHeaders = <String>[
 Future<Null> hybridMain(StreamChannel channel) async {
   Uri serverUrl;
   var server = await shelf_io.serve((request) async {
-    if (request.url.path == 'error') return new shelf.Response(400);
+    if (request.url.path == 'error') return shelf.Response(400);
 
     if (request.url.path == 'loop') {
       var n = int.parse(request.url.query);
-      return new shelf.Response.found(serverUrl.resolve('/loop?${n + 1}'));
+      return shelf.Response.found(serverUrl.resolve('/loop?${n + 1}'));
     }
 
     if (request.url.path == 'redirect') {
-      return new shelf.Response.found(serverUrl.resolve('/'));
+      return shelf.Response.found(serverUrl.resolve('/'));
     }
 
     if (request.url.path == 'no-content-length') {
-      return new shelf.Response.ok(
-          new Stream.fromIterable([ascii.encode('body')]));
+      return shelf.Response.ok(Stream.fromIterable([ascii.encode('body')]));
     }
 
     var content = <String, dynamic>{
@@ -95,7 +94,7 @@ Future<Null> hybridMain(StreamChannel channel) async {
     var outputEncoding =
         encodingName == null ? ascii : Encoding.getByName(encodingName);
 
-    return new shelf.Response.ok(jsonEncode(content), headers: {
+    return shelf.Response.ok(jsonEncode(content), headers: {
       "content-type": "application/json; charset=${outputEncoding.name}",
 
       // CORS headers for browser testing

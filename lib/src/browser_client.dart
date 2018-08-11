@@ -14,7 +14,7 @@ import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
 
-Client platformClient() => new BrowserClient();
+Client platformClient() => BrowserClient();
 
 /// A `dart:html`-based HTTP client that runs in the browser and is backed by
 /// XMLHttpRequests.
@@ -34,7 +34,7 @@ class BrowserClient extends BaseClient {
   /// The currently active XHRs.
   ///
   /// These are aborted if the client is closed.
-  final _xhrs = new Set<html.HttpRequest>();
+  final _xhrs = Set<html.HttpRequest>();
 
   /// Creates a new HTTP client.
   BrowserClient();
@@ -42,7 +42,7 @@ class BrowserClient extends BaseClient {
   @override
   Future<Response> send(Request request) async {
     var bytes = await collectBytes(request.read());
-    var xhr = new html.HttpRequest();
+    var xhr = html.HttpRequest();
     _xhrs.add(xhr);
 
     xhr.open(request.method, request.url.toString());
@@ -51,12 +51,12 @@ class BrowserClient extends BaseClient {
         request.context['http.html.with_credentials'] as bool ?? false;
     request.headers.forEach(xhr.setRequestHeader);
 
-    var completer = new Completer<Response>();
+    var completer = Completer<Response>();
     xhr.onLoad.first.then((_) {
       ByteBuffer buffer = xhr.response;
-      completer.complete(new Response(xhr.responseUrl, xhr.status,
+      completer.complete(Response(xhr.responseUrl, xhr.status,
           reasonPhrase: xhr.statusText,
-          body: new Stream.fromIterable([buffer.asUint8List()]),
+          body: Stream.fromIterable([buffer.asUint8List()]),
           headers: xhr.responseHeaders));
     });
 
@@ -64,14 +64,13 @@ class BrowserClient extends BaseClient {
       // Unfortunately, the underlying XMLHttpRequest API doesn't expose any
       // specific information about the error itself.
       completer.completeError(
-          new ClientException("XMLHttpRequest error.", request.url),
+          ClientException("XMLHttpRequest error.", request.url),
           StackTrace.current);
     });
 
     // Catch the abort event so futures complete when close is called.
     xhr.onAbort.first.then((_) {
-      completer.completeError(
-          new ClientException('Request cancelled', request.url),
+      completer.completeError(ClientException('Request cancelled', request.url),
           StackTrace.current);
     });
 

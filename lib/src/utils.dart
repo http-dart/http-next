@@ -19,7 +19,7 @@ import 'http_unmodifiable_map.dart';
 Map<K, V> updateMap<K, V>(Map<K, V> original, Map<K, V> updates) {
   if (updates == null || updates.isEmpty) return original;
 
-  return new Map<K, V>.from(original)..addAll(updates);
+  return Map<K, V>.from(original)..addAll(updates);
 }
 
 /// Converts a [Map] from parameter names to values to a URL query string.
@@ -37,7 +37,7 @@ String mapToQuery(Map<String, String> map, Encoding encoding) {
 
 /// A regular expression that matches strings that are composed entirely of
 /// ASCII-compatible characters.
-final RegExp _asciiOnly = new RegExp(r"^[\x00-\x7F]+$");
+final RegExp _asciiOnly = RegExp(r"^[\x00-\x7F]+$");
 
 /// Returns whether [string] is composed entirely of ASCII-compatible
 /// characters.
@@ -48,7 +48,7 @@ bool isPlainAscii(String string) => _asciiOnly.hasMatch(string);
 /// Completes [Future] once [stream] is done. [sink] remains open after [stream]
 /// is done.
 Future<Null> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
-  var completer = new Completer<Null>();
+  var completer = Completer<Null>();
   stream.listen(sink.add,
       onError: sink.addError, onDone: () => completer.complete());
   return completer.future;
@@ -77,6 +77,6 @@ Uri getUrl(url) {
   } else if (url is String) {
     return Uri.parse(url);
   } else {
-    throw new ArgumentError.value(url, 'url', 'Not a Uri or String');
+    throw ArgumentError.value(url, 'url', 'Not a Uri or String');
   }
 }

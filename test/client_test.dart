@@ -418,7 +418,7 @@ void main() {
       });
 
       expect(
-          new String.fromCharCodes(body),
+          String.fromCharCodes(body),
           parse(equals({
             'method': 'GET',
             'path': '',

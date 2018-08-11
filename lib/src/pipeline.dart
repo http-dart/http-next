@@ -32,8 +32,7 @@ class Pipeline {
   ///
   /// [middleware] will be the last [Middleware] to process a request and
   /// the first to process a response.
-  Pipeline addMiddleware(Middleware middleware) =>
-      new Pipeline._(this, middleware);
+  Pipeline addMiddleware(Middleware middleware) => Pipeline._(this, middleware);
 
   /// Returns a new [Client] with [client] as the final processor of a
   /// [Request] if all of the middleware in the pipeline have passed the request
@@ -44,7 +43,7 @@ class Pipeline {
   /// Returns a new [Client] with [handler] as the final processor of a
   /// [Request] if all of the middleware in the pipeline have passed the request
   /// through.
-  Client addHandler(Handler handler) => addClient(new Client.handler(handler));
+  Client addHandler(Handler handler) => addClient(Client.handler(handler));
 
   /// Exposes this pipeline of [Middleware] as a single middleware instance.
   Middleware get middleware => addClient;

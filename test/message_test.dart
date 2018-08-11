@@ -32,7 +32,7 @@ class _TestMessage extends Message {
   @override
   Message change(
       {Map<String, String> headers, Map<String, Object> context, body}) {
-    throw new UnimplementedError();
+    throw UnimplementedError();
   }
 }
 
@@ -41,7 +41,7 @@ Message _createMessage(
         Map<String, Object> context,
         body,
         Encoding encoding}) =>
-    new _TestMessage(headers, context, body, encoding);
+    _TestMessage(headers, context, body, encoding);
 
 void main() {
   group('headers', () {
@@ -92,7 +92,7 @@ void main() {
     });
 
     test("collects a streamed body", () async {
-      var controller = new StreamController<List<int>>();
+      var controller = StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
       expect(message.readAsString(), completion(equals("hello, world")));
 
@@ -115,7 +115,7 @@ void main() {
     });
 
     test("collects a streamed body", () async {
-      var controller = new StreamController<List<int>>();
+      var controller = StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
       expect(
           message.readAsBytes(),
@@ -136,7 +136,7 @@ void main() {
     });
 
     test("returns a streamed body", () async {
-      var controller = new StreamController<List<int>>();
+      var controller = StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
       expect(message.read().toList(),
           completion(equals([_helloBytes, _worldBytes])));

@@ -16,14 +16,14 @@ import 'utils.dart';
 
 /// The default set of headers for a message created with no body and no
 /// explicit headers.
-final _defaultHeaders = new HttpUnmodifiableMap<String>({'content-length': '0'},
-    ignoreKeyCase: true);
+final _defaultHeaders =
+    HttpUnmodifiableMap<String>({'content-length': '0'}, ignoreKeyCase: true);
 
 /// The default media type `application/octet-stream` as defined by HTTP.
-final _defaultMediaType = new MediaType('application', 'octet-stream');
+final _defaultMediaType = MediaType('application', 'octet-stream');
 
 /// The media type for URL encoded form data.
-final _urlEncodedForm = new MediaType('application', 'x-www-form-urlencoded');
+final _urlEncodedForm = MediaType('application', 'x-www-form-urlencoded');
 
 /// Retrieves the [Body] contained in the [message].
 ///
@@ -74,16 +74,15 @@ abstract class Message {
       {Encoding encoding,
       Map<String, String> headers,
       Map<String, Object> context})
-      : this._(new Body(body, encoding), headers, context, body);
+      : this._(Body(body, encoding), headers, context, body);
 
   Message._(Body body, Map<String, String> headers, Map<String, Object> context,
       originalBody)
       : _body = body,
-        headers = new HttpUnmodifiableMap<String>(
+        headers = HttpUnmodifiableMap<String>(
             _adjustHeaders(headers, body, originalBody),
             ignoreKeyCase: true),
-        context =
-            new HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
+        context = HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
 
   /// If `true`, the stream returned by [read] won't emit any bytes.
   ///
@@ -127,7 +126,7 @@ abstract class Message {
     if (_contentTypeCache != null) return _contentTypeCache;
     var contentLengthHeader = getHeader(headers, 'content-type');
     if (contentLengthHeader == null) return null;
-    _contentTypeCache = new MediaType.parse(contentLengthHeader);
+    _contentTypeCache = MediaType.parse(contentLengthHeader);
     return _contentTypeCache;
   }
 
@@ -179,7 +178,7 @@ abstract class Message {
       }
     }
 
-    var newHeaders = new CaseInsensitiveMap<String>.from(headers ?? const {});
+    var newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
     if (contentType != null) newHeaders['content-type'] = contentType;
     if (contentLength != null) newHeaders['content-length'] = contentLength;
     return newHeaders;
@@ -222,7 +221,7 @@ abstract class Message {
     Encoding mediaEncoding;
 
     if (contentTypeHeader != null) {
-      mediaType = new MediaType.parse(contentTypeHeader);
+      mediaType = MediaType.parse(contentTypeHeader);
       mediaEncoding = Encoding.getByName(mediaType.parameters['charset']);
     } else if (originalBody is Map) {
       mediaType = _urlEncodedForm;

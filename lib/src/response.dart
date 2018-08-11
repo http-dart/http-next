@@ -76,8 +76,8 @@ class Response extends Message {
     var updatedHeaders = updateMap(this.headers, headers);
     var updatedContext = updateMap(this.context, context);
 
-    return new Response._(finalUrl, statusCode, reasonPhrase,
-        body ?? getBody(this), encoding, updatedHeaders, updatedContext);
+    return Response._(finalUrl, statusCode, reasonPhrase, body ?? getBody(this),
+        encoding, updatedHeaders, updatedContext);
   }
 
   /// The date and time after which the response's data should be considered

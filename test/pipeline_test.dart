@@ -33,10 +33,10 @@ void main() {
     var client = const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
-        .addClient(new Client.handler((request) async {
+        .addClient(Client.handler((request) async {
       expect(accessLocation, 2);
       accessLocation = 3;
-      return new Response(Uri.parse('dart:http'), 200);
+      return Response(Uri.parse('dart:http'), 200);
     }));
 
     var response = await client.get(Uri.parse('dart:http'));
@@ -73,10 +73,10 @@ void main() {
 
     var client = const Pipeline()
         .addMiddleware(innerPipeline.middleware)
-        .addClient(new Client.handler((request) async {
+        .addClient(Client.handler((request) async {
       expect(accessLocation, 2);
       accessLocation = 3;
-      return new Response(Uri.parse('dart:http'), 200);
+      return Response(Uri.parse('dart:http'), 200);
     }));
 
     var response = await client.get(Uri.parse('dart:http'));
@@ -101,7 +101,7 @@ void main() {
     const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
-        .addClient(new Client.handler((request) async => null, onClose: () {
+        .addClient(Client.handler((request) async => null, onClose: () {
           expect(accessLocation, 2);
           accessLocation = 3;
         }))

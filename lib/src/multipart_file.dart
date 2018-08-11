@@ -53,12 +53,12 @@ class MultipartFile {
     if (value is String) {
       encoding ??= utf8;
       bytes = encoding.encode(value);
-      defaultMediaType = new MediaType('text', 'plain');
+      defaultMediaType = MediaType('text', 'plain');
     } else if (value is List<int>) {
       bytes = value;
-      defaultMediaType = new MediaType('application', 'octet-stream');
+      defaultMediaType = MediaType('application', 'octet-stream');
     } else {
-      throw new ArgumentError.value(
+      throw ArgumentError.value(
           value, 'value', 'value must be either a String or a List<int>');
     }
 
@@ -68,8 +68,8 @@ class MultipartFile {
       contentType = contentType.change(parameters: {'charset': encoding.name});
     }
 
-    return new MultipartFile.fromStream(
-        field, new Stream.fromIterable([bytes]), bytes.length,
+    return MultipartFile.fromStream(
+        field, Stream.fromIterable([bytes]), bytes.length,
         filename: filename, contentType: contentType);
   }
 
@@ -86,7 +86,7 @@ class MultipartFile {
         filename = filename,
         contentType = contentType ??
             _lookUpMediaType(filename) ??
-            new MediaType('application', 'octet-stream');
+            MediaType('application', 'octet-stream');
 
   /// Creates a new [MultipartFile] from the [stream].
   ///
@@ -101,7 +101,7 @@ class MultipartFile {
       {String filename, MediaType contentType}) async {
     var bytes = await collectBytes(stream);
 
-    return new MultipartFile(field, bytes,
+    return MultipartFile(field, bytes,
         filename: filename, contentType: contentType);
   }
 
@@ -110,7 +110,7 @@ class MultipartFile {
   /// Can only be called once.
   Stream<List<int>> read() {
     if (_stream == null) {
-      throw new StateError('The "read" method can only be called once on a '
+      throw StateError('The "read" method can only be called once on a '
           'http.MultipartFile object.');
     }
     var stream = _stream;
@@ -128,6 +128,6 @@ class MultipartFile {
     // FIXME: https://github.com/dart-lang/mime/issues/11
     var mimeType = lookupMimeType(filename ?? '', headerBytes: bytes);
 
-    return mimeType != null ? new MediaType.parse(mimeType) : null;
+    return mimeType != null ? MediaType.parse(mimeType) : null;
   }
 }

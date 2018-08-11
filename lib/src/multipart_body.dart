@@ -33,8 +33,8 @@ class MultipartBody implements Body {
   /// The [boundary] is used to separate key value pairs within the body.
   factory MultipartBody(Map<String, String> fields,
       Iterable<MultipartFile> files, String boundary) {
-    var controller = new StreamController<List<int>>(sync: true);
-    var buffer = new Uint8Buffer();
+    var controller = StreamController<List<int>>(sync: true);
+    var buffer = Uint8Buffer();
 
     void writeAscii(String string) {
       buffer.addAll(string.codeUnits);
@@ -80,7 +80,7 @@ class MultipartBody implements Body {
     // Write the files to the stream asynchronously.
     _writeFilesToStream(controller, fileList, fileHeaders, ending);
 
-    return new MultipartBody._(
+    return MultipartBody._(
         controller.stream, buffer.length + fileContentsLength);
   }
 
@@ -89,7 +89,7 @@ class MultipartBody implements Body {
   @override
   Stream<List<int>> read() {
     if (_stream == null) {
-      throw new StateError("The 'read' method can only be called once on a "
+      throw StateError("The 'read' method can only be called once on a "
           'http.Request/http.Response object.');
     }
     var stream = _stream;
@@ -146,7 +146,7 @@ class MultipartBody implements Body {
     return '$header\r\n\r\n';
   }
 
-  static final _newlineRegExp = new RegExp(r'\r\n|\r|\n');
+  static final _newlineRegExp = RegExp(r'\r\n|\r|\n');
 
   /// Encode [value] in the same way browsers do.
   static String _browserEncode(String value) =>

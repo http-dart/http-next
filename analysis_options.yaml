@@ -5,3 +5,4 @@ analyzer:
 linter:
   rules:
     - annotate_overrides
+    - unnecessary_new

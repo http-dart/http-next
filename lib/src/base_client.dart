@@ -21,30 +21,30 @@ import 'utils.dart';
 abstract class BaseClient implements Client {
   @override
   Future<Response> head(url, {Map<String, String> headers}) =>
-      send(new Request.head(url, headers: headers));
+      send(Request.head(url, headers: headers));
 
   @override
   Future<Response> get(url, {Map<String, String> headers}) =>
-      send(new Request.get(url, headers: headers));
+      send(Request.get(url, headers: headers));
 
   @override
   Future<Response> post(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
-      send(new Request.post(url, body, headers: headers, encoding: encoding));
+      send(Request.post(url, body, headers: headers, encoding: encoding));
 
   @override
   Future<Response> put(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
-      send(new Request.put(url, body, headers: headers, encoding: encoding));
+      send(Request.put(url, body, headers: headers, encoding: encoding));
 
   @override
   Future<Response> patch(url, body,
           {Map<String, String> headers, Encoding encoding}) =>
-      send(new Request.patch(url, body, headers: headers, encoding: encoding));
+      send(Request.patch(url, body, headers: headers, encoding: encoding));
 
   @override
   Future<Response> delete(url, {Map<String, String> headers}) =>
-      send(new Request.delete(url, headers: headers));
+      send(Request.delete(url, headers: headers));
 
   @override
   Future<String> read(url, {Map<String, String> headers}) async {
@@ -75,6 +75,6 @@ abstract class BaseClient implements Client {
     if (response.reasonPhrase.isNotEmpty) {
       message = "$message: ${response.reasonPhrase}";
     }
-    throw new ClientException("$message.", getUrl(url));
+    throw ClientException("$message.", getUrl(url));
   }
 }

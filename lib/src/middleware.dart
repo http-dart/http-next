@@ -49,7 +49,7 @@ Middleware createMiddleware(
   responseHandler ??= (response) async => response;
 
   return (inner) {
-    return new HandlerClient(
+    return HandlerClient(
         (request) => requestHandler(request)
             .then((req) => inner.send(req))
             .then((res) => responseHandler(res), onError: errorHandler),

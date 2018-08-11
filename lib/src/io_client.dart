@@ -13,7 +13,7 @@ import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
 
-Client platformClient() => new IOClient();
+Client platformClient() => IOClient();
 
 /// A `dart:io`-based HTTP client.
 ///
@@ -41,7 +41,7 @@ class IOClient extends BaseClient {
   HttpClient _inner;
 
   /// Creates a new HTTP client.
-  IOClient([HttpClient inner]) : _inner = inner ?? new HttpClient();
+  IOClient([HttpClient inner]) : _inner = inner ?? HttpClient();
 
   @override
   Future<Response> send(Request request) async {
@@ -69,17 +69,17 @@ class IOClient extends BaseClient {
         headers[key] = values.join(',');
       });
 
-      return new Response(_responseUrl(request, response), response.statusCode,
+      return Response(_responseUrl(request, response), response.statusCode,
           reasonPhrase: response.reasonPhrase,
           body: DelegatingStream.typed<List<int>>(response).handleError(
               (HttpException error) =>
-                  throw new ClientException(error.message, error.uri),
+                  throw ClientException(error.message, error.uri),
               test: (error) => error is HttpException),
           headers: headers);
     } on HttpException catch (error) {
-      throw new ClientException(error.message, error.uri);
+      throw ClientException(error.message, error.uri);
     } on SocketException catch (error) {
-      throw new ClientException(error.message, request.url);
+      throw ClientException(error.message, request.url);
     }
   }
 

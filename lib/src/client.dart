@@ -38,7 +38,7 @@ abstract class Client {
   ///
   /// When [Client.close] is called the [onClose] function will be called.
   factory Client.handler(Handler handler, {void onClose()}) =>
-      new HandlerClient(handler, onClose ?? () {});
+      HandlerClient(handler, onClose ?? () {});
 
   /// Sends an HTTP HEAD request with the given headers to the given URL, which
   /// can be a [Uri] or a [String].

@@ -55,7 +55,7 @@ int _getLeadingSpaces(String value) {
 
 /// A matcher that matches JSON that parses to a value that matches the inner
 /// matcher.
-Matcher parse(Matcher matcher) => new _Parse(matcher);
+Matcher parse(Matcher matcher) => _Parse(matcher);
 
 class _Parse extends Matcher {
   final Matcher _matcher;
@@ -87,8 +87,7 @@ class _Parse extends Matcher {
 /// The string "{{boundary}}" in [pattern] will be replaced by the boundary
 /// string for the request, and LF newlines will be replaced with CRLF.
 /// Indentation will be normalized.
-Matcher multipartBodyMatches(String pattern) =>
-    new _MultipartBodyMatches(pattern);
+Matcher multipartBodyMatches(String pattern) => _MultipartBodyMatches(pattern);
 
 class _MultipartBodyMatches extends Matcher {
   final String _pattern;
@@ -102,7 +101,7 @@ class _MultipartBodyMatches extends Matcher {
 
     var future = request.readAsBytes().then((List<int> bodyBytes) {
       var body = utf8.decode(bodyBytes);
-      var contentType = new MediaType.parse(request.headers['content-type']);
+      var contentType = MediaType.parse(request.headers['content-type']);
       var boundary = contentType.parameters['boundary'];
       var expected = cleanUpLiteral(_pattern)
           .replaceAll('\n', '\r\n')
@@ -124,7 +123,7 @@ class _MultipartBodyMatches extends Matcher {
 ///
 /// [message] can be a String or a [Matcher].
 Matcher isClientException([message]) => predicate((error) {
-      expect(error, new TypeMatcher<http.ClientException>());
+      expect(error, TypeMatcher<http.ClientException>());
       if (message != null) {
         expect(error.message, message);
       }

@@ -15,14 +15,14 @@ final _uri = Uri.parse('http://localhost/');
 void main() {
   group('Request', () {
     _testChange(({body, headers, context}) {
-      return new Request('GET', _uri,
+      return Request('GET', _uri,
           body: body, headers: headers, context: context);
     });
   });
 
   group('Response', () {
     _testChange(({body, headers, context}) {
-      return new Response(_uri, 200,
+      return Response(_uri, 200,
           body: body, headers: headers, context: context);
     });
   });
@@ -46,8 +46,8 @@ void _testChange(
     test('with Stream', () async {
       var request = factory(body: 'Hello, world');
       var copy = request.change(
-          body: new Stream.fromIterable(['Goodbye, world'])
-              .transform(utf8.encoder));
+          body:
+              Stream.fromIterable(['Goodbye, world']).transform(utf8.encoder));
 
       var newBody = await copy.readAsString();
 

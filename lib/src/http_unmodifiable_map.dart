@@ -35,12 +35,12 @@ class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
     }
 
     if (ignoreKeyCase) {
-      source = new CaseInsensitiveMap<V>.from(source);
+      source = CaseInsensitiveMap<V>.from(source);
     } else {
-      source = new Map<String, V>.from(source);
+      source = Map<String, V>.from(source);
     }
 
-    return new HttpUnmodifiableMap<V>._(source, ignoreKeyCase);
+    return HttpUnmodifiableMap<V>._(source, ignoreKeyCase);
   }
 
   /// Returns an empty [HttpUnmodifiableMap].

@@ -37,7 +37,8 @@ class Body {
   /// used to convert it to a [Stream<List<int>>].
   factory Body(body, [Encoding encoding]) {
     if (body is Body) return body;
-    if (body == null) return new Body._(const Stream.empty(), encoding, 0);
+    if (body == null)
+      return Body._(const Stream<List<int>>.empty(), encoding, 0);
 
     if (body is Map<String, String>) {
       Map<String, String> t = body;
@@ -53,23 +54,23 @@ class Body {
         // that an encoding of "text/plain" will stay put.
         if (!_isPlainAscii(encoded, body.length)) encoding = utf8;
         contentLength = encoded.length;
-        stream = new Stream.fromIterable([encoded]);
+        stream = Stream<List<int>>.fromIterable([encoded]);
       } else {
         var encoded = encoding.encode(body);
         contentLength = encoded.length;
-        stream = new Stream.fromIterable([encoded]);
+        stream = Stream<List<int>>.fromIterable([encoded]);
       }
     } else if (body is List) {
       contentLength = body.length;
-      stream = new Stream.fromIterable([body.cast()]);
+      stream = Stream<List<int>>.fromIterable([body.cast()]);
     } else if (body is Stream) {
       stream = DelegatingStream.typed(body);
     } else {
-      throw new ArgumentError(
+      throw ArgumentError(
           'Response body "$body" must be a String, a Map, or a Stream.');
     }
 
-    return new Body._(stream, encoding, contentLength);
+    return Body._(stream, encoding, contentLength);
   }
 
   /// Returns whether [bytes] is plain ASCII.
@@ -90,7 +91,7 @@ class Body {
   /// Can only be called once.
   Stream<List<int>> read() {
     if (_stream == null) {
-      throw new StateError("The 'read' method can only be called once on a "
+      throw StateError("The 'read' method can only be called once on a "
           "http.Request/http.Response object.");
     }
     var stream = _stream;

@@ -13,7 +13,7 @@ import 'utils.dart';
 
 void main() {
   test('empty', () {
-    var request = new http.Request.multipart(dummyUrl);
+    var request = http.Request.multipart(dummyUrl);
     expect(request, multipartBodyMatches('''
         --{{boundary}}--
         '''));
@@ -25,12 +25,12 @@ void main() {
       'field2': 'value2',
     };
     var files = [
-      new http.MultipartFile('file1', 'contents1', filename: 'filename1.txt'),
-      new http.MultipartFile('file2', 'contents2'),
+      http.MultipartFile('file1', 'contents1', filename: 'filename1.txt'),
+      http.MultipartFile('file2', 'contents2'),
     ];
 
     var request =
-        new http.Request.multipart(dummyUrl, fields: fields, files: files);
+        http.Request.multipart(dummyUrl, fields: fields, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -58,7 +58,7 @@ void main() {
   test('with a unicode field name', () {
     var fields = {'fïēld': 'value'};
 
-    var request = new http.Request.multipart(dummyUrl, fields: fields);
+    var request = http.Request.multipart(dummyUrl, fields: fields);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -71,7 +71,7 @@ void main() {
 
   test('with a field name with newlines', () {
     var fields = {'foo\nbar\rbaz\r\nbang': 'value'};
-    var request = new http.Request.multipart(dummyUrl, fields: fields);
+    var request = http.Request.multipart(dummyUrl, fields: fields);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -84,7 +84,7 @@ void main() {
 
   test('with a field name with a quote', () {
     var fields = {'foo"bar': 'value'};
-    var request = new http.Request.multipart(dummyUrl, fields: fields);
+    var request = http.Request.multipart(dummyUrl, fields: fields);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -97,7 +97,7 @@ void main() {
 
   test('with a unicode field value', () {
     var fields = {'field': 'vⱥlūe'};
-    var request = new http.Request.multipart(dummyUrl, fields: fields);
+    var request = http.Request.multipart(dummyUrl, fields: fields);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -112,9 +112,9 @@ void main() {
 
   test('with a unicode filename', () {
     var files = [
-      new http.MultipartFile('file', 'contents', filename: 'fïlēname.txt')
+      http.MultipartFile('file', 'contents', filename: 'fïlēname.txt')
     ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -128,10 +128,9 @@ void main() {
 
   test('with a filename with newlines', () {
     var files = [
-      new http.MultipartFile('file', 'contents',
-          filename: 'foo\nbar\rbaz\r\nbang')
+      http.MultipartFile('file', 'contents', filename: 'foo\nbar\rbaz\r\nbang')
     ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -144,10 +143,8 @@ void main() {
   });
 
   test('with a filename with a quote', () {
-    var files = [
-      new http.MultipartFile('file', 'contents', filename: 'foo"bar')
-    ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var files = [http.MultipartFile('file', 'contents', filename: 'foo"bar')];
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -161,10 +158,10 @@ void main() {
 
   test('with a string file with a content-type but no charset', () {
     var files = [
-      new http.MultipartFile('file', '{"hello": "world"}',
-          contentType: new MediaType('application', 'json'))
+      http.MultipartFile('file', '{"hello": "world"}',
+          contentType: MediaType('application', 'json'))
     ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -179,10 +176,10 @@ void main() {
   test('with a file with a iso-8859-1 body', () {
     // "Ã¥" encoded as ISO-8859-1 and then read as UTF-8 results in "å".
     var files = [
-      new http.MultipartFile('file', 'non-ascii: "Ã¥"',
-          encoding: latin1, contentType: new MediaType('text', 'plain'))
+      http.MultipartFile('file', 'non-ascii: "Ã¥"',
+          encoding: latin1, contentType: MediaType('text', 'plain'))
     ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -195,11 +192,9 @@ void main() {
   });
 
   test('with a stream file', () {
-    var controller = new StreamController<List<int>>(sync: true);
-    var files = [
-      new http.MultipartFile.fromStream('file', controller.stream, 5)
-    ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var controller = StreamController<List<int>>(sync: true);
+    var files = [http.MultipartFile.fromStream('file', controller.stream, 5)];
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -216,11 +211,9 @@ void main() {
   });
 
   test('with an empty stream file', () {
-    var controller = new StreamController<List<int>>(sync: true);
-    var files = [
-      new http.MultipartFile.fromStream('file', controller.stream, 0)
-    ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var controller = StreamController<List<int>>(sync: true);
+    var files = [http.MultipartFile.fromStream('file', controller.stream, 0)];
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}
@@ -236,9 +229,9 @@ void main() {
 
   test('with a byte file', () {
     var files = [
-      new http.MultipartFile('file', [104, 101, 108, 108, 111])
+      http.MultipartFile('file', [104, 101, 108, 108, 111])
     ];
-    var request = new http.Request.multipart(dummyUrl, files: files);
+    var request = http.Request.multipart(dummyUrl, files: files);
 
     expect(request, multipartBodyMatches('''
         --{{boundary}}

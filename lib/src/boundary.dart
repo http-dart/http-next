@@ -27,15 +27,15 @@ const List<int> _boundaryCharacters = const <int>[
 /// than 70.
 const int _boundaryLength = 70;
 
-final Random _random = new Random();
+final Random _random = Random();
 
 /// Returns a randomly-generated multipart boundary string
 String boundaryString() {
   var prefix = 'dart-http-boundary-';
-  var list = new List<int>.generate(
+  var list = List<int>.generate(
       _boundaryLength - prefix.length,
       (index) =>
           _boundaryCharacters[_random.nextInt(_boundaryCharacters.length)],
       growable: false);
-  return '$prefix${new String.fromCharCodes(list)}';
+  return '$prefix${String.fromCharCodes(list)}';
 }
