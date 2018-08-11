@@ -39,7 +39,10 @@ class Body {
     if (body is Body) return body;
     if (body == null) return new Body._(const Stream.empty(), encoding, 0);
 
-    if (body is Map) body = mapToQuery(body, encoding ?? utf8);
+    if (body is Map<String, String>) {
+      Map<String, String> t = body;
+      body = mapToQuery(t, encoding ?? utf8);
+    }
 
     Stream<List<int>> stream;
     int contentLength;

@@ -91,7 +91,7 @@ void main() {
     });
 
     test("collects a streamed body", () async {
-      var controller = new StreamController();
+      var controller = new StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
       expect(message.readAsString(), completion(equals("hello, world")));
 
@@ -114,10 +114,12 @@ void main() {
     });
 
     test("collects a streamed body", () async {
-      var controller = new StreamController();
+      var controller = new StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
-      expect(message.readAsBytes(),
-          completion(equals([]..addAll(_helloBytes)..addAll(_worldBytes))));
+      expect(
+          message.readAsBytes(),
+          completion(
+              equals(<int>[]..addAll(_helloBytes)..addAll(_worldBytes))));
 
       controller.add(_helloBytes);
       await pumpEventQueue();
@@ -133,7 +135,7 @@ void main() {
     });
 
     test("returns a streamed body", () async {
-      var controller = new StreamController();
+      var controller = new StreamController<List<int>>();
       var message = _createMessage(body: controller.stream);
       expect(message.read().toList(),
           completion(equals([_helloBytes, _worldBytes])));
@@ -197,13 +199,14 @@ void main() {
     });
 
     test("is null for a stream body", () {
-      var message = _createMessage(body: const Stream.empty());
+      var message = _createMessage(body: const Stream<List<int>>.empty());
       expect(message.contentLength, isNull);
     });
 
     test("uses the content-length header for a stream body", () {
       var message = _createMessage(
-          body: const Stream.empty(), headers: {'content-length': '42'});
+          body: const Stream<List<int>>.empty(),
+          headers: {'content-length': '42'});
       expect(message.contentLength, 42);
       expect(message.isEmpty, isFalse);
     });

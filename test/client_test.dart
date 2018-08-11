@@ -16,11 +16,11 @@ import 'utils.dart';
 void main() {
   group('client', () {
     // The server url of the spawned server
-    var serverUrl;
+    Uri serverUrl;
 
     setUp(() async {
       var channel = spawnHybridUri('hybrid/server.dart');
-      serverUrl = Uri.parse(await channel.stream.first);
+      serverUrl = Uri.parse(await channel.stream.cast<String>().first);
     });
 
     test('head', () async {

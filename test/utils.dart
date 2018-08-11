@@ -55,7 +55,7 @@ int _getLeadingSpaces(String value) {
 
 /// A matcher that matches JSON that parses to a value that matches the inner
 /// matcher.
-Matcher parse(matcher) => new _Parse(matcher);
+Matcher parse(Matcher matcher) => new _Parse(matcher);
 
 class _Parse extends Matcher {
   final Matcher _matcher;
@@ -64,10 +64,11 @@ class _Parse extends Matcher {
 
   bool matches(item, Map matchState) {
     if (item is! String) return false;
+    String encoded = item;
 
-    var parsed;
+    dynamic parsed;
     try {
-      parsed = jsonDecode(item);
+      parsed = jsonDecode(encoded);
     } catch (e) {
       return false;
     }
@@ -94,10 +95,11 @@ class _MultipartBodyMatches extends Matcher {
 
   bool matches(item, Map matchState) {
     if (item is! http.Request) return false;
+    http.Request request = item;
 
-    var future = item.readAsBytes().then((bodyBytes) {
+    var future = request.readAsBytes().then((List<int> bodyBytes) {
       var body = utf8.decode(bodyBytes);
-      var contentType = new MediaType.parse(item.headers['content-type']);
+      var contentType = new MediaType.parse(request.headers['content-type']);
       var boundary = contentType.parameters['boundary'];
       var expected = cleanUpLiteral(_pattern)
           .replaceAll('\n', '\r\n')

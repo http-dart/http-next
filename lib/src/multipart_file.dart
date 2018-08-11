@@ -48,7 +48,7 @@ class MultipartFile {
   factory MultipartFile(String field, value,
       {String filename, MediaType contentType, Encoding encoding}) {
     List<int> bytes;
-    var defaultMediaType;
+    MediaType defaultMediaType;
 
     if (value is String) {
       encoding ??= utf8;

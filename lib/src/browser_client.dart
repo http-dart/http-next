@@ -47,7 +47,7 @@ class BrowserClient extends BaseClient {
     xhr.open(request.method, request.url.toString());
     xhr.responseType = 'arraybuffer';
     xhr.withCredentials =
-        request.context['http.html.with_credentials'] ?? false;
+        request.context['http.html.with_credentials'] as bool ?? false;
     request.headers.forEach(xhr.setRequestHeader);
 
     var completer = new Completer<Response>();
