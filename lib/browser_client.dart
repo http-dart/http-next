@@ -45,33 +45,18 @@ class BrowserClient extends BaseClient {
     _xhrs.add(xhr);
 
     xhr.open(request.method, request.url.toString());
-    xhr.responseType = 'blob';
+    xhr.responseType = 'arraybuffer';
     xhr.withCredentials =
         request.context['http.html.with_credentials'] ?? false;
     request.headers.forEach(xhr.setRequestHeader);
 
     var completer = new Completer<Response>();
     xhr.onLoad.first.then((_) {
-      // TODO(nweiz): Set the response type to "arraybuffer" when issue 18542
-      // is fixed.
-      var blob = xhr.response == null ? new Blob([]) : xhr.response;
-      var reader = new FileReader();
-
-      reader.onLoad.first.then((_) {
-        var body = reader.result as Uint8List;
-        completer.complete(new Response(xhr.responseUrl, xhr.status,
-            reasonPhrase: xhr.statusText,
-            body: new Stream.fromIterable([body]),
-            headers: xhr.responseHeaders));
-      });
-
-      reader.onError.first.then((error) {
-        completer.completeError(
-            new ClientException(error.toString(), request.url),
-            StackTrace.current);
-      });
-
-      reader.readAsArrayBuffer(blob);
+      ByteBuffer buffer = xhr.response;
+      completer.complete(new Response(xhr.responseUrl, xhr.status,
+          reasonPhrase: xhr.statusText,
+          body: new Stream.fromIterable([buffer.asUint8List()]),
+          headers: xhr.responseHeaders));
     });
 
     xhr.onError.first.then((_) {
