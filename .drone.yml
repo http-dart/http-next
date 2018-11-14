@@ -14,4 +14,4 @@ steps:
   image: google/dart:dev
   commands:
     - dart --version
-    - dartanalyzer
+    - dartanalyzer .
