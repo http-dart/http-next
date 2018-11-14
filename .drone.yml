@@ -1,0 +1,18 @@
+---
+kind: pipeline
+name: dart-dev
+
+steps:
+- name: dependencies
+  image: google/dart:dev
+  pull: true
+  commands:
+    - dart --version
+    - pub get
+
+- name: lint
+  image: google/dart:dev
+  commands:
+    - dart --version
+    - pub global activate linter
+    - pub global run linter .
