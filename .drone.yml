@@ -14,5 +14,4 @@ steps:
   image: google/dart:dev
   commands:
     - dart --version
-    - pub global activate linter
-    - pub global run linter .
+    - dartanalyzer
