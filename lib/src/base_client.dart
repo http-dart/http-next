@@ -53,7 +53,7 @@ abstract class BaseClient implements Client {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
-    return await response.readAsString();
+    return response.readAsString();
   }
 
   @override
@@ -61,7 +61,7 @@ abstract class BaseClient implements Client {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
-    return await collectBytes(response.read());
+    return collectBytes(response.read());
   }
 
   @override
