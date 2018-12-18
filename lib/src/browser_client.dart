@@ -17,6 +17,7 @@ import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
 
+/// Returns a [BrowserClient].
 Client platformClient() => BrowserClient();
 
 /// A `dart:html`-based HTTP client that runs in the browser and is backed by

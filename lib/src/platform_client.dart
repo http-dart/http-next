@@ -5,5 +5,6 @@
 
 import 'client.dart';
 
+/// Returns a [Client] based on the underlying platform.
 Client platformClient() =>
     throw UnsupportedError('A HTTP client is not supported');

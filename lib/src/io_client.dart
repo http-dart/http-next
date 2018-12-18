@@ -16,6 +16,7 @@ import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
 
+/// Returns an [IOClient].
 Client platformClient() => IOClient();
 
 /// A `dart:io`-based HTTP client.
