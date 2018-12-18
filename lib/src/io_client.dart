@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:async/async.dart';
+import 'package:pedantic/pedantic.dart';
 
 import 'base_client.dart';
 import 'client.dart';
@@ -64,7 +65,9 @@ class IOClient extends BaseClient {
         ioRequest.headers.set(name, value);
       });
 
-      request.read().pipe(DelegatingStreamConsumer.typed<List<int>>(ioRequest));
+      unawaited(request.read().pipe(
+            DelegatingStreamConsumer.typed<List<int>>(ioRequest),
+          ));
       final response = await ioRequest.done;
 
       final headers = <String, String>{};

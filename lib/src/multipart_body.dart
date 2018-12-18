@@ -118,9 +118,9 @@ class MultipartBody implements Body {
       controller.add([13, 10]);
     }
 
-    controller
-      ..add(ending)
-      ..close();
+    controller.add(ending);
+
+    return controller.close();
   }
 
   /// Returns the header string for a field.

@@ -9,6 +9,7 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 
 import 'package:async/async.dart';
+import 'package:pedantic/pedantic.dart';
 
 import 'base_client.dart';
 import 'client.dart';
@@ -56,27 +57,27 @@ class BrowserClient extends BaseClient {
     request.headers.forEach(xhr.setRequestHeader);
 
     final completer = Completer<Response>();
-    xhr.onLoad.first.then((_) {
+    unawaited(xhr.onLoad.first.then((_) {
       final ByteBuffer buffer = xhr.response;
       completer.complete(Response(xhr.responseUrl, xhr.status,
           reasonPhrase: xhr.statusText,
           body: Stream.fromIterable([buffer.asUint8List()]),
           headers: xhr.responseHeaders));
-    });
+    }));
 
-    xhr.onError.first.then((_) {
+    unawaited(xhr.onError.first.then((_) {
       // Unfortunately, the underlying XMLHttpRequest API doesn't expose any
       // specific information about the error itself.
       completer.completeError(
           ClientException('XMLHttpRequest error', request.url),
           StackTrace.current);
-    });
+    }));
 
     // Catch the abort event so futures complete when close is called.
-    xhr.onAbort.first.then((_) {
+    unawaited(xhr.onAbort.first.then((_) {
       completer.completeError(ClientException('Request cancelled', request.url),
           StackTrace.current);
-    });
+    }));
 
     xhr.send(bytes);
 

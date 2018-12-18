@@ -100,9 +100,8 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller
-        ..add(_worldBytes)
-        ..close();
+      controller.add(_worldBytes);
+      await controller.close();
     });
 
     test('defaults to decoding the message as UTF-8', () {
@@ -127,9 +126,8 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller
-        ..add(_worldBytes)
-        ..close();
+      controller.add(_worldBytes);
+      await controller.close();
     });
   });
 
@@ -147,9 +145,8 @@ void main() {
 
       controller.add(_helloBytes);
       await pumpEventQueue();
-      controller
-        ..add(_worldBytes)
-        ..close();
+      controller.add(_worldBytes);
+      await controller.close();
     });
 
     test('returns a List<int> body', () {
