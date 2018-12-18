@@ -61,9 +61,7 @@ class IOClient extends BaseClient {
         ..followRedirects = followRedirects ?? true
         ..maxRedirects = maxRedirects ?? 5
         ..persistentConnection = persistentConnection ?? true;
-      request.headers.forEach((name, value) {
-        ioRequest.headers.set(name, value);
-      });
+      request.headers.forEach(ioRequest.headers.set);
 
       unawaited(request.read().pipe(
             DelegatingStreamConsumer.typed<List<int>>(ioRequest),
