@@ -75,13 +75,19 @@ class IOClient extends BaseClient {
         headers[key] = values.join(',');
       });
 
-      return Response(_responseUrl(request, response), response.statusCode,
-          reasonPhrase: response.reasonPhrase,
-          body: DelegatingStream.typed<List<int>>(response).handleError(
-              (HttpException error) =>
-                  throw ClientException(error.message, error.uri),
-              test: (error) => error is HttpException),
-          headers: headers);
+      return Response(
+        _responseUrl(request, response),
+        response.statusCode,
+        reasonPhrase: response.reasonPhrase,
+        body: DelegatingStream.typed<List<int>>(response).handleError(
+          (error) {
+            final HttpException httpError = error;
+            throw ClientException(httpError.message, httpError.uri);
+          },
+          test: (error) => error is HttpException,
+        ),
+        headers: headers,
+      );
     } on HttpException catch (error) {
       throw ClientException(error.message, error.uri);
     } on SocketException catch (error) {
