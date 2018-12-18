@@ -115,7 +115,7 @@ class MultipartBody implements Body {
       // file.read() can throw synchronously
       try {
         await writeStreamToSink(files[i].read(), controller);
-      } catch (exception, stackTrace) {
+      } on Exception catch (exception, stackTrace) {
         controller.addError(exception, stackTrace);
       }
 

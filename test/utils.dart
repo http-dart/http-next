@@ -77,7 +77,7 @@ class _Parse extends Matcher {
 
     try {
       parsed = jsonDecode(encoded);
-    } catch (e) {
+    } on Exception catch (_) {
       return false;
     }
 
