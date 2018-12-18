@@ -33,13 +33,13 @@ Client platformClient() => BrowserClient();
 ///   it's `true`, cross-site requests will include credentials such as cookies
 ///   or authorization headers. See also [HttpRequest.withCredentials].
 class BrowserClient extends BaseClient {
+  /// Creates a new HTTP client.
+  BrowserClient();
+
   /// The currently active XHRs.
   ///
   /// These are aborted if the client is closed.
   final _xhrs = Set<html.HttpRequest>();
-
-  /// Creates a new HTTP client.
-  BrowserClient();
 
   @override
   Future<Response> send(Request request) async {

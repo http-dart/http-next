@@ -13,18 +13,6 @@ import 'utils.dart';
 
 /// An HTTP response where the entire response body is known in advance.
 class Response extends Message {
-  /// The location of the requested resource.
-  ///
-  /// The value takes into account any redirects that occurred during the
-  /// request.
-  final Uri finalUrl;
-
-  /// The status code of the response.
-  final int statusCode;
-
-  /// The reason phrase associated with the status code.
-  final String reasonPhrase;
-
   /// Creates a new HTTP response for a resource at the [finalUrl], which can
   /// be a [Uri] or a [String], with the given [statusCode].
   ///
@@ -56,6 +44,18 @@ class Response extends Message {
       Map<String, String> headers,
       Map<String, Object> context)
       : super(body, encoding: encoding, headers: headers, context: context);
+
+  /// The location of the requested resource.
+  ///
+  /// The value takes into account any redirects that occurred during the
+  /// request.
+  final Uri finalUrl;
+
+  /// The status code of the response.
+  final int statusCode;
+
+  /// The reason phrase associated with the status code.
+  final String reasonPhrase;
 
   /// Creates a new [Response] by copying existing values and applying specified
   /// changes.

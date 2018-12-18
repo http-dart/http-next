@@ -16,11 +16,11 @@ import 'response.dart';
 /// The [HandlerClient] allows composition of a [Client] within a larger
 /// application.
 class HandlerClient extends BaseClient {
-  final Handler _handler;
-  final void Function() _close;
-
   /// Creates a new client using the [_handler] and [onClose] functions.
   HandlerClient(this._handler, void onClose()) : _close = onClose;
+
+  final Handler _handler;
+  final void Function() _close;
 
   @override
   Future<Response> send(Request request) => _handler(request);

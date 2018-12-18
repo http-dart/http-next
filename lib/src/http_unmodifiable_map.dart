@@ -11,9 +11,6 @@ import 'package:http_parser/http_parser.dart';
 
 /// A simple wrapper over [UnmodifiableMapView] which avoids re-wrapping itself.
 class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
-  /// `true` if the key values are already lowercase.
-  final bool _ignoreKeyCase;
-
   /// If [source] is a [HttpUnmodifiableMap] with matching [ignoreKeyCase],
   /// then [source] is returned.
   ///
@@ -50,6 +47,9 @@ class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
 
   HttpUnmodifiableMap._(Map<String, V> source, this._ignoreKeyCase)
       : super(source);
+
+  /// `true` if the key values are already lowercase.
+  final bool _ignoreKeyCase;
 }
 
 /// A const implementation of an empty [HttpUnmodifiableMap].

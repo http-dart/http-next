@@ -62,9 +62,9 @@ int _getLeadingSpaces(String value) {
 Matcher parse(Matcher matcher) => _Parse(matcher);
 
 class _Parse extends Matcher {
-  final Matcher _matcher;
-
   _Parse(this._matcher);
+
+  final Matcher _matcher;
 
   @override
   bool matches(item, Map matchState) {
@@ -97,9 +97,9 @@ class _Parse extends Matcher {
 Matcher multipartBodyMatches(String pattern) => _MultipartBodyMatches(pattern);
 
 class _MultipartBodyMatches extends Matcher {
-  final String _pattern;
-
   _MultipartBodyMatches(this._pattern);
+
+  final String _pattern;
 
   @override
   bool matches(item, Map matchState) {

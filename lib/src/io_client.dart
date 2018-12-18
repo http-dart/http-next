@@ -39,11 +39,11 @@ Client platformClient() => IOClient();
 ///   after the request completes. See also
 ///   [HttpClientRequest.persistentConnection].
 class IOClient extends BaseClient {
-  /// The underlying `dart:io` HTTP client.
-  HttpClient _inner;
-
   /// Creates a new HTTP client.
   IOClient([HttpClient inner]) : _inner = inner ?? HttpClient();
+
+  /// The underlying `dart:io` HTTP client.
+  HttpClient _inner;
 
   @override
   Future<Response> send(Request request) async {

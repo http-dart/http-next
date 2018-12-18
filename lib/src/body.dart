@@ -17,19 +17,6 @@ import 'utils.dart';
 /// because the message may be changed with [Message.change], but each instance
 /// should share a notion of whether the body was read.
 class Body {
-  /// The contents of the message body.
-  ///
-  /// This will be `null` after [read] is called.
-  Stream<List<int>> _stream;
-
-  /// The encoding used to encode the stream returned by [read], or `null` if no
-  /// encoding was used.
-  final Encoding encoding;
-
-  /// The length of the stream returned by [read], or `null` if that can't be
-  /// determined efficiently.
-  final int contentLength;
-
   /// Converts [body] to a byte stream and wraps it in a [Body].
   ///
   /// [body] may be either a [Body], a [String], a [List<int>], a
@@ -79,6 +66,19 @@ class Body {
   }
 
   Body._(this._stream, this.encoding, this.contentLength);
+
+  /// The contents of the message body.
+  ///
+  /// This will be `null` after [read] is called.
+  Stream<List<int>> _stream;
+
+  /// The encoding used to encode the stream returned by [read], or `null` if no
+  /// encoding was used.
+  final Encoding encoding;
+
+  /// The length of the stream returned by [read], or `null` if that can't be
+  /// determined efficiently.
+  final int contentLength;
 
   /// Returns whether [bytes] is plain ASCII.
   ///

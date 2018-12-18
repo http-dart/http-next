@@ -35,31 +35,6 @@ Body getBody(Message message) => message._body;
 
 /// Represents logic shared between [Request] and [Response].
 abstract class Message {
-  /// The HTTP headers.
-  ///
-  /// This is immutable. A copy of this with new headers can be created using
-  /// [change].
-  final Map<String, String> headers;
-
-  /// Extra context that can be used by middleware and handlers.
-  ///
-  /// For requests, this is used to pass data to inner middleware and handlers;
-  /// for responses, it's used to pass data to outer middleware and handlers.
-  ///
-  /// Context properties that are used by a particular package should begin with
-  /// that package's name followed by a period. For example, if there was a
-  /// package `foo` which contained a middleware `bar` and it wanted to take
-  /// a context property, its property would be `"foo.bar"`.
-  ///
-  /// This is immutable. A copy of this with new context values can be created
-  /// using [change].
-  final Map<String, Object> context;
-
-  /// The streaming body of the message.
-  ///
-  /// This can be read via [read] or [readAsString].
-  final Body _body;
-
   /// Creates a new [Message].
   ///
   /// [body] is the message body. It may be either a [String], a [List<int>], a
@@ -85,6 +60,31 @@ abstract class Message {
             _adjustHeaders(headers, body, originalBody),
             ignoreKeyCase: true),
         context = HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
+
+  /// The HTTP headers.
+  ///
+  /// This is immutable. A copy of this with new headers can be created using
+  /// [change].
+  final Map<String, String> headers;
+
+  /// Extra context that can be used by middleware and handlers.
+  ///
+  /// For requests, this is used to pass data to inner middleware and handlers;
+  /// for responses, it's used to pass data to outer middleware and handlers.
+  ///
+  /// Context properties that are used by a particular package should begin with
+  /// that package's name followed by a period. For example, if there was a
+  /// package `foo` which contained a middleware `bar` and it wanted to take
+  /// a context property, its property would be `"foo.bar"`.
+  ///
+  /// This is immutable. A copy of this with new context values can be created
+  /// using [change].
+  final Map<String, Object> context;
+
+  /// The streaming body of the message.
+  ///
+  /// This can be read via [read] or [readAsString].
+  final Body _body;
 
   /// If `true`, the stream returned by [read] won't emit any bytes.
   ///

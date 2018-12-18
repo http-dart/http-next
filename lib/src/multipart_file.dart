@@ -15,26 +15,6 @@ import 'package:mime/mime.dart';
 ///
 /// This doesn't need to correspond to a physical file.
 class MultipartFile {
-  /// The stream that will emit the file's contents.
-  Stream<List<int>> _stream;
-
-  /// The name of the form field for the file.
-  final String field;
-
-  /// The size of the file in bytes.
-  ///
-  /// This must be known in advance, even if this file is created from a
-  /// [Stream].
-  final int length;
-
-  /// The basename of the file. May be null.
-  final String filename;
-
-  /// The content-type of the file.
-  ///
-  /// Defaults to `application/octet-stream`.
-  final MediaType contentType;
-
   /// Creates a [MultipartFile] from the [value].
   ///
   /// [value] can be either a [String] or a [List<int>].
@@ -88,6 +68,26 @@ class MultipartFile {
         contentType = contentType ??
             _lookUpMediaType(filename) ??
             MediaType('application', 'octet-stream');
+
+  /// The stream that will emit the file's contents.
+  Stream<List<int>> _stream;
+
+  /// The name of the form field for the file.
+  final String field;
+
+  /// The size of the file in bytes.
+  ///
+  /// This must be known in advance, even if this file is created from a
+  /// [Stream].
+  final int length;
+
+  /// The basename of the file. May be null.
+  final String filename;
+
+  /// The content-type of the file.
+  ///
+  /// Defaults to `application/octet-stream`.
+  final MediaType contentType;
 
   /// Creates a new [MultipartFile] from the [stream].
   ///

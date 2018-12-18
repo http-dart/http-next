@@ -18,14 +18,6 @@ import 'utils.dart';
 /// Such a request has both string fields, which function as normal form
 /// fields, and (potentially streamed) binary files.
 class MultipartBody implements Body {
-  /// The contents of the message body.
-  ///
-  /// This will be `null` after [read] is called.
-  Stream<List<int>> _stream;
-
-  @override
-  final int contentLength;
-
   /// Creates a [MultipartBody] from the given [fields] and [files].
   ///
   /// The [boundary] is used to separate key value pairs within the body.
@@ -83,6 +75,14 @@ class MultipartBody implements Body {
   }
 
   MultipartBody._(this._stream, this.contentLength);
+
+  /// The contents of the message body.
+  ///
+  /// This will be `null` after [read] is called.
+  Stream<List<int>> _stream;
+
+  @override
+  final int contentLength;
 
   /// Multipart forms do not have an encoding.
   @override

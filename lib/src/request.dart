@@ -14,15 +14,6 @@ import 'utils.dart';
 
 /// Represents an HTTP request to be sent to a server.
 class Request extends Message {
-  /// The HTTP method of the request.
-  ///
-  /// Most commonly "GET" or "POST", less commonly "HEAD", "PUT", or "DELETE".
-  /// Non-standard method names are also supported.
-  final String method;
-
-  /// The URL to which the request will be sent.
-  final Uri url;
-
   /// Creates a new [Request] for [url], which can be a [Uri] or a [String],
   /// using [method].
   ///
@@ -172,6 +163,16 @@ class Request extends Message {
   Request._(this.method, this.url, body, Encoding encoding,
       Map<String, String> headers, Map<String, Object> context)
       : super(body, encoding: encoding, headers: headers, context: context);
+
+
+  /// The HTTP method of the request.
+  ///
+  /// Most commonly "GET" or "POST", less commonly "HEAD", "PUT", or "DELETE".
+  /// Non-standard method names are also supported.
+  final String method;
+
+  /// The URL to which the request will be sent.
+  final Uri url;
 
   /// Creates a new [Request] by copying existing values and applying specified
   /// changes.

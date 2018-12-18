@@ -16,18 +16,18 @@ import 'middleware.dart';
 ///         .addMiddleware(basicAuthMiddleware)
 ///         .addClient(new Client());
 class Pipeline {
-  /// The outer pipeline.
-  final Pipeline _parent;
-
-  /// The [Middleware] that is invoked at this stage.
-  final Middleware _middleware;
-
   /// Creates a [Pipeline].
   const Pipeline()
       : _parent = null,
         _middleware = null;
 
   Pipeline._(this._parent, this._middleware);
+
+  /// The outer pipeline.
+  final Pipeline _parent;
+
+  /// The [Middleware] that is invoked at this stage.
+  final Middleware _middleware;
 
   /// Returns a new [Pipeline] with [middleware] added to the existing set of
   /// [Middleware].
