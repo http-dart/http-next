@@ -21,8 +21,11 @@ class MultipartBody implements Body {
   /// Creates a [MultipartBody] from the given [fields] and [files].
   ///
   /// The [boundary] is used to separate key value pairs within the body.
-  factory MultipartBody(Map<String, String> fields,
-      Iterable<MultipartFile> files, String boundary) {
+  factory MultipartBody(
+    Map<String, String> fields,
+    Iterable<MultipartFile> files,
+    String boundary,
+  ) {
     final controller = StreamController<List<int>>(sync: true);
     final buffer = Uint8Buffer();
 
@@ -101,10 +104,11 @@ class MultipartBody implements Body {
 
   /// Writes the [files] to the [controller].
   static Future _writeFilesToStream(
-      StreamController<List<int>> controller,
-      List<MultipartFile> files,
-      List<List<int>> fileHeaders,
-      List<int> ending) async {
+    StreamController<List<int>> controller,
+    List<MultipartFile> files,
+    List<List<int>> fileHeaders,
+    List<int> ending,
+  ) async {
     for (var i = 0; i < files.length; ++i) {
       controller.add(fileHeaders[i]);
 

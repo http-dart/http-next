@@ -27,12 +27,14 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request(String method, url,
-      {body,
-      Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this._(method, getUrl(url), body, encoding, headers, context);
+  Request(
+    String method,
+    url, {
+    body,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this._(method, getUrl(url), body, encoding, headers, context);
 
   /// Creates a new HEAD [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -66,11 +68,13 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.post(url, body,
-      {Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this('POST', url,
+  Request.post(
+    url,
+    body, {
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('POST', url,
             body: body, encoding: encoding, headers: headers, context: context);
 
   /// Creates a new PUT [Request] to [url], which can be a [Uri] or a [String].
@@ -85,11 +89,13 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.put(url, body,
-      {Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this('PUT', url,
+  Request.put(
+    url,
+    body, {
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('PUT', url,
             body: body, encoding: encoding, headers: headers, context: context);
 
   /// Creates a new PATCH [Request] to [url], which can be a [Uri] or a
@@ -105,11 +111,13 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.patch(url, body,
-      {Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this('PATCH', url,
+  Request.patch(
+    url,
+    body, {
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('PATCH', url,
             body: body, encoding: encoding, headers: headers, context: context);
 
   /// Creates a new DELETE [Request] to [url], which can be a [Uri] or a
@@ -120,9 +128,11 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.delete(url,
-      {Map<String, String> headers, Map<String, Object> context})
-      : this('DELETE', url, headers: headers, context: context);
+  Request.delete(
+    url, {
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('DELETE', url, headers: headers, context: context);
 
   /// Creates a new
   /// [`multipart/form-data`](https://en.wikipedia.org/wiki/MIME#Multipart_messages)
@@ -138,12 +148,14 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  factory Request.multipart(url,
-      {String method,
-      Map<String, String> headers,
-      Map<String, Object> context,
-      Map<String, String> fields,
-      Iterable<MultipartFile> files}) {
+  factory Request.multipart(
+    url, {
+    String method,
+    Map<String, String> headers,
+    Map<String, Object> context,
+    Map<String, String> fields,
+    Iterable<MultipartFile> files,
+  }) {
     fields ??= const {};
     files ??= const [];
     headers ??= {};
@@ -160,10 +172,14 @@ class Request extends Message {
         context);
   }
 
-  Request._(this.method, this.url, body, Encoding encoding,
-      Map<String, String> headers, Map<String, Object> context)
-      : super(body, encoding: encoding, headers: headers, context: context);
-
+  Request._(
+    this.method,
+    this.url,
+    body,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  ) : super(body, encoding: encoding, headers: headers, context: context);
 
   /// The HTTP method of the request.
   ///
@@ -186,8 +202,11 @@ class Request extends Message {
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body.
   @override
-  Request change(
-      {Map<String, String> headers, Map<String, Object> context, body}) {
+  Request change({
+    Map<String, String> headers,
+    Map<String, Object> context,
+    body,
+  }) {
     final updatedHeaders = updateMap(this.headers, headers);
     final updatedContext = updateMap(this.context, context);
 

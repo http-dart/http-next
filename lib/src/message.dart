@@ -47,18 +47,23 @@ abstract class Message {
   /// If [encoding] is passed, the "encoding" field of the Content-Type header
   /// in [headers] will be set appropriately. If there is no existing
   /// Content-Type header, it will be set to "application/octet-stream".
-  Message(body,
-      {Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this._(Body(body, encoding), headers, context, body);
+  Message(
+    body, {
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this._(Body(body, encoding), headers, context, body);
 
-  Message._(Body body, Map<String, String> headers, Map<String, Object> context,
-      originalBody)
-      : _body = body,
+  Message._(
+    Body body,
+    Map<String, String> headers,
+    Map<String, Object> context,
+    originalBody,
+  )   : _body = body,
         headers = HttpUnmodifiableMap<String>(
-            _adjustHeaders(headers, body, originalBody),
-            ignoreKeyCase: true),
+          _adjustHeaders(headers, body, originalBody),
+          ignoreKeyCase: true,
+        ),
         context = HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
 
   /// The HTTP headers.
@@ -171,8 +176,11 @@ abstract class Message {
 
   /// Creates a copy of this by copying existing values and applying specified
   /// changes.
-  Message change(
-      {Map<String, String> headers, Map<String, Object> context, body});
+  Message change({
+    Map<String, String> headers,
+    Map<String, Object> context,
+    body,
+  });
 
   /// Adds information about encoding and content-type to [headers].
   ///

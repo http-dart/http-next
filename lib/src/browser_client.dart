@@ -59,24 +59,30 @@ class BrowserClient extends BaseClient {
     final completer = Completer<Response>();
     unawaited(xhr.onLoad.first.then((_) {
       final ByteBuffer buffer = xhr.response;
-      completer.complete(Response(xhr.responseUrl, xhr.status,
-          reasonPhrase: xhr.statusText,
-          body: Stream.fromIterable([buffer.asUint8List()]),
-          headers: xhr.responseHeaders));
+      completer.complete(Response(
+        xhr.responseUrl,
+        xhr.status,
+        reasonPhrase: xhr.statusText,
+        body: Stream.fromIterable([buffer.asUint8List()]),
+        headers: xhr.responseHeaders,
+      ));
     }));
 
     unawaited(xhr.onError.first.then((_) {
       // Unfortunately, the underlying XMLHttpRequest API doesn't expose any
       // specific information about the error itself.
       completer.completeError(
-          ClientException('XMLHttpRequest error', request.url),
-          StackTrace.current);
+        ClientException('XMLHttpRequest error', request.url),
+        StackTrace.current,
+      );
     }));
 
     // Catch the abort event so futures complete when close is called.
     unawaited(xhr.onAbort.first.then((_) {
-      completer.completeError(ClientException('Request cancelled', request.url),
-          StackTrace.current);
+      completer.completeError(
+        ClientException('Request cancelled', request.url),
+        StackTrace.current,
+      );
     }));
 
     xhr.send(bytes);

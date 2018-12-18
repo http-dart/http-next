@@ -26,24 +26,26 @@ class Response extends Message {
   ///
   /// Extra [context] can be used to pass information between outer middleware
   /// and handlers.
-  Response(finalUrl, int statusCode,
-      {String reasonPhrase,
-      body,
-      Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context})
-      : this._(getUrl(finalUrl), statusCode, reasonPhrase ?? '', body, encoding,
+  Response(
+    finalUrl,
+    int statusCode, {
+    String reasonPhrase,
+    body,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this._(getUrl(finalUrl), statusCode, reasonPhrase ?? '', body, encoding,
             headers, context);
 
   Response._(
-      this.finalUrl,
-      this.statusCode,
-      this.reasonPhrase,
-      body,
-      Encoding encoding,
-      Map<String, String> headers,
-      Map<String, Object> context)
-      : super(body, encoding: encoding, headers: headers, context: context);
+    this.finalUrl,
+    this.statusCode,
+    this.reasonPhrase,
+    body,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  ) : super(body, encoding: encoding, headers: headers, context: context);
 
   /// The location of the requested resource.
   ///
@@ -73,8 +75,11 @@ class Response extends Message {
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body.
   @override
-  Response change(
-      {Map<String, String> headers, Map<String, Object> context, body}) {
+  Response change({
+    Map<String, String> headers,
+    Map<String, Object> context,
+    body,
+  }) {
     final updatedHeaders = updateMap(this.headers, headers);
     final updatedContext = updateMap(this.context, context);
 

@@ -18,14 +18,14 @@ Future<void> main() async {
   final file = await http.MultipartFile.loadStream('file', fileStream);
 
   // Create the multipart request
-  final request = http.Request.multipart('https://httpbin.org/anything',
-      fields: <String, String>{
-        'dart': 'The programming language used',
-        'http': 'The package used for this request',
-      },
-      files: [
-        file
-      ],);
+  final request = http.Request.multipart(
+    'https://httpbin.org/anything',
+    fields: <String, String>{
+      'dart': 'The programming language used',
+      'http': 'The package used for this request',
+    },
+    files: [file],
+  );
 
   // Create a client
   final client = http.Client();

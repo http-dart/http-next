@@ -35,9 +35,9 @@ final Random _random = Random();
 String boundaryString() {
   const prefix = 'dart-http-boundary-';
   final list = List<int>.generate(
-      _boundaryLength - prefix.length,
-      (index) =>
-          _boundaryCharacters[_random.nextInt(_boundaryCharacters.length)],
-      growable: false);
+    _boundaryLength - prefix.length,
+    (index) => _boundaryCharacters[_random.nextInt(_boundaryCharacters.length)],
+    growable: false,
+  );
   return '$prefix${String.fromCharCodes(list)}';
 }

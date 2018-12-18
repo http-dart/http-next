@@ -72,8 +72,12 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> post(url, body,
-      {Map<String, String> headers, Encoding encoding});
+  Future<Response> post(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  });
 
   /// Sends an HTTP PUT request with the given headers and body to the given
   /// URL, which can be a [Uri] or a [String].
@@ -93,8 +97,12 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> put(url, body,
-      {Map<String, String> headers, Encoding encoding});
+  Future<Response> put(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  });
 
   /// Sends an HTTP PATCH request with the given headers and body to the given
   /// URL, which can be a [Uri] or a [String].
@@ -114,8 +122,12 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> patch(url, body,
-      {Map<String, String> headers, Encoding encoding});
+  Future<Response> patch(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  });
 
   /// Sends an HTTP DELETE request with the given headers to the given URL,
   /// which can be a [Uri] or a [String].

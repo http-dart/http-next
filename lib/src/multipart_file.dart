@@ -27,8 +27,13 @@ class MultipartFile {
   /// bytes contained within the [stream] and the [filename] if provided. It
   /// will default to `plain/text` for [String]s and `application/octet-stream`
   /// for [List<int>].
-  factory MultipartFile(String field, value,
-      {String filename, MediaType contentType, Encoding encoding}) {
+  factory MultipartFile(
+    String field,
+    value, {
+    String filename,
+    MediaType contentType,
+    Encoding encoding,
+  }) {
     List<int> bytes;
     MediaType defaultMediaType;
 
@@ -41,7 +46,10 @@ class MultipartFile {
       defaultMediaType = MediaType('application', 'octet-stream');
     } else {
       throw ArgumentError.value(
-          value, 'value', 'value must be either a String or a List<int>');
+        value,
+        'value',
+        'value must be either a String or a List<int>',
+      );
     }
 
     contentType ??= _lookUpMediaType(filename, bytes) ?? defaultMediaType;
@@ -62,9 +70,13 @@ class MultipartFile {
   ///
   /// [contentType] if not specified will attempt to be looked up from the
   /// [filename] if provided. It will default to `application/octet-stream`.
-  MultipartFile.fromStream(this.field, Stream<List<int>> stream, this.length,
-      {this.filename, MediaType contentType})
-      : _stream = stream,
+  MultipartFile.fromStream(
+    this.field,
+    Stream<List<int>> stream,
+    this.length, {
+    this.filename,
+    MediaType contentType,
+  })  : _stream = stream,
         contentType = contentType ??
             _lookUpMediaType(filename) ??
             MediaType('application', 'octet-stream');
@@ -98,8 +110,11 @@ class MultipartFile {
   /// bytes contained within the [stream] and the [filename] if provided. It
   /// will default to `application/octet-stream`.
   static Future<MultipartFile> loadStream(
-      String field, Stream<List<int>> stream,
-      {String filename, MediaType contentType}) async {
+    String field,
+    Stream<List<int>> stream, {
+    String filename,
+    MediaType contentType,
+  }) async {
     final bytes = await collectBytes(stream);
 
     return MultipartFile(field, bytes,
