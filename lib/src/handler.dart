@@ -14,4 +14,4 @@ import 'response.dart';
 ///
 /// A [Handler] may call an underlying HTTP implementation, or it may wrap
 /// another [Handler] or a [Client].
-typedef Future<Response> Handler(Request request);
+typedef Handler = Future<Response> Function(Request request);

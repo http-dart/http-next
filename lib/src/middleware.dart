@@ -24,7 +24,7 @@ import 'response.dart';
 /// Common uses for middleware include caching, logging, and authentication.
 ///
 /// A simple [Middleware] can be created using [createMiddleware].
-typedef Client Middleware(Client inner);
+typedef Middleware = Client Function(Client inner);
 
 /// Creates a [Middleware] using the provided functions.
 ///
