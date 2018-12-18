@@ -51,8 +51,8 @@ bool isPlainAscii(String string) => _asciiOnly.hasMatch(string);
 ///
 /// Completes [Future] once [stream] is done. [sink] remains open after [stream]
 /// is done.
-Future<Null> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
-  final completer = Completer<Null>();
+Future<void> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
+  final completer = Completer<void>();
   stream.listen(sink.add, onError: sink.addError, onDone: completer.complete);
   return completer.future;
 }

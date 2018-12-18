@@ -106,6 +106,7 @@ abstract class Message {
 
     final contentLengthHeader = getHeader(headers, 'content-length');
     if (contentLengthHeader == null) {
+      // ignore: avoid_returning_null
       return null;
     }
 

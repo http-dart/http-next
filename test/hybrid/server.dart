@@ -51,7 +51,7 @@ final _ignoreHeaders = <String>[
 ///       },
 ///       body: OPTIONAL
 ///     }
-Future<Null> hybridMain(StreamChannel channel) async {
+Future<void> hybridMain(StreamChannel channel) async {
   Uri serverUrl;
   final server = await shelf_io.serve((request) async {
     if (request.url.path == 'error') {
