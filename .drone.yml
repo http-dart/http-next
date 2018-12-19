@@ -8,7 +8,7 @@ steps:
   pull: true
   volumes:
   - name: cache
-    path: /root/.pubcache
+    path: /root/.pub-cache
   commands:
     - dart --version
     - pub get
@@ -18,7 +18,7 @@ steps:
   image: google/dart:dev
   volumes:
   - name: cache
-    path: /root/.pubcache
+    path: /root/.pub-cache
   commands:
     - ls /root
     - ls /root/.pubcache
@@ -29,7 +29,7 @@ steps:
   image: google/dart:dev
   volumes:
   - name: cache
-    path: /root/.pubcache
+    path: /root/.pub-cache
   commands:
     - pub run test
 
