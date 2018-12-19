@@ -15,3 +15,8 @@ steps:
   commands:
     - dart --version
     - dartanalyzer .
+
+- name: test
+  image: google/dart:dev
+  commands:
+    - pub run test
