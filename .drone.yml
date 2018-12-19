@@ -20,6 +20,8 @@ steps:
   - name: cache
     path: /root/.pubcache
   commands:
+    - ls /root
+    - ls /root/.pubcache
     - dart --version
     - dartanalyzer .
 
