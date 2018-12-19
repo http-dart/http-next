@@ -24,9 +24,6 @@ final _defaultHeaders =
 /// The default media type `application/octet-stream` as defined by HTTP.
 final _defaultMediaType = MediaType('application', 'octet-stream');
 
-/// The media type for URL encoded form data.
-final _urlEncodedForm = MediaType('application', 'x-www-form-urlencoded');
-
 /// Retrieves the [Body] contained in the [message].
 ///
 /// This is meant for internal use by `http` so the message body is accessible
@@ -52,16 +49,12 @@ abstract class Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this._(Body(body, encoding), headers, context, body);
+  }) : this._(Body(body, encoding), headers, context);
 
-  Message._(
-    Body body,
-    Map<String, String> headers,
-    Map<String, Object> context,
-    originalBody,
-  )   : _body = body,
+  Message._(Body body, Map<String, String> headers, Map<String, Object> context)
+      : _body = body,
         headers = HttpUnmodifiableMap<String>(
-          _adjustHeaders(headers, body, originalBody),
+          _adjustHeaders(headers, body),
           ignoreKeyCase: true,
         ),
         context = HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
@@ -140,12 +133,12 @@ abstract class Message {
       return _contentTypeCache;
     }
 
-    final contentLengthHeader = getHeader(headers, 'content-type');
-    if (contentLengthHeader == null) {
+    final contentTypeHeader = getHeader(headers, 'content-type');
+    if (contentTypeHeader == null) {
       return null;
     }
 
-    return _contentTypeCache = MediaType.parse(contentLengthHeader);
+    return _contentTypeCache = MediaType.parse(contentTypeHeader);
   }
 
   MediaType _contentTypeCache;
@@ -187,8 +180,10 @@ abstract class Message {
   ///
   /// Returns a new map without modifying [headers].
   static Map<String, String> _adjustHeaders(
-      Map<String, String> headers, Body body, originalBody) {
-    final contentType = _contentTypeHeader(headers, body, originalBody);
+    Map<String, String> headers,
+    Body body,
+  ) {
+    final contentType = _contentTypeHeader(headers, body);
     final contentLength = _contentLengthHeader(headers, body);
 
     if (contentType == null) {
@@ -240,8 +235,7 @@ abstract class Message {
   ///
   /// Returns the value for the `content-type` header if it should be
   /// modified, otherwise it returns `null`.
-  static String _contentTypeHeader(
-      Map<String, String> headers, Body body, originalBody) {
+  static String _contentTypeHeader(Map<String, String> headers, Body body) {
     final contentTypeHeader = getHeader(headers, 'content-type');
     var changed = false;
     MediaType mediaType;
@@ -250,9 +244,6 @@ abstract class Message {
     if (contentTypeHeader != null) {
       mediaType = MediaType.parse(contentTypeHeader);
       mediaEncoding = Encoding.getByName(mediaType.parameters['charset']);
-    } else if (originalBody is Map) {
-      mediaType = _urlEncodedForm;
-      changed = true;
     } else {
       mediaType = _defaultMediaType;
     }

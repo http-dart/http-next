@@ -172,6 +172,46 @@ class Request extends Message {
         context);
   }
 
+  /// Creates a new
+  /// [`multipart/form-data`](https://en.wikipedia.org/wiki/MIME#Multipart_messages)
+  /// [Request] to [url], which can be a [Uri] or a [String].
+  ///
+  /// The [body] is a map of strings with the values. [encoding] is used to
+  /// encode the values in the body. It defaults to UTF-8.
+  ///
+  /// If [method] is not specified it defaults to POST.
+  ///
+  /// [headers] are the HTTP headers for the request. If [headers] is `null`,
+  /// it is treated as empty.
+  ///
+  /// Extra [context] can be used to pass information between inner middleware
+  /// and handlers.
+  factory Request.urlEncoded(
+    url,
+    Map<String, String> body, {
+    String method,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) {
+    encoding ??= utf8;
+
+    final pairs = <List<String>>[];
+    body.forEach((key, value) => pairs.add([
+          Uri.encodeQueryComponent(key, encoding: encoding),
+          Uri.encodeQueryComponent(value, encoding: encoding)
+        ]));
+
+    return Request._(
+      method ?? 'POST',
+      getUrl(url),
+      pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
+      null,
+      updateMap(headers, {'content-type': 'application/x-www-form-urlencoded'}),
+      context,
+    );
+  }
+
   Request._(
     this.method,
     this.url,

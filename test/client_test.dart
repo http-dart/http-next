@@ -131,14 +131,18 @@ void main() {
     });
 
     test('post with fields', () async {
-      final response = await Client().post(serverUrl, {
-        'some-field': 'value',
-        'other-field': 'other value'
-      }, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final request = Request.urlEncoded(
+        serverUrl,
+        {'some-field': 'value', 'other-field': 'other value'},
+        method: 'POST',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
+
+      final response = await Client().send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -234,14 +238,17 @@ void main() {
     });
 
     test('put with fields', () async {
-      final response = await Client().put(serverUrl, {
-        'some-field': 'value',
-        'other-field': 'other value'
-      }, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final request = Request.urlEncoded(
+        serverUrl,
+        {'some-field': 'value', 'other-field': 'other value'},
+        method: 'PUT',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
+      final response = await Client().send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -338,14 +345,17 @@ void main() {
     });
 
     test('patch with fields', () async {
-      final response = await Client().patch(serverUrl, {
-        'some-field': 'value',
-        'other-field': 'other value'
-      }, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final request = Request.urlEncoded(
+        serverUrl,
+        {'some-field': 'value', 'other-field': 'other value'},
+        method: 'PATCH',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
+      final response = await Client().send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));

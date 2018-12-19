@@ -66,7 +66,9 @@ class _EmptyHttpUnmodifiableMap<V> extends MapView<String, V>
   bool get _ignoreKeyCase => true;
 
   @override
-  void operator []=(String key, Object value) { super[key] = null; }
+  void operator []=(String key, Object value) {
+    super[key] = null;
+  }
 
   @override
   void addAll(Map<String, Object> other) => super.addAll({});

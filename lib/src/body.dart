@@ -7,10 +7,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:async/async.dart';
-
-import 'utils.dart';
-
 /// The body of a request or response.
 ///
 /// This tracks whether the body has been read. It's separate from [Message]
@@ -26,18 +22,14 @@ class Body {
     if (body is Body) {
       return body;
     }
-    if (body == null) {
-      return Body._(const Stream<List<int>>.empty(), encoding, 0);
-    }
-
-    if (body is Map<String, String>) {
-      final Map<String, String> t = body;
-      body = mapToQuery(t, encoding ?? utf8);
-    }
 
     Stream<List<int>> stream;
     int contentLength;
-    if (body is String) {
+
+    if (body == null) {
+      contentLength = 0;
+      stream = const Stream<List<int>>.empty();
+    } else if (body is String) {
       if (encoding == null) {
         final encoded = utf8.encode(body);
         // If the text is plain ASCII, don't modify the encoding. This means
@@ -56,10 +48,10 @@ class Body {
       contentLength = body.length;
       stream = Stream<List<int>>.fromIterable([body.cast()]);
     } else if (body is Stream) {
-      stream = DelegatingStream.typed(body);
+      stream = body.cast();
     } else {
       throw ArgumentError(
-          'Response body "$body" must be a String, a Map, or a Stream.');
+          'Response body "$body" must be a String or a Stream.');
     }
 
     return Body._(stream, encoding, contentLength);

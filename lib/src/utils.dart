@@ -5,7 +5,6 @@
 // in the LICENSE file.
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
@@ -24,19 +23,6 @@ Map<K, V> updateMap<K, V>(Map<K, V> original, Map<K, V> updates) {
   }
 
   return Map<K, V>.from(original)..addAll(updates);
-}
-
-/// Converts a [Map] from parameter names to values to a URL query string.
-///
-///     mapToQuery({"foo": "bar", "baz": "bang"});
-///     //=> "foo=bar&baz=bang"
-String mapToQuery(Map<String, String> map, Encoding encoding) {
-  final pairs = <List<String>>[];
-  map.forEach((key, value) => pairs.add([
-        Uri.encodeQueryComponent(key, encoding: encoding),
-        Uri.encodeQueryComponent(value, encoding: encoding)
-      ]));
-  return pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&');
 }
 
 /// A regular expression that matches strings that are composed entirely of
