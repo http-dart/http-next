@@ -7,7 +7,7 @@ steps:
   image: google/dart:dev
   pull: true
   volumes:
-  - name: pub-cache
+  - name: cache
     path: /root/.pubcache
   commands:
     - dart --version
@@ -17,7 +17,7 @@ steps:
 - name: lint
   image: google/dart:dev
   volumes:
-  - name: pub-cache
+  - name: cache
     path: /root/.pubcache
   commands:
     - dart --version
@@ -26,11 +26,11 @@ steps:
 - name: test
   image: google/dart:dev
   volumes:
-  - name: pub-cache
+  - name: cache
     path: /root/.pubcache
   commands:
     - pub run test
 
 volumes:
-- name: pub-cache
+- name: cache
   temp: {}
