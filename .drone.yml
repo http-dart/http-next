@@ -12,7 +12,6 @@ steps:
   commands:
     - dart --version
     - pub get
-    - cat .packages
 
 - name: lint
   image: google/dart:dev
@@ -20,8 +19,6 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - ls /root
-    - ls /root/.pubcache
     - dart --version
     - dartanalyzer .
 
