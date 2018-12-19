@@ -1,0 +1,35 @@
+---
+kind: pipeline
+name: dart-dev
+
+steps:
+- name: dependencies
+  image: google/dart:dev
+  pull: true
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - dart --version
+    - pub get
+
+- name: lint
+  image: google/dart:dev
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - dart --version
+    - dartanalyzer .
+
+- name: test
+  image: google/dart:dev
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - pub run test
+
+volumes:
+- name: cache
+  temp: {}
