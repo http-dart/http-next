@@ -9,6 +9,7 @@ steps:
   commands:
     - dart --version
     - pub get
+    - cat .packages
 
 - name: lint
   image: google/dart:dev
