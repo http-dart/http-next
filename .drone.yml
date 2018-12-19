@@ -6,6 +6,9 @@ steps:
 - name: dependencies
   image: google/dart:dev
   pull: true
+  volumes:
+  - name: pub-cache
+    path: /root/.pubcache
   commands:
     - dart --version
     - pub get
@@ -13,11 +16,21 @@ steps:
 
 - name: lint
   image: google/dart:dev
+  volumes:
+  - name: pub-cache
+    path: /root/.pubcache
   commands:
     - dart --version
     - dartanalyzer .
 
 - name: test
   image: google/dart:dev
+  volumes:
+  - name: pub-cache
+    path: /root/.pubcache
   commands:
     - pub run test
+
+volumes:
+- name: pub-cache
+  temp: {}
