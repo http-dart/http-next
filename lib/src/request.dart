@@ -163,13 +163,16 @@ class Request extends Message {
     final boundary = boundaryString();
 
     return Request._(
-        method ?? 'POST',
-        getUrl(url),
-        MultipartBody(fields, files, boundary),
-        null,
-        updateMap(headers,
-            {'content-type': 'multipart/form-data; boundary=$boundary'}),
-        context);
+      method ?? 'POST',
+      getUrl(url),
+      MultipartBody(fields, files, boundary),
+      null,
+      updateMap(
+        headers,
+        {'content-type': 'multipart/form-data; boundary=$boundary'},
+      ),
+      context,
+    );
   }
 
   /// Creates a new
@@ -250,7 +253,13 @@ class Request extends Message {
     final updatedHeaders = updateMap(this.headers, headers);
     final updatedContext = updateMap(this.context, context);
 
-    return Request._(method, url, body ?? getBody(this), encoding,
-        updatedHeaders, updatedContext);
+    return Request._(
+      method,
+      url,
+      body ?? getBody(this),
+      encoding,
+      updatedHeaders,
+      updatedContext,
+    );
   }
 }

@@ -34,8 +34,15 @@ class Response extends Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this._(getUrl(finalUrl), statusCode, reasonPhrase ?? '', body, encoding,
-            headers, context);
+  }) : this._(
+          getUrl(finalUrl),
+          statusCode,
+          reasonPhrase ?? '',
+          body,
+          encoding,
+          headers,
+          context,
+        );
 
   Response._(
     this.finalUrl,
@@ -83,8 +90,15 @@ class Response extends Message {
     final updatedHeaders = updateMap(this.headers, headers);
     final updatedContext = updateMap(this.context, context);
 
-    return Response._(finalUrl, statusCode, reasonPhrase, body ?? getBody(this),
-        encoding, updatedHeaders, updatedContext);
+    return Response._(
+      finalUrl,
+      statusCode,
+      reasonPhrase,
+      body ?? getBody(this),
+      encoding,
+      updatedHeaders,
+      updatedContext,
+    );
   }
 
   /// The date and time after which the response's data should be considered
