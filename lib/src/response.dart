@@ -97,11 +97,12 @@ class Response extends Message {
       return _expiresCache;
     }
 
-    if (!headers.containsKey('expires')) {
+    final expiresHeader = getHeader(headers, 'expires');
+    if (expiresHeader == null) {
       return null;
     }
 
-    return _expiresCache = parseHttpDate(headers['expires']);
+    return _expiresCache = parseHttpDate(expiresHeader);
   }
 
   DateTime _expiresCache;
@@ -115,11 +116,12 @@ class Response extends Message {
       return _lastModifiedCache;
     }
 
-    if (!headers.containsKey('last-modified')) {
+    final lastModifiedHeader = getHeader(headers, 'last-modified');
+    if (lastModifiedHeader == null) {
       return null;
     }
 
-    return _lastModifiedCache = parseHttpDate(headers['last-modified']);
+    return _lastModifiedCache = parseHttpDate(lastModifiedHeader);
   }
 
   DateTime _lastModifiedCache;
