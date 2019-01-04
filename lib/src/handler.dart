@@ -10,8 +10,8 @@ import 'request.dart';
 import 'response.dart';
 
 /// The signature of a function which handles a [Request] and returns a
-/// [Future<Response>].
+/// [FutureOr<Response>].
 ///
 /// A [Handler] may call an underlying HTTP implementation, or it may wrap
 /// another [Handler] or a [Client].
-typedef Handler = Future<Response> Function(Request request);
+typedef Handler = FutureOr<Response> Function(Request request);

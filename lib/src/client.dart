@@ -36,7 +36,7 @@ abstract class Client {
   /// Creates a new [Client] from a [handler] callback.
   ///
   /// The [handler] is a function that receives a [Request] and returns a
-  /// [Future<Response>]. It will be called when [Client.send] is invoked.
+  /// [FutureOr<Response>]. It will be called when [Client.send] is invoked.
   ///
   /// When [Client.close] is called the [onClose] function will be called.
   factory Client.handler(Handler handler, {void onClose()}) =>
@@ -46,13 +46,13 @@ abstract class Client {
   /// can be a [Uri] or a [String].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> head(url, {Map<String, String> headers});
+  FutureOr<Response> head(url, {Map<String, String> headers});
 
   /// Sends an HTTP GET request with the given headers to the given URL, which
   /// can be a [Uri] or a [String].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> get(url, {Map<String, String> headers});
+  FutureOr<Response> get(url, {Map<String, String> headers});
 
   /// Sends an HTTP POST request with the given headers and body to the given
   /// URL, which can be a [Uri] or a [String].
@@ -72,7 +72,7 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> post(
+  FutureOr<Response> post(
     url,
     body, {
     Map<String, String> headers,
@@ -97,7 +97,7 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> put(
+  FutureOr<Response> put(
     url,
     body, {
     Map<String, String> headers,
@@ -122,7 +122,7 @@ abstract class Client {
   /// [encoding] defaults to [utf8].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> patch(
+  FutureOr<Response> patch(
     url,
     body, {
     Map<String, String> headers,
@@ -133,7 +133,7 @@ abstract class Client {
   /// which can be a [Uri] or a [String].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  Future<Response> delete(url, {Map<String, String> headers});
+  FutureOr<Response> delete(url, {Map<String, String> headers});
 
   /// Sends an HTTP GET request with the given headers to the given URL, which
   /// can be a [Uri] or a [String], and returns a Future that completes to the
@@ -144,7 +144,7 @@ abstract class Client {
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  Future<String> read(url, {Map<String, String> headers});
+  FutureOr<String> read(url, {Map<String, String> headers});
 
   /// Sends an HTTP GET request with the given headers to the given URL, which
   /// can be a [Uri] or a [String], and returns a Future that completes to the
@@ -155,10 +155,10 @@ abstract class Client {
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  Future<Uint8List> readBytes(url, {Map<String, String> headers});
+  FutureOr<Uint8List> readBytes(url, {Map<String, String> headers});
 
   /// Sends an HTTP request and asynchronously returns the response.
-  Future<Response> send(Request request);
+  FutureOr<Response> send(Request request);
 
   /// Closes the client and cleans up any resources associated with it.
   ///

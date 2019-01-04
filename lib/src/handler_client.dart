@@ -23,7 +23,7 @@ class HandlerClient extends BaseClient {
   final void Function() _close;
 
   @override
-  Future<Response> send(Request request) => _handler(request);
+  FutureOr<Response> send(Request request) => _handler(request);
 
   @override
   void close() {

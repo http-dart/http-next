@@ -22,34 +22,46 @@ import 'utils.dart';
 /// get various convenience methods for free.
 abstract class BaseClient implements Client {
   @override
-  Future<Response> head(url, {Map<String, String> headers}) =>
+  FutureOr<Response> head(url, {Map<String, String> headers}) =>
       send(Request.head(url, headers: headers));
 
   @override
-  Future<Response> get(url, {Map<String, String> headers}) =>
+  FutureOr<Response> get(url, {Map<String, String> headers}) =>
       send(Request.get(url, headers: headers));
 
   @override
-  Future<Response> post(url, body,
-          {Map<String, String> headers, Encoding encoding}) =>
+  FutureOr<Response> post(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  }) =>
       send(Request.post(url, body, headers: headers, encoding: encoding));
 
   @override
-  Future<Response> put(url, body,
-          {Map<String, String> headers, Encoding encoding}) =>
+  FutureOr<Response> put(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  }) =>
       send(Request.put(url, body, headers: headers, encoding: encoding));
 
   @override
-  Future<Response> patch(url, body,
-          {Map<String, String> headers, Encoding encoding}) =>
+  FutureOr<Response> patch(
+    url,
+    body, {
+    Map<String, String> headers,
+    Encoding encoding,
+  }) =>
       send(Request.patch(url, body, headers: headers, encoding: encoding));
 
   @override
-  Future<Response> delete(url, {Map<String, String> headers}) =>
+  FutureOr<Response> delete(url, {Map<String, String> headers}) =>
       send(Request.delete(url, headers: headers));
 
   @override
-  Future<String> read(url, {Map<String, String> headers}) async {
+  FutureOr<String> read(url, {Map<String, String> headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -57,7 +69,7 @@ abstract class BaseClient implements Client {
   }
 
   @override
-  Future<Uint8List> readBytes(url, {Map<String, String> headers}) async {
+  FutureOr<Uint8List> readBytes(url, {Map<String, String> headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -65,7 +77,7 @@ abstract class BaseClient implements Client {
   }
 
   @override
-  Future<Response> send(Request request);
+  FutureOr<Response> send(Request request);
 
   @override
   void close() {}

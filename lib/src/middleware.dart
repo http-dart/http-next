@@ -26,15 +26,27 @@ import 'response.dart';
 /// A simple [Middleware] can be created using [createMiddleware].
 typedef Middleware = Client Function(Client inner);
 
+/// A function which may return a modified [request].
+/// 
+/// A [RequestHandler] is used to create a [Middleware] through the
+/// [createMiddleware] function.
+typedef RequestHandler = FutureOr<Request> Function(Request request);
+
+/// A function which may return a modified [response].
+/// 
+/// A [ResponseHandler] is used to create a [Middleware] through the
+/// [createMiddleware] function.
+typedef ResponseHandler = FutureOr<Response> Function(Response response);
+
 /// Creates a [Middleware] using the provided functions.
 ///
 /// If provided, [requestHandler] receives a [Request]. It replies to the
-/// request by returning a [Future<Request>]. The modified [Request] is then
+/// request by returning a [FutureOr<Request>]. The modified [Request] is then
 /// sent to the inner [Client].
 ///
 /// If provided, [responseHandler] is called with the [Response] generated
 /// by the inner [Client]. It replies to the response by returning a
-/// [Future<Response]. The modified [Response] is then returned.
+/// [FutureOr<Response]. The modified [Response] is then returned.
 ///
 /// If provided, [onClose] will be invoked when the [Client.close] method is
 /// called. Any cleanup of resources should happen at this point.
@@ -43,22 +55,38 @@ typedef Middleware = Client Function(Client inner);
 /// does not receive errors thrown by [requestHandler] or [responseHandler].
 /// It can either return a new response or throw an error.
 Middleware createMiddleware({
-  Future<Request> requestHandler(Request request),
-  Future<Response> responseHandler(Response response),
+  RequestHandler requestHandler,
+  ResponseHandler responseHandler,
   void onClose(),
   void errorHandler(error, [StackTrace stackTrace]),
 }) {
-  requestHandler ??= (request) async => request;
-  responseHandler ??= (response) async => response;
+  requestHandler ??= _defaultRequestHandler;
+  responseHandler ??= _defaultResponseHandler;
 
   return (inner) => HandlerClient(
-      (request) => requestHandler(request)
-          .then((req) => inner.send(req))
-          .then((res) => responseHandler(res), onError: errorHandler),
-      onClose == null
-          ? inner.close
-          : () {
-              onClose();
-              inner.close();
-            });
+        (request) async {
+          try {
+            final req = await requestHandler(request);
+            final res = await inner.send(req);
+
+            return responseHandler(res);
+          } on Exception catch (e, stackTrace) {
+            errorHandler(e, stackTrace);
+          }
+        },
+        onClose == null
+            ? inner.close
+            : () {
+                onClose();
+                inner.close();
+              },
+      );
 }
+
+/// Default [RequestHandler] which just returns the given [request] without
+/// modification.
+Request _defaultRequestHandler(Request request) => request;
+
+/// Default [ResponseHandler] which just returns the given [response] without
+/// modification.
+Response _defaultResponseHandler(Response response) => response;

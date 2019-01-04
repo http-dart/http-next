@@ -48,7 +48,7 @@ class IOClient extends BaseClient {
   HttpClient _inner;
 
   @override
-  Future<Response> send(Request request) async {
+  FutureOr<Response> send(Request request) async {
     try {
       final ioRequest = await _inner.openUrl(request.method, request.url);
       final context = request.context;
