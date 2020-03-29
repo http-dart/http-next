@@ -73,6 +73,7 @@ Middleware createMiddleware({
             return responseHandler(res);
           } on Exception catch (e, stackTrace) {
             errorHandler(e, stackTrace);
+            return null;
           }
         },
         onClose == null
