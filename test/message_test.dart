@@ -253,7 +253,7 @@ void main() {
           equals('text/plain'));
     });
 
-    test('doesn\'t include parameters', () {
+    test('does not include parameters', () {
       expect(
           _createMessage(
                   headers: {'content-type': 'text/plain; foo=bar; bar=baz'})
