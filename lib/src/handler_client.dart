@@ -17,7 +17,7 @@ import 'response.dart';
 /// application.
 class HandlerClient extends BaseClient {
   /// Creates a new client using the [_handler] and [onClose] functions.
-  HandlerClient(this._handler, void onClose()) : _close = onClose;
+  HandlerClient(this._handler, void Function() onClose) : _close = onClose;
 
   final Handler _handler;
   final void Function() _close;

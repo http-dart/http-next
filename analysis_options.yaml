@@ -6,7 +6,6 @@ analyzer:
     always_specify_types: ignore
     comment_references: ignore
     flutter_style_todos: ignore
-    use_function_type_syntax_for_parameters: ignore
 
     # Turn on if Dart gets union types
     type_annotate_public_apis: ignore

@@ -39,7 +39,7 @@ abstract class Client {
   /// [FutureOr<Response>]. It will be called when [Client.send] is invoked.
   ///
   /// When [Client.close] is called the [onClose] function will be called.
-  factory Client.handler(Handler handler, {void onClose()}) =>
+  factory Client.handler(Handler handler, {void Function() onClose}) =>
       HandlerClient(handler, onClose ?? () {});
 
   /// Sends an HTTP HEAD request with the given headers to the given URL, which

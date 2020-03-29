@@ -74,6 +74,6 @@ class _EmptyHttpUnmodifiableMap<V> extends MapView<String, V>
   void addAll(Map<String, Object> other) => super.addAll({});
 
   @override
-  V putIfAbsent(String key, Object ifAbsent()) =>
+  V putIfAbsent(String key, Object Function() ifAbsent) =>
       super.putIfAbsent(key, () => null);
 }

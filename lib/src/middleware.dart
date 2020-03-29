@@ -27,13 +27,13 @@ import 'response.dart';
 typedef Middleware = Client Function(Client inner);
 
 /// A function which may return a modified [request].
-/// 
+///
 /// A [RequestHandler] is used to create a [Middleware] through the
 /// [createMiddleware] function.
 typedef RequestHandler = FutureOr<Request> Function(Request request);
 
 /// A function which may return a modified [response].
-/// 
+///
 /// A [ResponseHandler] is used to create a [Middleware] through the
 /// [createMiddleware] function.
 typedef ResponseHandler = FutureOr<Response> Function(Response response);
@@ -57,8 +57,9 @@ typedef ResponseHandler = FutureOr<Response> Function(Response response);
 Middleware createMiddleware({
   RequestHandler requestHandler,
   ResponseHandler responseHandler,
-  void onClose(),
-  void errorHandler(error, [StackTrace stackTrace]),
+  void Function() onClose,
+  // ignore: avoid_annotating_with_dynamic
+  void Function(dynamic, [StackTrace]) errorHandler,
 }) {
   requestHandler ??= _defaultRequestHandler;
   responseHandler ??= _defaultResponseHandler;

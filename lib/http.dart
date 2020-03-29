@@ -167,7 +167,7 @@ FutureOr<String> read(url, {Map<String, String> headers}) =>
 FutureOr<Uint8List> readBytes(url, {Map<String, String> headers}) =>
     _withClient((client) => client.readBytes(url, headers: headers));
 
-FutureOr<T> _withClient<T>(FutureOr<T> fn(Client client)) async {
+FutureOr<T> _withClient<T>(FutureOr<T> Function(Client client) fn) async {
   final client = Client();
   try {
     return await fn(client);
