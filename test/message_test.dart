@@ -121,8 +121,10 @@ void main() {
       final message = _createMessage(body: controller.stream);
       expect(
           message.readAsBytes(),
-          completion(
-              equals(<int>[]..addAll(_helloBytes)..addAll(_worldBytes))));
+          completion(equals(<int>[
+            ..._helloBytes,
+            ..._worldBytes,
+          ])));
 
       controller.add(_helloBytes);
       await pumpEventQueue();

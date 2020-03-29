@@ -58,9 +58,10 @@ class MultipartBody implements Body {
     var fileContentsLength = 0;
 
     for (final file in fileList) {
-      final header = <int>[]
-        ..addAll('--$boundary\r\n'.codeUnits)
-        ..addAll(utf8.encode(_headerForFile(file)));
+      final header = <int>[
+        ...'--$boundary\r\n'.codeUnits,
+        ...utf8.encode(_headerForFile(file)),
+      ];
 
       fileContentsLength += header.length + file.length + 2;
       fileHeaders.add(header);
