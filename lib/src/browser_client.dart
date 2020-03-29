@@ -16,6 +16,7 @@ import 'client.dart';
 import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
+import 'utils.dart';
 
 /// Returns a [BrowserClient].
 Client platformClient() => BrowserClient();
@@ -49,12 +50,14 @@ class BrowserClient extends BaseClient {
     final xhr = html.HttpRequest();
     _xhrs.add(xhr);
 
-    final bool withCredentials = request.context['http.html.with_credentials'];
-
     xhr
       ..open(request.method, request.url.toString())
       ..responseType = 'arraybuffer'
-      ..withCredentials = withCredentials ?? false;
+      ..withCredentials = getContext<bool>(
+        request.context,
+        'http.html.with_credentials',
+        false,
+      );
     request.headers.forEach(xhr.setRequestHeader);
 
     final completer = Completer<Response>();

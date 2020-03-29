@@ -15,6 +15,7 @@ import 'client.dart';
 import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
+import 'utils.dart';
 
 /// Returns an [IOClient].
 Client platformClient() => IOClient();
@@ -53,15 +54,22 @@ class IOClient extends BaseClient {
       final ioRequest = await _inner.openUrl(request.method, request.url);
       final context = request.context;
 
-      final bool followRedirects = context['http.io.follow_redirects'];
-      final int maxRedirects = context['http.io.max_redirects'];
-      final bool persistentConnection =
-          context['http.io.persistent_connection'];
-
       ioRequest
-        ..followRedirects = followRedirects ?? true
-        ..maxRedirects = maxRedirects ?? 5
-        ..persistentConnection = persistentConnection ?? true;
+        ..followRedirects = getContext<bool>(
+          context,
+          'http.io.follow_redirects',
+          true,
+        )
+        ..maxRedirects = getContext<int>(
+          context,
+          'http.io.max_redirects',
+          5,
+        )
+        ..persistentConnection = getContext<bool>(
+          context,
+          'http.io.persistent_connection',
+          true,
+        );
       request.headers.forEach(ioRequest.headers.set);
 
       unawaited(request.read().pipe(
