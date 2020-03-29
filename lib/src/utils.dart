@@ -43,7 +43,7 @@ String getHeader(Map<String, String> headers, String name) {
     return headers[name];
   }
 
-  for (var key in headers.keys) {
+  for (final key in headers.keys) {
     if (equalsIgnoreAsciiCase(key, name)) {
       return headers[key];
     }

@@ -101,7 +101,7 @@ class BrowserClient extends BaseClient {
 
   @override
   void close() {
-    for (var xhr in _xhrs) {
+    for (final xhr in _xhrs) {
       xhr.abort();
     }
   }

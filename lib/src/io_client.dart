@@ -114,7 +114,7 @@ class IOClient extends BaseClient {
   Uri _responseUrl(Request request, HttpClientResponse response) {
     var finalUrl = request.url;
 
-    for (var redirect in response.redirects) {
+    for (final redirect in response.redirects) {
       final location = redirect.location;
 
       // Redirects can either be absolute or relative
