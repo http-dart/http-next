@@ -42,7 +42,7 @@ class BrowserClient extends BaseClient {
   /// The currently active XHRs.
   ///
   /// These are aborted if the client is closed.
-  final _xhrs = Set<html.HttpRequest>();
+  final Set<html.HttpRequest> _xhrs = <html.HttpRequest>{};
 
   @override
   FutureOr<Response> send(Request request) async {
