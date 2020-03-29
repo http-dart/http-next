@@ -4,8 +4,6 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 
 import 'http_unmodifiable_map.dart';
@@ -32,16 +30,6 @@ final RegExp _asciiOnly = RegExp(r'^[\x00-\x7F]+$');
 /// Returns whether [string] is composed entirely of ASCII-compatible
 /// characters.
 bool isPlainAscii(String string) => _asciiOnly.hasMatch(string);
-
-/// Pipes all data and errors from [stream] into [sink].
-///
-/// Completes [Future] once [stream] is done. [sink] remains open after [stream]
-/// is done.
-Future<void> writeStreamToSink<T>(Stream<T> stream, EventSink<T> sink) {
-  final completer = Completer<void>();
-  stream.listen(sink.add, onError: sink.addError, onDone: completer.complete);
-  return completer.future;
-}
 
 /// Returns the header with the given [name] in [headers].
 ///
