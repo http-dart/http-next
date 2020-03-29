@@ -6,7 +6,7 @@ author: Don Olmstead <don.j.olmstead@gmail.com>
 homepage: https://github.com/http-dart/http-next
 
 environment:
-  sdk: '>=2.0.0 < 3.0.0'
+  sdk: '>=2.7.0 < 3.0.0'
 
 dependencies:
   async: '>=1.13.0 <3.0.0'
