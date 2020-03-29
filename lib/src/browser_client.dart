@@ -62,7 +62,8 @@ class BrowserClient extends BaseClient {
 
     final completer = Completer<Response>();
     unawaited(xhr.onLoad.first.then((_) {
-      final ByteBuffer buffer = xhr.response;
+      // ignore: avoid_as
+      final buffer = xhr.response as ByteBuffer;
       completer.complete(Response(
         xhr.responseUrl,
         xhr.status,

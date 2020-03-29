@@ -85,7 +85,8 @@ class IOClient extends BaseClient {
         reasonPhrase: response.reasonPhrase,
         body: StreamView(response).handleError(
           (error) {
-            final HttpException httpError = error;
+            // ignore: avoid_as
+            final httpError = error as HttpException;
             throw ClientException(httpError.message, httpError.uri);
           },
           test: (error) => error is HttpException,

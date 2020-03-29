@@ -72,7 +72,8 @@ class _Parse extends Matcher {
       return false;
     }
 
-    final String encoded = item;
+    // ignore: avoid_as
+    final encoded = item as String;
     dynamic parsed;
 
     try {
@@ -107,7 +108,8 @@ class _MultipartBodyMatches extends Matcher {
       return false;
     }
 
-    final http.Request request = item;
+    // ignore: avoid_as
+    final request = item as http.Request;
 
     final future = request.readAsBytes().then((bodyBytes) {
       final body = utf8.decode(bodyBytes);
