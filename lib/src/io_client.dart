@@ -7,7 +7,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:async/async.dart';
 import 'package:pedantic/pedantic.dart';
 
 import 'base_client.dart';
@@ -72,9 +71,7 @@ class IOClient extends BaseClient {
         );
       request.headers.forEach(ioRequest.headers.set);
 
-      unawaited(request.read().pipe(
-            DelegatingStreamConsumer.typed<List<int>>(ioRequest),
-          ));
+      unawaited(request.read().pipe(ioRequest));
       final response = await ioRequest.done;
 
       final headers = <String, String>{};
@@ -86,7 +83,7 @@ class IOClient extends BaseClient {
         _responseUrl(request, response),
         response.statusCode,
         reasonPhrase: response.reasonPhrase,
-        body: DelegatingStream.typed<List<int>>(response).handleError(
+        body: StreamView(response).handleError(
           (error) {
             final HttpException httpError = error;
             throw ClientException(httpError.message, httpError.uri);
