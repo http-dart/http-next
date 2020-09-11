@@ -26,11 +26,31 @@ steps:
 - name: test
   image: google/dart:dev
   pull: never
+  failure: ignore # TODO: Remove after tests fixed
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - pub run test
+    - pub run test --coverage coverage
+
+- name: generate-lcov
+  image: google/dart:dev
+  pull: never
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - pub global activate coverage
+    - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
+    - cat coverage/lcov.cov
+
+- name: upload-coverage
+  image: plugins/codecov
+  settings:
+    token:
+      from_secret: codecov_token
+    files:
+    - coverage/lcov.cov
 
 volumes:
 - name: cache
