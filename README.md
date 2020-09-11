@@ -1,5 +1,7 @@
 # http
 
+[![Build Status](https://cloud.drone.io/api/badges/http-dart/http-next/status.svg)](https://cloud.drone.io/http-dart/http-next)
+
 A composable, Future-based library for making HTTP requests.
 
 This package contains a set of high-level functions and classes that make it
