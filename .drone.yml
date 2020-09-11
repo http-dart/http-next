@@ -41,7 +41,7 @@ steps:
     path: /root/.pub-cache
   commands:
     - pub global activate coverage
-    - format_coverage --verbose --lcov --packages .packages --base-directory . --in coverage --out coverage/lcov.cov
+    - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on . --in coverage --out coverage/lcov.cov
     - cat coverage/lcov.cov
 
 volumes:
