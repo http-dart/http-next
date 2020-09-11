@@ -30,7 +30,17 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - pub run test
+    - pub run test --coverage coverage
+
+- name: generate-lcov
+  image: google/dart:dev
+  pull: never
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - pub global activate coverage
+    - format_coverage --verbose --lcov --in coverage --out coverage/lcov.cov
 
 volumes:
 - name: cache

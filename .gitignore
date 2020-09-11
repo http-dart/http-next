@@ -23,6 +23,9 @@ build/
 # Directory created by dartdoc
 doc/api/
 
+# Directory created for code coverage
+coverage/
+
 # Don't commit pubspec lock file
 # (Library packages only! Remove pattern if developing an application package)
 pubspec.lock
