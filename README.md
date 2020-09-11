@@ -1,6 +1,7 @@
 # http
 
 [![Build Status](https://cloud.drone.io/api/badges/http-dart/http-next/status.svg)](https://cloud.drone.io/http-dart/http-next)
+[![codecov](https://codecov.io/gh/http-dart/http-next/branch/master/graph/badge.svg)](https://codecov.io/gh/http-dart/http-next)
 
 A composable, Future-based library for making HTTP requests.
 
