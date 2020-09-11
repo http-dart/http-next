@@ -44,6 +44,14 @@ steps:
     - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
     - cat coverage/lcov.cov
 
+- name: upload-coverage
+  image: plugins/codecov
+  settings:
+    token:
+      from_secret: codecov_token
+    files:
+    - coverage/lcov.cov
+
 volumes:
 - name: cache
   temp: {}
