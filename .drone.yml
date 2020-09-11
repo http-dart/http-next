@@ -26,6 +26,7 @@ steps:
 - name: test
   image: google/dart:dev
   pull: never
+  failure: ignore
   volumes:
   - name: cache
     path: /root/.pub-cache
