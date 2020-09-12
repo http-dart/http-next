@@ -94,7 +94,7 @@ class Response extends Message {
       finalUrl,
       statusCode,
       reasonPhrase,
-      body ?? getBody(this),
+      body ?? getBody(),
       encoding,
       updatedHeaders,
       updatedContext,

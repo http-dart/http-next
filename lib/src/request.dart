@@ -256,7 +256,7 @@ class Request extends Message {
     return Request._(
       method,
       url,
-      body ?? getBody(this),
+      body ?? getBody(),
       encoding,
       updatedHeaders,
       updatedContext,

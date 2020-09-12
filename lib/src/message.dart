@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:meta/meta.dart';
 
 import 'body.dart';
 import 'content_type.dart';
@@ -23,12 +24,6 @@ final _defaultHeaders =
 
 /// The default media type `application/octet-stream` as defined by HTTP.
 final _defaultMediaType = MediaType('application', 'octet-stream');
-
-/// Retrieves the [Body] contained in the [message].
-///
-/// This is meant for internal use by `http` so the message body is accessible
-/// for subclasses of [Message] but hidden elsewhere.
-Body getBody(Message message) => message._body;
 
 /// Represents logic shared between [Request] and [Response].
 abstract class Message {
@@ -175,6 +170,13 @@ abstract class Message {
     Map<String, Object> context,
     body,
   });
+
+  /// Retrieves the [Body] contained in the [message].
+  ///
+  /// This is meant for internal use by `http` so the message body is accessible
+  /// for subclasses of [Message] but hidden elsewhere.
+  @protected
+  Body getBody() => _body;
 
   /// Adds information about encoding and content-type to [headers].
   ///
