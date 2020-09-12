@@ -35,11 +35,9 @@ class HttpUnmodifiableMap<V> extends UnmodifiableMapView<String, V> {
       return const _EmptyHttpUnmodifiableMap();
     }
 
-    if (ignoreKeyCase) {
-      source = CaseInsensitiveMap<V>.from(source);
-    } else {
-      source = Map<String, V>.from(source);
-    }
+    source = ignoreKeyCase
+        ? CaseInsensitiveMap<V>.from(source)
+        : Map<String, V>.from(source);
 
     return HttpUnmodifiableMap<V>._(source, ignoreKeyCase);
   }
