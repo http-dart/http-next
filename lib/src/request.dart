@@ -155,12 +155,12 @@ class Request extends Message {
     Map<String, Object> context,
     Map<String, String> fields,
     Iterable<MultipartFile> files,
+    String boundary,
   }) {
     fields ??= const {};
     files ??= const [];
     headers ??= {};
-
-    final boundary = boundaryString();
+    boundary ??= boundaryString();
 
     return Request._(
       method ?? 'POST',
