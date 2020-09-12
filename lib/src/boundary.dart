@@ -22,22 +22,40 @@ const List<int> _boundaryCharacters = <int>[
   122
 ];
 
-/// The total length of the multipart boundaries used when building the
+/// The maximum length of the multipart boundaries used when building the
 /// request body.
 ///
 /// According to http://tools.ietf.org/html/rfc1341.html, this can't be longer
 /// than 70.
-const int _boundaryLength = 70;
+const int _maxBoundaryLength = 70;
 
 final Random _random = Random();
 
-/// Returns a randomly-generated multipart boundary string
+/// Returns a randomly-generated multipart boundary string.
 String boundaryString() {
   const prefix = 'dart-http-boundary-';
   final list = List<int>.generate(
-    _boundaryLength - prefix.length,
+    _maxBoundaryLength - prefix.length,
     (index) => _boundaryCharacters[_random.nextInt(_boundaryCharacters.length)],
     growable: false,
   );
   return '$prefix${String.fromCharCodes(list)}';
+}
+
+/// Determines if the [boundary] is a valid multipart boundary string.
+bool validBoundaryString(String boundary) {
+  // Boundary string must be between 1 - 70 characters long
+  final count = boundary.length;
+  if ((count < 1) || (count > _maxBoundaryLength)) {
+    return false;
+  }
+
+  // All boundary characters must be valid
+  for (var i = 0; i < count; ++i) {
+    if (!_boundaryCharacters.contains(boundary.codeUnitAt(i))) {
+      return false;
+    }
+  }
+
+  return true;
 }

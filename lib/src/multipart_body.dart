@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:typed_data/typed_buffers.dart';
 
 import 'body.dart';
+import 'boundary.dart';
 import 'multipart_file.dart';
 import 'utils.dart';
 
@@ -26,6 +27,11 @@ class MultipartBody implements Body {
     Iterable<MultipartFile> files,
     String boundary,
   ) {
+    if (!validBoundaryString(boundary)) {
+        throw ArgumentError.value(
+            boundary, 'boundary', 'boundary string is invalid');
+    }
+
     final controller = StreamController<List<int>>(sync: true);
     final buffer = Uint8Buffer();
 
