@@ -16,7 +16,6 @@ export 'src/base_client.dart';
 export 'src/client.dart';
 export 'src/exception.dart';
 export 'src/handler.dart';
-export 'src/io_client.dart';
 export 'src/middleware.dart';
 export 'src/multipart_file.dart';
 export 'src/pipeline.dart';
