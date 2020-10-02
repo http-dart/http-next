@@ -139,7 +139,11 @@ class Request extends Message {
   /// [Request] to [url], which can be a [Uri] or a [String].
   ///
   /// The content of the body is specified through the values of [fields] and
-  /// [files].
+  /// [files]. The name for a field can be reused so the [fields] type is
+  /// treated as `Map<String, String | List<String>>`.
+  ///
+  /// The [boundary] is used to separate key value pairs within the body. If
+  /// [boundary] is `null` a random boundary string will be generated.
   ///
   /// If [method] is not specified it defaults to POST.
   ///
@@ -153,7 +157,7 @@ class Request extends Message {
     String method,
     Map<String, String> headers,
     Map<String, Object> context,
-    Map<String, String> fields,
+    Map<String, Object> fields,
     Iterable<MultipartFile> files,
     String boundary,
   }) {

@@ -21,15 +21,19 @@ import 'utils.dart';
 class MultipartBody implements Body {
   /// Creates a [MultipartBody] from the given [fields] and [files].
   ///
+  /// The content of the body is specified through the values of [fields] and
+  /// [files]. The name for a field can be reused so the [fields] type is
+  /// treated as `Map<String, String | List<String>>`.
+  ///
   /// The [boundary] is used to separate key value pairs within the body.
   factory MultipartBody(
-    Map<String, String> fields,
+    Map<String, Object> fields,
     Iterable<MultipartFile> files,
     String boundary,
   ) {
     if (!validBoundaryString(boundary)) {
-        throw ArgumentError.value(
-            boundary, 'boundary', 'boundary string is invalid');
+      throw ArgumentError.value(
+          boundary, 'boundary', 'not a valid boundary string');
     }
 
     final controller = StreamController<List<int>>(sync: true);
@@ -49,10 +53,23 @@ class MultipartBody implements Body {
 
     // Write the fields to the buffer.
     fields.forEach((name, value) {
-      writeAscii('--$boundary\r\n');
-      writeUtf8(_headerForField(name, value));
-      writeUtf8(value);
-      writeLine();
+      void writeField(String value) {
+        writeAscii('--$boundary\r\n');
+        writeUtf8(_headerForField(name, value));
+        writeUtf8(value);
+        writeLine();
+      }
+
+      if (value is List<String>) {
+        value.forEach(writeField);
+      } else if (value is String) {
+        writeField(value);
+      } else if (value == null) {
+        throw ArgumentError.notNull('field[$name]');
+      } else {
+        throw ArgumentError.value(
+            value, 'field[$name]', 'must be a String or List<String>');
+      }
     });
 
     controller.add(buffer);
