@@ -52,7 +52,7 @@ abstract class Message {
           _adjustHeaders(headers, body),
           ignoreKeyCase: true,
         ),
-        context = HttpUnmodifiableMap<Object>(context, ignoreKeyCase: false);
+        context = HttpUnmodifiableMap<Object>(context);
 
   /// The HTTP headers.
   ///
