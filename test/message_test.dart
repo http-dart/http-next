@@ -33,7 +33,7 @@ class _TestMessage extends Message {
 
   @override
   Message change(
-      {Map<String, String> headers, Map<String, Object> context, body}) {
+      {Map<String, String> headers, Map<String, Object> context, Object body}) {
     throw UnimplementedError();
   }
 }
