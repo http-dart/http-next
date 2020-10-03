@@ -3,7 +3,7 @@ kind: pipeline
 name: dart-dev
 
 steps:
-- name: dependencies
+- name: environment
   image: google/dart:dev
   pull: always
   volumes:
@@ -11,7 +11,15 @@ steps:
     path: /root/.pub-cache
   commands:
     - dart --version
-    - pub get
+
+- name: dependencies
+  image: google/dart:dev
+  pull: never
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+    - dart pub get
 
 - name: lint
   image: google/dart:dev
@@ -20,8 +28,8 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart --version
-    - dartanalyzer .
+    - dart analyze lib
+    - dart analyze test
 
 - name: test
   image: google/dart:dev
@@ -31,7 +39,7 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - pub run test --coverage coverage
+    - dart pub run test --coverage coverage
 
 - name: generate-lcov
   image: google/dart:dev
@@ -40,9 +48,8 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - pub global activate coverage
+    - dart pub global activate coverage
     - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
-    - cat coverage/lcov.cov
 
 - name: upload-coverage
   image: plugins/codecov
