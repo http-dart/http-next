@@ -21,6 +21,21 @@ void main() {
         '''));
   });
 
+  test('errors', () {
+    expect(
+        () => http.Request.multipart(
+              dummyUrl,
+              fields: <String, Object>{'foo': 2},
+            ),
+        throwsArgumentError);
+    expect(
+        () => http.Request.multipart(
+              dummyUrl,
+              fields: <String, Object>{'foo': null},
+            ),
+        throwsArgumentError);
+  });
+
   test('with fields and files', () {
     final fields = <String, String>{
       'field1': 'value1',
@@ -108,6 +123,25 @@ void main() {
         content-transfer-encoding: binary
 
         vⱥlūe
+        --{{boundary}}--
+        '''));
+  });
+
+  test('with multiple fields of the same name', () {
+    final fields = {
+      'field': ['value1', 'value2']
+    };
+    final request = http.Request.multipart(dummyUrl, fields: fields);
+
+    expect(request, multipartBodyMatches('''
+        --{{boundary}}
+        content-disposition: form-data; name="field"
+
+        value1
+        --{{boundary}}
+        content-disposition: form-data; name="field"
+
+        value2
         --{{boundary}}--
         '''));
   });
