@@ -2,6 +2,9 @@ analyzer:
   strong-mode:
     implicit-casts: false
 
+  exclude:
+    - example/*.dart
+
   errors:
     comment_references: ignore
     flutter_style_todos: ignore
