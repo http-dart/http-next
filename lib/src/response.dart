@@ -85,7 +85,7 @@ class Response extends Message {
   Response change({
     Map<String, String> headers,
     Map<String, Object> context,
-    body,
+    Object body,
   }) {
     final updatedHeaders = updateMap(this.headers, headers);
     final updatedContext = updateMap(this.context, context);

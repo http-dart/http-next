@@ -66,7 +66,7 @@ T getContext<T>(Map<String, Object> context, String name, T defaultsTo) {
 /// Returns a [Uri] from the [url], which can be a [Uri] or a [String].
 ///
 /// If the [url] is not a [Uri] or [String] an [ArgumentError] is thrown.
-Uri getUrl(url) {
+Uri getUrl(Object url) {
   if (url is Uri) {
     return url;
   } else if (url is String) {

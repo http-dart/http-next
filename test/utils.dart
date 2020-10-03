@@ -67,7 +67,7 @@ class _Parse extends Matcher {
   final Matcher _matcher;
 
   @override
-  bool matches(item, Map matchState) {
+  bool matches(Object item, Map matchState) {
     if (item is! String) {
       return false;
     }
@@ -103,7 +103,7 @@ class _MultipartBodyMatches extends Matcher {
   final String _pattern;
 
   @override
-  bool matches(item, Map matchState) {
+  bool matches(Object item, Map matchState) {
     if (item is! http.Request) {
       return false;
     }
@@ -120,7 +120,7 @@ class _MultipartBodyMatches extends Matcher {
           .replaceAll('{{boundary}}', boundary);
 
       expect(body, equals(expected));
-      expect(item.contentLength, equals(bodyBytes.length));
+      expect(request.contentLength, equals(bodyBytes.length));
     });
 
     return completes.matches(future, matchState);
@@ -134,7 +134,7 @@ class _MultipartBodyMatches extends Matcher {
 /// A matcher that matches a [http.ClientException] with the given [message].
 ///
 /// [message] can be a String or a [Matcher].
-Matcher isClientException([message]) => predicate((error) {
+Matcher isClientException([Object message]) => predicate((error) {
       expect(error, const TypeMatcher<http.ClientException>());
       if (message != null) {
         expect(error.message, message);
@@ -146,4 +146,5 @@ Matcher isClientException([message]) => predicate((error) {
 /// [http.ClientException] with the given [message].
 ///
 /// [message] can be a String or a [Matcher].
-Matcher throwsClientException([message]) => throwsA(isClientException(message));
+Matcher throwsClientException([Object message]) =>
+    throwsA(isClientException(message));

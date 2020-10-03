@@ -32,7 +32,7 @@ export 'src/response.dart';
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<Response> head(url, {Map<String, String> headers}) =>
+FutureOr<Response> head(Object url, {Map<String, String> headers}) =>
     _withClient((client) => client.head(url, headers: headers));
 
 /// Sends an HTTP GET request with the given headers to the given URL, which can
@@ -45,7 +45,7 @@ FutureOr<Response> head(url, {Map<String, String> headers}) =>
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<Response> get(url, {Map<String, String> headers}) =>
+FutureOr<Response> get(Object url, {Map<String, String> headers}) =>
     _withClient((client) => client.get(url, headers: headers));
 
 /// Sends an HTTP POST request with the given headers and body to the given URL,
@@ -69,8 +69,8 @@ FutureOr<Response> get(url, {Map<String, String> headers}) =>
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
 FutureOr<Response> post(
-  url,
-  body, {
+  Object url,
+  Object body, {
   Map<String, String> headers,
   Encoding encoding,
 }) =>
@@ -98,8 +98,8 @@ FutureOr<Response> post(
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
 FutureOr<Response> put(
-  url,
-  body, {
+  Object url,
+  Object body, {
   Map<String, String> headers,
   Encoding encoding,
 }) =>
@@ -126,8 +126,12 @@ FutureOr<Response> put(
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<Response> patch(url, body,
-        {Map<String, String> headers, Encoding encoding}) =>
+FutureOr<Response> patch(
+  Object url,
+  Object body, {
+  Map<String, String> headers,
+  Encoding encoding,
+}) =>
     _withClient((client) =>
         client.patch(url, body, headers: headers, encoding: encoding));
 
@@ -137,7 +141,7 @@ FutureOr<Response> patch(url, body,
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<Response> delete(url, {Map<String, String> headers}) =>
+FutureOr<Response> delete(Object url, {Map<String, String> headers}) =>
     _withClient((client) => client.delete(url, headers: headers));
 
 /// Sends an HTTP GET request with the given headers to the given URL, which can
@@ -150,7 +154,7 @@ FutureOr<Response> delete(url, {Map<String, String> headers}) =>
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<String> read(url, {Map<String, String> headers}) =>
+FutureOr<String> read(Object url, {Map<String, String> headers}) =>
     _withClient((client) => client.read(url, headers: headers));
 
 /// Sends an HTTP GET request with the given headers to the given URL, which can
@@ -163,7 +167,7 @@ FutureOr<String> read(url, {Map<String, String> headers}) =>
 /// This automatically initializes a new [Client] and closes that client once
 /// the request is complete. If you're planning on making multiple requests to
 /// the same server, you should use a single [Client] for all of those requests.
-FutureOr<Uint8List> readBytes(url, {Map<String, String> headers}) =>
+FutureOr<Uint8List> readBytes(Object url, {Map<String, String> headers}) =>
     _withClient((client) => client.readBytes(url, headers: headers));
 
 FutureOr<T> _withClient<T>(FutureOr<T> Function(Client client) fn) async {

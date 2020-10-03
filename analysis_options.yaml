@@ -11,9 +11,6 @@ analyzer:
     prefer_double_quotes: ignore
     unnecessary_final: ignore
 
-    # Turn on if Dart gets union types
-    type_annotate_public_apis: ignore
-
 linter:
   rules:
     - always_declare_return_types

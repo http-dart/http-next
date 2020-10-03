@@ -22,17 +22,17 @@ import 'utils.dart';
 /// get various convenience methods for free.
 abstract class BaseClient implements Client {
   @override
-  FutureOr<Response> head(url, {Map<String, String> headers}) =>
+  FutureOr<Response> head(Object url, {Map<String, String> headers}) =>
       send(Request.head(url, headers: headers));
 
   @override
-  FutureOr<Response> get(url, {Map<String, String> headers}) =>
+  FutureOr<Response> get(Object url, {Map<String, String> headers}) =>
       send(Request.get(url, headers: headers));
 
   @override
   FutureOr<Response> post(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Map<String, String> headers,
     Encoding encoding,
   }) =>
@@ -40,8 +40,8 @@ abstract class BaseClient implements Client {
 
   @override
   FutureOr<Response> put(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Map<String, String> headers,
     Encoding encoding,
   }) =>
@@ -49,19 +49,19 @@ abstract class BaseClient implements Client {
 
   @override
   FutureOr<Response> patch(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Map<String, String> headers,
     Encoding encoding,
   }) =>
       send(Request.patch(url, body, headers: headers, encoding: encoding));
 
   @override
-  FutureOr<Response> delete(url, {Map<String, String> headers}) =>
+  FutureOr<Response> delete(Object url, {Map<String, String> headers}) =>
       send(Request.delete(url, headers: headers));
 
   @override
-  FutureOr<String> read(url, {Map<String, String> headers}) async {
+  FutureOr<String> read(Object url, {Map<String, String> headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -69,7 +69,10 @@ abstract class BaseClient implements Client {
   }
 
   @override
-  FutureOr<Uint8List> readBytes(url, {Map<String, String> headers}) async {
+  FutureOr<Uint8List> readBytes(
+    Object url, {
+    Map<String, String> headers,
+  }) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -83,7 +86,7 @@ abstract class BaseClient implements Client {
   void close() {}
 
   /// Throws an error if [response] is not successful.
-  void _checkResponseSuccess(url, Response response) {
+  void _checkResponseSuccess(Object url, Response response) {
     if (response.statusCode < 400) {
       return;
     }

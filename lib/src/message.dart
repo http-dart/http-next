@@ -168,7 +168,7 @@ abstract class Message {
   Message change({
     Map<String, String> headers,
     Map<String, Object> context,
-    body,
+    Object body,
   });
 
   /// Retrieves the [Body] contained in the [message].
