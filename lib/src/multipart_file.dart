@@ -29,7 +29,7 @@ class MultipartFile {
   /// for [List<int>].
   factory MultipartFile(
     String field,
-    value, {
+    Object value, {
     String filename,
     MediaType contentType,
     Encoding encoding,
