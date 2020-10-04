@@ -12,11 +12,11 @@ import 'package:async/async.dart';
 import 'package:pedantic/pedantic.dart';
 
 import 'base_client.dart';
+import 'browser_client_context.dart';
 import 'client.dart';
 import 'exception.dart';
 import 'request.dart';
 import 'response.dart';
-import 'utils.dart';
 
 /// Returns a [BrowserClient].
 Client platformClient() => BrowserClient();
@@ -53,11 +53,7 @@ class BrowserClient extends BaseClient {
     xhr
       ..open(request.method, request.url.toString())
       ..responseType = 'arraybuffer'
-      ..withCredentials = getContext<bool>(
-        request.context,
-        'http.html.with_credentials',
-        false,
-      );
+      ..withCredentials = request.withCredentials;
     request.headers.forEach(xhr.setRequestHeader);
 
     final completer = Completer<Response>();
