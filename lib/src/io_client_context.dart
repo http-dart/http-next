@@ -42,7 +42,7 @@ extension IOClientContext on Request {
     int maxRedirects,
     bool persistentConnection,
   }) {
-    final context = <String, dynamic>{};
+    final context = <String, Object>{};
 
     if (followRedirects != null) {
       context[_followRedirectsKey] = followRedirects;
