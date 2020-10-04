@@ -29,8 +29,8 @@ class Request extends Message {
   /// and handlers.
   Request(
     String method,
-    url, {
-    body,
+    Object url, {
+    Object body,
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -43,8 +43,11 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.head(url, {Map<String, String> headers, Map<String, Object> context})
-      : this('HEAD', url, headers: headers, context: context);
+  Request.head(
+    Object url, {
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('HEAD', url, headers: headers, context: context);
 
   /// Creates a new GET [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -53,8 +56,11 @@ class Request extends Message {
   ///
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
-  Request.get(url, {Map<String, String> headers, Map<String, Object> context})
-      : this('GET', url, headers: headers, context: context);
+  Request.get(
+    Object url, {
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) : this('GET', url, headers: headers, context: context);
 
   /// Creates a new POST [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -69,8 +75,8 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.post(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -90,8 +96,8 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.put(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -112,8 +118,8 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.patch(
-    url,
-    body, {
+    Object url,
+    Object body, {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -129,7 +135,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.delete(
-    url, {
+    Object url, {
     Map<String, String> headers,
     Map<String, Object> context,
   }) : this('DELETE', url, headers: headers, context: context);
@@ -153,7 +159,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   factory Request.multipart(
-    url, {
+    Object url, {
     String method,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -194,7 +200,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   factory Request.urlEncoded(
-    url,
+    Object url,
     Map<String, String> body, {
     String method,
     Encoding encoding,
@@ -222,7 +228,7 @@ class Request extends Message {
   Request._(
     this.method,
     this.url,
-    body,
+    Object body,
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,

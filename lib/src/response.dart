@@ -27,10 +27,10 @@ class Response extends Message {
   /// Extra [context] can be used to pass information between outer middleware
   /// and handlers.
   Response(
-    finalUrl,
+    Object finalUrl,
     int statusCode, {
     String reasonPhrase,
-    body,
+    Object body,
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -48,7 +48,7 @@ class Response extends Message {
     this.finalUrl,
     this.statusCode,
     this.reasonPhrase,
-    body,
+    Object body,
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,

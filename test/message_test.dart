@@ -27,9 +27,12 @@ final _helloBytes = ascii.encode('hello,');
 final _worldBytes = ascii.encode(' world');
 
 class _TestMessage extends Message {
-  _TestMessage(Map<String, String> headers, Map<String, Object> context, body,
-      Encoding encoding)
-      : super(body, headers: headers, context: context, encoding: encoding);
+  _TestMessage(
+    Map<String, String> headers,
+    Map<String, Object> context,
+    Object body,
+    Encoding encoding,
+  ) : super(body, headers: headers, context: context, encoding: encoding);
 
   @override
   Message change(
@@ -38,11 +41,12 @@ class _TestMessage extends Message {
   }
 }
 
-Message _createMessage(
-        {Map<String, String> headers,
-        Map<String, Object> context,
-        body,
-        Encoding encoding}) =>
+Message _createMessage({
+  Map<String, String> headers,
+  Map<String, Object> context,
+  Object body,
+  Encoding encoding,
+}) =>
     _TestMessage(headers, context, body, encoding);
 
 void main() {

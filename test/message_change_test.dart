@@ -29,11 +29,11 @@ void main() {
 /// Shared test method used by [Request] and [Response] tests to validate
 /// the behavior of `change` with different `headers` and `context` values.
 void _testChange(
-  Message Function(
-          // ignore: avoid_annotating_with_dynamic
-          {dynamic body,
-          Map<String, String> headers,
-          Map<String, Object> context})
+  Message Function({
+    Object body,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  })
       factory,
 ) {
   group('body', () {

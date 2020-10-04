@@ -21,7 +21,7 @@ extension BrowserClientContext on Request {
   Request changeBrowserClientContext({
     bool withCredentials,
   }) {
-    final context = <String, dynamic>{};
+    final context = <String, Object>{};
 
     if (withCredentials != null) {
       context[_withCredentialsKey] = withCredentials;

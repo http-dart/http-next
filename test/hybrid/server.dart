@@ -71,7 +71,7 @@ Future<void> hybridMain(StreamChannel channel) async {
       return shelf.Response.ok(Stream.fromIterable([ascii.encode('body')]));
     }
 
-    final content = <String, dynamic>{
+    final content = <String, Object>{
       'method': request.method,
       'path': request.url.path,
       'headers': <String, String>{}

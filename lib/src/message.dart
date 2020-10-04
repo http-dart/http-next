@@ -40,7 +40,7 @@ abstract class Message {
   /// in [headers] will be set appropriately. If there is no existing
   /// Content-Type header, it will be set to "application/octet-stream".
   Message(
-    body, {
+    Object body, {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
