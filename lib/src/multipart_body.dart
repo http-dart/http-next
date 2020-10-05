@@ -179,9 +179,11 @@ class MultipartBody implements Body {
     var header = 'content-type: ${file.contentType}\r\n'
         'content-disposition: form-data; name="${_browserEncode(file.field)}"';
 
-    if (file.filename != null) {
-      header = '$header; filename="${_browserEncode(file.filename)}"';
+    final filename = file.filename;
+    if (filename.isNotEmpty) {
+      header = '$header; filename="${_browserEncode(filename)}"';
     }
+
     return '$header\r\n\r\n';
   }
 
