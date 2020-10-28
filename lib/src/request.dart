@@ -167,9 +167,8 @@ class Request extends Message {
     Iterable<MultipartFile> files,
     String boundary,
   }) {
-    fields ??= const {};
-    files ??= const [];
-    headers ??= {};
+    fields ??= const <String, Object>{};
+    files ??= const <MultipartFile>[];
     boundary ??= boundaryString();
 
     return Request._(
@@ -178,8 +177,10 @@ class Request extends Message {
       MultipartBody(fields, files, boundary),
       null,
       updateMap(
+        <String, String>{
+          'content-type': 'multipart/form-data; boundary=$boundary'
+        },
         headers,
-        {'content-type': 'multipart/form-data; boundary=$boundary'},
       ),
       context,
     );
@@ -220,7 +221,12 @@ class Request extends Message {
       getUrl(url),
       pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
       null,
-      updateMap(headers, {'content-type': 'application/x-www-form-urlencoded'}),
+      updateMap(
+        const <String, String>{
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        headers,
+      ),
       context,
     );
   }
