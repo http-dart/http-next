@@ -52,6 +52,7 @@ class MultipartFile {
       );
     }
 
+    filename ??= '';
     contentType ??= _lookUpMediaType(filename, bytes) ?? defaultMediaType;
 
     if (encoding != null) {
@@ -59,8 +60,12 @@ class MultipartFile {
     }
 
     return MultipartFile.fromStream(
-        field, Stream.fromIterable([bytes]), bytes.length,
-        filename: filename, contentType: contentType);
+      field,
+      Stream.fromIterable([bytes]),
+      bytes.length,
+      filename: filename,
+      contentType: contentType,
+    );
   }
 
   /// Creates a new [MultipartFile] from a chunked [stream] of bytes.
@@ -74,11 +79,12 @@ class MultipartFile {
     this.field,
     Stream<List<int>> stream,
     this.length, {
-    this.filename,
+    String filename,
     MediaType contentType,
   })  : _stream = stream,
+        filename = filename ?? '',
         contentType = contentType ??
-            _lookUpMediaType(filename) ??
+            _lookUpMediaType(filename ?? '') ??
             MediaType('application', 'octet-stream');
 
   /// The stream that will emit the file's contents.
@@ -93,7 +99,9 @@ class MultipartFile {
   /// [Stream].
   final int length;
 
-  /// The basename of the file. May be null.
+  /// The basename of the file.
+  ///
+  /// If unspecified the value will be the empty string.
   final String filename;
 
   /// The content-type of the file.
@@ -117,8 +125,12 @@ class MultipartFile {
   }) async {
     final bytes = await collectBytes(stream);
 
-    return MultipartFile(field, bytes,
-        filename: filename, contentType: contentType);
+    return MultipartFile(
+      field,
+      bytes,
+      filename: filename,
+      contentType: contentType,
+    );
   }
 
   /// Returns a [Stream] representing the contents of the file.
@@ -137,14 +149,11 @@ class MultipartFile {
   /// Looks up the [MediaType] from the [filename]'s extension or from
   /// magic numbers contained within a file header's [bytes].
   static MediaType _lookUpMediaType(String filename, [List<int> bytes]) {
-    if (filename == null && bytes == null) {
+    if (filename.isEmpty && bytes == null) {
       return null;
     }
 
-    // lookupMimeType expects filename to be non-null but its possible that
-    // this can be called with bytes but no filename.
-    // FIXME: https://github.com/dart-lang/mime/issues/11
-    final mimeType = lookupMimeType(filename ?? '', headerBytes: bytes);
+    final mimeType = lookupMimeType(filename, headerBytes: bytes);
 
     return mimeType != null ? MediaType.parse(mimeType) : null;
   }
