@@ -138,6 +138,15 @@ abstract class Message {
 
   MediaType _contentTypeCache;
 
+  /// Determines if the MIME type declared in [headers] is of the same [type]
+  /// and optional [subtype].
+  bool isMimeType(String type, [String subtype]) {
+    final mimeType = _contentType;
+    final subtypeMatch = subtype == null || subtype == mimeType.subtype;
+
+    return type == mimeType.type && subtypeMatch;
+  }
+
   /// Returns the message body as byte chunks.
   ///
   /// Throws a [StateError] if [read] or [readAsBytes] or [readAsString] has
