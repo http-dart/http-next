@@ -58,8 +58,7 @@ Middleware createMiddleware({
   RequestHandler requestHandler,
   ResponseHandler responseHandler,
   void Function() onClose,
-  // ignore: avoid_annotating_with_dynamic
-  void Function(dynamic, [StackTrace]) errorHandler,
+  void Function(Exception, [StackTrace]) errorHandler,
 }) {
   requestHandler ??= _defaultRequestHandler;
   responseHandler ??= _defaultResponseHandler;
