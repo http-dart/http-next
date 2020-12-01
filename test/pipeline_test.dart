@@ -103,10 +103,13 @@ void main() {
     const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
-        .addClient(Client.handler((request) async => null, onClose: () {
-          expect(accessLocation, 2);
-          accessLocation = 3;
-        }))
+        .addClient(Client.handler(
+          (request) async => Response(Uri.parse('dart:http'), 200),
+          onClose: () {
+            expect(accessLocation, 2);
+            accessLocation = 3;
+          },
+        ))
         .close();
 
     expect(accessLocation, 3);
