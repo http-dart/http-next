@@ -9,7 +9,7 @@ class ClientException implements Exception {
   /// Creates a [ClientException] explained in [message].
   ///
   /// The [uri] points to the URL being requested if applicable.
-  ClientException(this.message, [this.uri]);
+  ClientException(this.message, this.uri);
 
   /// Message describing the problem.
   final String message;
