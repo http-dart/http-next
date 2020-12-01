@@ -15,15 +15,13 @@ import 'package:meta/meta.dart';
 import 'body.dart';
 import 'content_type.dart';
 import 'http_unmodifiable_map.dart';
+import 'mime_types.dart';
 import 'utils.dart';
 
 /// The default set of headers for a message created with no body and no
 /// explicit headers.
 final _defaultHeaders =
     HttpUnmodifiableMap<String>({'content-length': '0'}, ignoreKeyCase: true);
-
-/// The default media type `application/octet-stream` as defined by HTTP.
-final _defaultMediaType = MediaType('application', 'octet-stream');
 
 /// Represents logic shared between [Request] and [Response].
 abstract class Message {
@@ -256,7 +254,7 @@ abstract class Message {
       mediaType = MediaType.parse(contentTypeHeader);
       mediaEncoding = Encoding.getByName(mediaType.parameters['charset']);
     } else {
-      mediaType = _defaultMediaType;
+      mediaType = octetStreamMediaType();
     }
 
     if (body.encoding != null && body.encoding != mediaEncoding) {
