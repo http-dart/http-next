@@ -11,6 +11,8 @@ import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
+import 'mime_types.dart';
+
 /// A file to be uploaded as part of a `multipart/form-data` Request.
 ///
 /// This doesn't need to correspond to a physical file.
@@ -40,10 +42,10 @@ class MultipartFile {
     if (value is String) {
       encoding ??= utf8;
       bytes = encoding.encode(value);
-      defaultMediaType = MediaType('text', 'plain');
+      defaultMediaType = plainTextMediaType();
     } else if (value is List<int>) {
       bytes = value;
-      defaultMediaType = MediaType('application', 'octet-stream');
+      defaultMediaType = octetStreamMediaType();
     } else {
       throw ArgumentError.value(
         value,
@@ -85,7 +87,7 @@ class MultipartFile {
         filename = filename ?? '',
         contentType = contentType ??
             _lookUpMediaType(filename ?? '') ??
-            MediaType('application', 'octet-stream');
+            octetStreamMediaType();
 
   /// The stream that will emit the file's contents.
   Stream<List<int>> _stream;
