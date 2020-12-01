@@ -60,14 +60,17 @@ class IOClient extends BaseClient {
           (error) {
             // ignore: avoid_as
             final httpError = error as HttpException;
-            throw ClientException(httpError.message, httpError.uri);
+            throw ClientException(
+              httpError.message,
+              httpError.uri ?? request.url,
+            );
           },
           test: (error) => error is HttpException,
         ),
         headers: headers,
       );
     } on HttpException catch (error) {
-      throw ClientException(error.message, error.uri);
+      throw ClientException(error.message, error.uri ?? request.url);
     } on SocketException catch (error) {
       throw ClientException(error.message, request.url);
     }
