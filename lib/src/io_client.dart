@@ -75,10 +75,7 @@ class IOClient extends BaseClient {
 
   @override
   void close() {
-    if (_inner != null) {
-      _inner.close(force: true);
-    }
-
+    _inner?.close(force: true);
     _inner = null;
   }
 
