@@ -92,8 +92,7 @@ class Body {
   /// Can only be called once.
   Stream<List<int>> read() {
     if (_stream == null) {
-      throw StateError('The `read` method can only be called once on a '
-          'http.Request/http.Response object.');
+      throw StateError('The `read` method can only be called once on a Body.');
     }
 
     final stream = _stream;
