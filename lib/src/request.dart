@@ -140,6 +140,39 @@ class Request extends Message {
     Map<String, Object> context,
   }) : this('DELETE', url, headers: headers, context: context);
 
+  /// Creates a new [`application/json`](https://www.ietf.org/rfc/rfc4627.txt)
+  /// [Request] to the [url], which can be a [Uri] or a [String].
+  ///
+  /// The [body] is converted using a [JsonEncoder] into a [String]. [encoding]
+  /// is used to encode the values in the body. It defaults to UTF-8.
+  ///
+  /// If [method] is not specified it defaults to `POST`.
+  ///
+  /// [headers] are the HTTP headers for the request. If [headers] is `null`,
+  /// it is treated as empty.
+  ///
+  /// Extra [context] can be used to pass information between inner middleware
+  /// and handlers.
+  factory Request.json(
+    Object url,
+    Object body, {
+    String method,
+    Encoding encoding,
+    Map<String, String> headers,
+    Map<String, Object> context,
+  }) =>
+      Request._(
+        method ?? 'POST',
+        getUrl(url),
+        jsonEncode(body),
+        encoding ?? utf8,
+        updateMap(
+          const <String, String>{'content-type': 'application/json'},
+          headers,
+        ),
+        context,
+      );
+
   /// Creates a new
   /// [`multipart/form-data`](https://en.wikipedia.org/wiki/MIME#Multipart_messages)
   /// [Request] to [url], which can be a [Uri] or a [String].
