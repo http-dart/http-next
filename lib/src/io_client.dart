@@ -9,7 +9,6 @@ import 'dart:io';
 
 import 'package:pedantic/pedantic.dart';
 
-import 'base_client.dart';
 import 'client.dart';
 import 'exception.dart';
 import 'io_client_context.dart';
@@ -25,7 +24,7 @@ Client platformClient() => IOClient();
 ///
 /// You can control the underlying `dart:io` [HttpRequest] by adding values to
 /// [Request.context] through [IOClientContext].
-class IOClient extends BaseClient {
+class IOClient implements Client {
   /// Creates a new HTTP client.
   IOClient([HttpClient inner]) : _inner = inner ?? HttpClient();
 

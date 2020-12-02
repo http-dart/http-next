@@ -11,7 +11,6 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:pedantic/pedantic.dart';
 
-import 'base_client.dart';
 import 'browser_client_context.dart';
 import 'client.dart';
 import 'exception.dart';
@@ -35,7 +34,7 @@ Client platformClient() => BrowserClient();
 /// * `"http.html.with_credentials"` is a boolean that defaults to `false`. If
 ///   it's `true`, cross-site requests will include credentials such as cookies
 ///   or authorization headers. See also [HttpRequest.withCredentials].
-class BrowserClient extends BaseClient {
+class BrowserClient implements Client {
   /// Creates a new HTTP client.
   BrowserClient();
 

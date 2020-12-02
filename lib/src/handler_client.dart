@@ -6,7 +6,7 @@
 
 import 'dart:async';
 
-import 'base_client.dart';
+import 'client.dart';
 import 'handler.dart';
 import 'request.dart';
 import 'response.dart';
@@ -15,7 +15,7 @@ import 'response.dart';
 ///
 /// The [HandlerClient] allows composition of a [Client] within a larger
 /// application.
-class HandlerClient extends BaseClient {
+class HandlerClient implements Client {
   /// Creates a new client using the [_handler] and [onClose] functions.
   HandlerClient(this._handler, void Function() onClose) : _close = onClose;
 
