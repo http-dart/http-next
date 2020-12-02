@@ -67,7 +67,7 @@ class _Parse extends Matcher {
   final Matcher _matcher;
 
   @override
-  bool matches(Object item, Map matchState) {
+  bool matches(Object item, Map<dynamic, dynamic> matchState) {
     if (item is! String) {
       return false;
     }
@@ -103,7 +103,7 @@ class _MultipartBodyMatches extends Matcher {
   final String _pattern;
 
   @override
-  bool matches(Object item, Map matchState) {
+  bool matches(Object item, Map<dynamic, dynamic> matchState) {
     if (item is! http.Request) {
       return false;
     }

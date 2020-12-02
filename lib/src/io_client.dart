@@ -52,21 +52,15 @@ class IOClient extends BaseClient {
         headers[key] = values.join(',');
       });
 
+      void _streamErrorHandler(HttpException error) =>
+          throw ClientException(error.message, error.uri ?? request.url);
+
       return Response(
         _responseUrl(request, response),
         response.statusCode,
         reasonPhrase: response.reasonPhrase,
-        body: StreamView(response).handleError(
-          (error) {
-            // ignore: avoid_as
-            final httpError = error as HttpException;
-            throw ClientException(
-              httpError.message,
-              httpError.uri ?? request.url,
-            );
-          },
-          test: (error) => error is HttpException,
-        ),
+        body: StreamView(response)
+            .handleError(_streamErrorHandler, test: _isHttpException),
         headers: headers,
       );
     } on HttpException catch (error) {
@@ -96,4 +90,7 @@ class IOClient extends BaseClient {
 
     return finalUrl;
   }
+
+  /// Determines if the [value] is a [HttpException].
+  static bool _isHttpException(Object value) => value is HttpException;
 }

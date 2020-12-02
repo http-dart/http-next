@@ -127,7 +127,7 @@ class MultipartBody implements Body {
   }
 
   /// Writes the [files] to the [controller].
-  static Future _writeFilesToStream(
+  static Future<void> _writeFilesToStream(
     StreamController<List<int>> controller,
     List<MultipartFile> files,
     List<List<int>> fileHeaders,
