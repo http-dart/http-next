@@ -6,8 +6,9 @@
 
 /// A composable, [Future]-based library for making HTTP requests.
 
-export 'src/base_client.dart';
 export 'src/client.dart';
+export 'src/client_methods.dart';
+export 'src/client_reader.dart';
 export 'src/exception.dart';
 export 'src/handler.dart';
 export 'src/middleware.dart';
