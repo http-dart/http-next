@@ -12,6 +12,7 @@ import 'package:async/async.dart';
 import 'client.dart';
 import 'client_methods.dart';
 import 'exception.dart';
+import 'json_message.dart';
 import 'response.dart';
 import 'text_message.dart';
 import 'utils.dart';
@@ -52,6 +53,22 @@ extension ClientReader on Client {
     _checkResponseSuccess(url, response);
 
     return collectBytes(response.read());
+  }
+
+  /// Sends an HTTP GET request with the given [headers] to the given [url],
+  /// which can be a [Uri] or a [String], and returns a Future that completes
+  /// to the body of the response as a JSON.
+  ///
+  /// The Future will emit a [ClientException] if the response doesn't have a
+  /// success status code.
+  ///
+  /// For more fine-grained control over the request and response, use [send] or
+  /// [get] instead.
+  FutureOr<T> readJson<T>(Object url, {Map<String, String> headers}) async {
+    final response = await get(url, headers: headers);
+    _checkResponseSuccess(url, response);
+
+    return response.readJson<T>();
   }
 
   /// Throws an error if [response] is not successful.

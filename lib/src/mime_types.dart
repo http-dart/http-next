@@ -17,6 +17,9 @@ const String plainTextSubtype = 'plain';
 /// The octet stream mime subtype.
 const String octetStreamSubtype = 'octet-stream';
 
+/// The JSON subtype.
+const String jsonSubtype = 'json';
+
 /// A `text/plain` media type.
 ///
 /// This is the default media type for text data.
