@@ -19,14 +19,22 @@ void main() {
   group('client', () {
     // The server url of the spawned server
     Uri serverUrl;
+    // The HTTP client to use
+    Client client;
 
-    setUp(() async {
+    setUpAll(() async {
       final channel = spawnHybridUri('hybrid/server.dart');
       serverUrl = Uri.parse(await channel.stream.cast<String>().first);
+
+      client = Client();
+    });
+
+    tearDownAll(() {
+      client.close();
     });
 
     test('head', () async {
-      final response = await Client().head(serverUrl);
+      final response = await client.head(serverUrl);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -34,7 +42,7 @@ void main() {
     });
 
     test('get', () async {
-      final response = await Client().get(serverUrl, headers: {
+      final response = await client.get(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -56,7 +64,7 @@ void main() {
     });
 
     test('post with string', () async {
-      final response = await Client().post(serverUrl, 'request body', headers: {
+      final response = await client.post(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -80,7 +88,7 @@ void main() {
     });
 
     test('post with string and encoding', () async {
-      final response = await Client()
+      final response = await client
           .post(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
@@ -107,7 +115,7 @@ void main() {
 
     test('post with bytes', () async {
       final response =
-          await Client().post(serverUrl, ascii.encode('hello'), headers: {
+          await client.post(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -142,7 +150,7 @@ void main() {
         },
       );
 
-      final response = await Client().send(request);
+      final response = await client.send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -163,7 +171,7 @@ void main() {
     });
 
     test('put with string', () async {
-      final response = await Client().put(serverUrl, 'request body', headers: {
+      final response = await client.put(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -187,8 +195,8 @@ void main() {
     });
 
     test('put with string and encoding', () async {
-      final response = await Client()
-          .put(serverUrl, 'request body', encoding: utf8, headers: {
+      final response =
+          await client.put(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -214,7 +222,7 @@ void main() {
 
     test('put with bytes', () async {
       final response =
-          await Client().put(serverUrl, ascii.encode('hello'), headers: {
+          await client.put(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -248,7 +256,7 @@ void main() {
           'User-Agent': userAgent()
         },
       );
-      final response = await Client().send(request);
+      final response = await client.send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -269,8 +277,7 @@ void main() {
     });
 
     test('patch with string', () async {
-      final response =
-          await Client().patch(serverUrl, 'request body', headers: {
+      final response = await client.patch(serverUrl, 'request body', headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -294,7 +301,7 @@ void main() {
     });
 
     test('patch with string and encoding', () async {
-      final response = await Client()
+      final response = await client
           .patch(serverUrl, 'request body', encoding: utf8, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
@@ -321,7 +328,7 @@ void main() {
 
     test('patch with bytes', () async {
       final response =
-          await Client().patch(serverUrl, ascii.encode('hello'), headers: {
+          await client.patch(serverUrl, ascii.encode('hello'), headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -355,7 +362,7 @@ void main() {
           'User-Agent': userAgent()
         },
       );
-      final response = await Client().send(request);
+      final response = await client.send(request);
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
@@ -376,7 +383,7 @@ void main() {
     });
 
     test('delete', () async {
-      final response = await Client().delete(serverUrl, headers: {
+      final response = await client.delete(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -399,7 +406,7 @@ void main() {
     });
 
     test('read', () async {
-      final body = await Client().read(serverUrl, headers: {
+      final body = await client.read(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -419,12 +426,12 @@ void main() {
     });
 
     test('read throws an error for a 4** status code', () async {
-      expect(() => Client().read(serverUrl.resolve('/error')),
+      expect(() => client.read(serverUrl.resolve('/error')),
           throwsClientException());
     });
 
     test('readBytes', () async {
-      final body = await Client().readBytes(serverUrl, headers: {
+      final body = await client.readBytes(serverUrl, headers: {
         'X-Random-Header': 'Value',
         'X-Other-Header': 'Other Value',
         'User-Agent': userAgent()
@@ -444,7 +451,7 @@ void main() {
     });
 
     test('readBytes throws an error for a 4** status code', () async {
-      expect(() => Client().readBytes(serverUrl.resolve('/error')),
+      expect(() => client.readBytes(serverUrl.resolve('/error')),
           throwsClientException());
     });
   });
