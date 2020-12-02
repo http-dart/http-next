@@ -14,7 +14,6 @@ steps:
 
 - name: dependencies
   image: google/dart:dev
-  pull: never
   volumes:
   - name: cache
     path: /root/.pub-cache
@@ -23,7 +22,6 @@ steps:
 
 - name: lint
   image: google/dart:dev
-  pull: never
   volumes:
   - name: cache
     path: /root/.pub-cache
@@ -33,17 +31,15 @@ steps:
 
 - name: test
   image: google/dart:dev
-  pull: never
   failure: ignore # TODO: Remove after tests fixed
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart pub run test --coverage coverage
+    - dart run test --coverage coverage
 
 - name: generate-lcov
   image: google/dart:dev
-  pull: never
   volumes:
   - name: cache
     path: /root/.pub-cache
