@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:test/test.dart';
 
 import 'package:http_next/src/message.dart';
+import 'package:http_next/src/text_message.dart';
 
 /// A non-ASCII string.
 const _nonAscii = 'föøbãr';
