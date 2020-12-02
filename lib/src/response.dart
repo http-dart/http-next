@@ -6,8 +6,6 @@
 
 import 'dart:convert';
 
-import 'package:http_parser/http_parser.dart';
-
 import 'message.dart';
 import 'utils.dart';
 
@@ -100,43 +98,4 @@ class Response extends Message {
       updatedContext,
     );
   }
-
-  /// The date and time after which the response's data should be considered
-  /// stale.
-  ///
-  /// This is parsed from the Expires header in [headers]. If [headers] doesn't
-  /// have an Expires header, this will be `null`.
-  DateTime get expires {
-    if (_expiresCache != null) {
-      return _expiresCache;
-    }
-
-    final expiresHeader = getHeader(headers, 'expires');
-    if (expiresHeader == null) {
-      return null;
-    }
-
-    return _expiresCache = parseHttpDate(expiresHeader);
-  }
-
-  DateTime _expiresCache;
-
-  /// The date and time the source of the response's data was last modified.
-  ///
-  /// This is parsed from the Last-Modified header in [headers]. If [headers]
-  /// doesn't have a Last-Modified header, this will be `null`.
-  DateTime get lastModified {
-    if (_lastModifiedCache != null) {
-      return _lastModifiedCache;
-    }
-
-    final lastModifiedHeader = getHeader(headers, 'last-modified');
-    if (lastModifiedHeader == null) {
-      return null;
-    }
-
-    return _lastModifiedCache = parseHttpDate(lastModifiedHeader);
-  }
-
-  DateTime _lastModifiedCache;
 }
