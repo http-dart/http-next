@@ -13,6 +13,7 @@ import 'client.dart';
 import 'client_methods.dart';
 import 'exception.dart';
 import 'response.dart';
+import 'text_message.dart';
 import 'utils.dart';
 
 /// Convenience methods for HTTP GET requests that return the body of the

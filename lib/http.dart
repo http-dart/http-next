@@ -16,3 +16,4 @@ export 'src/multipart_file.dart';
 export 'src/pipeline.dart';
 export 'src/request.dart';
 export 'src/response.dart';
+export 'src/text_message.dart';
