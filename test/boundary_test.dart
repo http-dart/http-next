@@ -8,6 +8,8 @@ import 'package:test/test.dart';
 import 'package:http_next/http.dart';
 import 'package:http_next/src/boundary.dart';
 
+import 'utils.dart';
+
 final _validBoundaries = [
   // 1 character is fine
   'd',
@@ -48,10 +50,9 @@ void main() {
   });
 
   test('invalid boundary in multipart', () {
-    final url = Uri.parse('http://localhost/');
     for (final boundary in _invalidBoundaries) {
       expect(
-        () => Request.multipart(url, boundary: boundary),
+        () => Request.multipart(dummyUrl, boundary: boundary),
         throwsArgumentError,
       );
     }

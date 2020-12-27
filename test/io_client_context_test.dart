@@ -8,13 +8,15 @@ import 'package:test/test.dart';
 import 'package:http_next/http.dart';
 import 'package:http_next/io_client.dart';
 
+import 'utils.dart';
+
 const String _followRedirects = 'http.io.follow_redirects';
 const String _maxRedirects = 'http.io.max_redirects';
 const String _persistentConnection = 'http.io.persistent_connection';
 
 void main() {
   test('defaults', () {
-    final request = Request.get('http://localhost');
+    final request = Request.get(dummyUrl);
     expect(request.followRedirects, isTrue);
     expect(request.maxRedirects, equals(5));
     expect(request.persistentConnection, isTrue);
@@ -25,13 +27,13 @@ void main() {
       _maxRedirects: 10,
       _persistentConnection: false,
     };
-    final request = Request.get('http://localhost', context: context);
+    final request = Request.get(dummyUrl, context: context);
     expect(request.followRedirects, isFalse);
     expect(request.maxRedirects, equals(10));
     expect(request.persistentConnection, isFalse);
   });
   test('change context', () {
-    final initialRequest = Request.get('http://localhost');
+    final initialRequest = Request.get(dummyUrl);
     var request = initialRequest.changeIOClientContext(
       followRedirects: false,
       maxRedirects: 10,

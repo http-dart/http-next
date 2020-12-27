@@ -12,17 +12,27 @@ import 'package:test/test.dart';
 import 'package:http_next/http.dart';
 import 'package:http_next/src/message.dart';
 
-final _uri = Uri.parse('http://localhost/');
+import 'utils.dart';
 
 void main() {
   group('Request', () {
-    _testChange(({body, headers, context}) =>
-        Request('GET', _uri, body: body, headers: headers, context: context));
+    _testChange(({body, headers, context}) => Request(
+          'GET',
+          dummyUrl,
+          body: body,
+          headers: headers,
+          context: context,
+        ));
   });
 
   group('Response', () {
-    _testChange(({body, headers, context}) =>
-        Response(_uri, 200, body: body, headers: headers, context: context));
+    _testChange(({body, headers, context}) => Response(
+          dummyUrl,
+          200,
+          body: body,
+          headers: headers,
+          context: context,
+        ));
   });
 }
 

@@ -8,6 +8,8 @@ import 'package:test/test.dart';
 
 import 'package:http_next/http.dart';
 
+import 'utils.dart';
+
 void main() {
   test('compose middleware with Pipeline', () async {
     var accessLocation = 0;
@@ -38,10 +40,10 @@ void main() {
         .addClient(Client.handler((request) async {
       expect(accessLocation, 2);
       accessLocation = 3;
-      return Response(Uri.parse('dart:http'), 200);
+      return Response(dummyUrl, 200);
     }));
 
-    final response = await client.get(Uri.parse('dart:http'));
+    final response = await client.get(dummyUrl);
 
     expect(response, isNotNull);
     expect(accessLocation, 5);
@@ -78,10 +80,10 @@ void main() {
         .addClient(Client.handler((request) async {
       expect(accessLocation, 2);
       accessLocation = 3;
-      return Response(Uri.parse('dart:http'), 200);
+      return Response(dummyUrl, 200);
     }));
 
-    final response = await client.get(Uri.parse('dart:http'));
+    final response = await client.get(dummyUrl);
 
     expect(response, isNotNull);
     expect(accessLocation, 5);
@@ -104,7 +106,7 @@ void main() {
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
         .addClient(Client.handler(
-          (request) async => Response(Uri.parse('dart:http'), 200),
+          (request) async => Response(dummyUrl, 200),
           onClose: () {
             expect(accessLocation, 2);
             accessLocation = 3;

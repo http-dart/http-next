@@ -8,22 +8,24 @@ import 'package:test/test.dart';
 import 'package:http_next/http.dart';
 import 'package:http_next/src/browser_client_context.dart';
 
+import 'utils.dart';
+
 const String _withCredentials = 'http.io.follow_redirects';
 
 void main() {
   test('defaults', () {
-    final request = Request.get('http://localhost');
+    final request = Request.get(dummyUrl);
     expect(request.withCredentials, isFalse);
   });
   test('from context', () {
     final context = <String, Object>{
       _withCredentials: true,
     };
-    final request = Request.get('http://localhost', context: context);
+    final request = Request.get(dummyUrl, context: context);
     expect(request.withCredentials, isTrue);
   });
   test('change context', () {
-    final request = Request.get('http://localhost').changeBrowserClientContext(
+    final request = Request.get(dummyUrl).changeBrowserClientContext(
       withCredentials: false,
     );
     expect(request.withCredentials, isFalse);
