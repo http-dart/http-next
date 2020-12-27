@@ -11,6 +11,7 @@ import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
+import 'media_type_encoding.dart';
 import 'mime_types.dart';
 
 /// A file to be uploaded as part of a `multipart/form-data` Request.
@@ -58,7 +59,7 @@ class MultipartFile {
     contentType ??= _lookUpMediaType(filename, bytes) ?? defaultMediaType;
 
     if (encoding != null) {
-      contentType = contentType.change(parameters: {'charset': encoding.name});
+      contentType = contentType.changeEncoding(encoding);
     }
 
     return MultipartFile.fromStream(

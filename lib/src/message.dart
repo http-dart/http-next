@@ -13,8 +13,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:meta/meta.dart';
 
 import 'body.dart';
-import 'content_type.dart';
 import 'http_unmodifiable_map.dart';
+import 'media_type_encoding.dart';
 import 'mime_types.dart';
 import 'utils.dart';
 
@@ -116,7 +116,7 @@ abstract class Message {
   ///
   /// If [headers] doesn't have a Content-Type header or it specifies an
   /// encoding that [dart:convert] doesn't support, this will be `null`.
-  Encoding get encoding => encodingForMediaType(_contentType);
+  Encoding get encoding => _contentType?.encoding;
 
   /// The parsed version of the Content-Type header in [headers].
   ///
@@ -239,13 +239,13 @@ abstract class Message {
 
     if (contentTypeHeader != null) {
       mediaType = MediaType.parse(contentTypeHeader);
-      mediaEncoding = Encoding.getByName(mediaType.parameters['charset']);
+      mediaEncoding = mediaType.encoding;
     } else {
       mediaType = octetStreamMediaType();
     }
 
     if (body.encoding != null && body.encoding != mediaEncoding) {
-      mediaType = mediaType.change(parameters: {'charset': body.encoding.name});
+      mediaType = mediaType.changeEncoding(body.encoding);
       changed = true;
     }
 
