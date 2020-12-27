@@ -15,30 +15,28 @@ import 'exception.dart';
 import 'json_message.dart';
 import 'response.dart';
 import 'text_message.dart';
-import 'utils.dart';
 
 /// Convenience methods for HTTP GET requests that return the body of the
 /// [Response].
 extension ClientReader on Client {
-  /// Sends an HTTP GET request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String], and returns a Future that completes
-  /// to the body of the response as a [String].
+  /// Sends an HTTP GET request with the given [headers] to the given [url] and
+  /// returns a Future that completes to the body of the response as a [String].
   ///
   /// The Future will emit a [ClientException] if the response doesn't have a
   /// success status code.
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  FutureOr<String> read(Object url, {Map<String, String> headers}) async {
+  FutureOr<String> read(Uri url, {Map<String, String> headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
     return response.readAsString();
   }
 
-  /// Sends an HTTP GET request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String], and returns a Future that completes
-  /// to the body of the response as a list of bytes.
+  /// Sends an HTTP GET request with the given [headers] to the given [url] and
+  /// returns a Future that completes to the body of the response as a list of
+  /// bytes.
   ///
   /// The Future will emit a [ClientException] if the response doesn't have a
   /// success status code.
@@ -46,7 +44,7 @@ extension ClientReader on Client {
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
   FutureOr<Uint8List> readBytes(
-    Object url, {
+    Uri url, {
     Map<String, String> headers,
   }) async {
     final response = await get(url, headers: headers);
@@ -55,16 +53,15 @@ extension ClientReader on Client {
     return collectBytes(response.read());
   }
 
-  /// Sends an HTTP GET request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String], and returns a Future that completes
-  /// to the body of the response as a JSON.
+  /// Sends an HTTP GET request with the given [headers] to the given [url], and
+  /// returns a Future that completes to the body of the response as a JSON.
   ///
   /// The Future will emit a [ClientException] if the response doesn't have a
   /// success status code.
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  FutureOr<T> readJson<T>(Object url, {Map<String, String> headers}) async {
+  FutureOr<T> readJson<T>(Uri url, {Map<String, String> headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -72,7 +69,7 @@ extension ClientReader on Client {
   }
 
   /// Throws an error if [response] is not successful.
-  static void _checkResponseSuccess(Object url, Response response) {
+  static void _checkResponseSuccess(Uri url, Response response) {
     if (response.statusCode < 400) {
       return;
     }
@@ -81,6 +78,6 @@ extension ClientReader on Client {
     if (response.reasonPhrase.isNotEmpty) {
       message = '$message: ${response.reasonPhrase}';
     }
-    throw ClientException('$message.', getUrl(url));
+    throw ClientException('$message.', url);
   }
 }

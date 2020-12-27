@@ -16,8 +16,7 @@ import 'utils.dart';
 
 /// Represents an HTTP request to be sent to a server.
 class Request extends Message {
-  /// Creates a new [Request] for [url], which can be a [Uri] or a [String],
-  /// using [method].
+  /// Creates a new [Request] for a [url] using the HTTP [method].
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body. If it's a [String],
@@ -31,14 +30,14 @@ class Request extends Message {
   /// and handlers.
   Request(
     String method,
-    Object url, {
+    Uri url, {
     Object body,
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this._(method, getUrl(url), body, encoding, headers, context);
+  }) : this._(method, url, body, encoding, headers, context);
 
-  /// Creates a new HEAD [Request] to [url], which can be a [Uri] or a [String].
+  /// Creates a new HEAD [Request] for a [url].
   ///
   /// [headers] are the HTTP headers for the request. If [headers] is `null`,
   /// it is treated as empty.
@@ -46,12 +45,12 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.head(
-    Object url, {
+    Uri url, {
     Map<String, String> headers,
     Map<String, Object> context,
   }) : this(MethodToken.head, url, headers: headers, context: context);
 
-  /// Creates a new GET [Request] to [url], which can be a [Uri] or a [String].
+  /// Creates a new GET [Request] for a [url].
   ///
   /// [headers] are the HTTP headers for the request. If [headers] is `null`,
   /// it is treated as empty.
@@ -59,12 +58,12 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.get(
-    Object url, {
+    Uri url, {
     Map<String, String> headers,
     Map<String, Object> context,
   }) : this(MethodToken.get, url, headers: headers, context: context);
 
-  /// Creates a new POST [Request] to [url], which can be a [Uri] or a [String].
+  /// Creates a new POST [Request] for a [url].
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body. If it's a [String],
@@ -77,7 +76,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.post(
-    Object url,
+    Uri url,
     Object body, {
     Encoding encoding,
     Map<String, String> headers,
@@ -91,7 +90,7 @@ class Request extends Message {
           context: context,
         );
 
-  /// Creates a new PUT [Request] to [url], which can be a [Uri] or a [String].
+  /// Creates a new PUT [Request] for a [url].
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body. If it's a [String],
@@ -104,7 +103,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.put(
-    Object url,
+    Uri url,
     Object body, {
     Encoding encoding,
     Map<String, String> headers,
@@ -118,8 +117,7 @@ class Request extends Message {
           context: context,
         );
 
-  /// Creates a new PATCH [Request] to [url], which can be a [Uri] or a
-  /// [String].
+  /// Creates a new PATCH [Request] for a [url].
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body. If it's a [String],
@@ -132,7 +130,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.patch(
-    Object url,
+    Uri url,
     Object body, {
     Encoding encoding,
     Map<String, String> headers,
@@ -146,8 +144,7 @@ class Request extends Message {
           context: context,
         );
 
-  /// Creates a new DELETE [Request] to [url], which can be a [Uri] or a
-  /// [String].
+  /// Creates a new DELETE [Request] for a [url].
   ///
   /// [headers] are the HTTP headers for the request. If [headers] is `null`,
   /// it is treated as empty.
@@ -155,13 +152,13 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   Request.delete(
-    Object url, {
+    Uri url, {
     Map<String, String> headers,
     Map<String, Object> context,
   }) : this(MethodToken.delete, url, headers: headers, context: context);
 
   /// Creates a new [`application/json`](https://www.ietf.org/rfc/rfc4627.txt)
-  /// [Request] to the [url], which can be a [Uri] or a [String].
+  /// [Request] for a [url].
   ///
   /// The [body] is converted using a [JsonEncoder] into a [String]. [encoding]
   /// is used to encode the values in the body. It defaults to UTF-8.
@@ -174,7 +171,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   factory Request.json(
-    Object url,
+    Uri url,
     Object body, {
     String method,
     Encoding encoding,
@@ -183,7 +180,7 @@ class Request extends Message {
   }) =>
       Request._(
         method ?? MethodToken.post,
-        getUrl(url),
+        url,
         jsonEncode(body),
         encoding ?? utf8,
         updateMap(
@@ -195,7 +192,7 @@ class Request extends Message {
 
   /// Creates a new
   /// [`multipart/form-data`](https://en.wikipedia.org/wiki/MIME#Multipart_messages)
-  /// [Request] to [url], which can be a [Uri] or a [String].
+  /// [Request] for a [url].
   ///
   /// The content of the body is specified through the values of [fields] and
   /// [files]. The name for a field can be reused so the [fields] type is
@@ -212,7 +209,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   factory Request.multipart(
-    Object url, {
+    Uri url, {
     String method,
     Map<String, String> headers,
     Map<String, Object> context,
@@ -226,7 +223,7 @@ class Request extends Message {
 
     return Request._(
       method ?? MethodToken.post,
-      getUrl(url),
+      url,
       MultipartBody(fields, files, boundary),
       null,
       updateMap(
@@ -241,7 +238,7 @@ class Request extends Message {
 
   /// Creates a new
   /// [`multipart/form-data`](https://en.wikipedia.org/wiki/MIME#Multipart_messages)
-  /// [Request] to [url], which can be a [Uri] or a [String].
+  /// [Request] for a [url].
   ///
   /// The [body] is a map of strings with the values. [encoding] is used to
   /// encode the values in the body. It defaults to UTF-8.
@@ -254,7 +251,7 @@ class Request extends Message {
   /// Extra [context] can be used to pass information between inner middleware
   /// and handlers.
   factory Request.urlEncoded(
-    Object url,
+    Uri url,
     Map<String, String> body, {
     String method,
     Encoding encoding,
@@ -271,7 +268,7 @@ class Request extends Message {
 
     return Request._(
       method ?? MethodToken.post,
-      getUrl(url),
+      url,
       pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
       null,
       updateMap(

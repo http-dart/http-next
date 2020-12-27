@@ -56,7 +56,7 @@ class BrowserClient implements Client {
       // ignore: avoid_as
       final buffer = xhr.response as ByteBuffer;
       completer.complete(Response(
-        xhr.responseUrl,
+        Uri.parse(xhr.responseUrl),
         xhr.status,
         reasonPhrase: xhr.statusText,
         body: Stream.fromIterable([buffer.asUint8List()]),
