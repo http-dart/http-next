@@ -29,11 +29,7 @@ Client platformClient() => BrowserClient();
 /// response will only be returned once all the data is available.
 ///
 /// You can control the underlying `dart:html` [HttpRequest] by adding values to
-/// [Request.context]:
-///
-/// * `"http.html.with_credentials"` is a boolean that defaults to `false`. If
-///   it's `true`, cross-site requests will include credentials such as cookies
-///   or authorization headers. See also [HttpRequest.withCredentials].
+/// [Request.context] through [BrowserClientContext].
 class BrowserClient implements Client {
   /// Creates a new HTTP client.
   BrowserClient();

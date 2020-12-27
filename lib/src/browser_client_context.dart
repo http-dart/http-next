@@ -8,7 +8,7 @@ import 'utils.dart';
 
 /// Allows the [Request] to control the underlying [BrowserClient].
 extension BrowserClientContext on Request {
-  static const _withCredentialsKey = 'http.io.follow_redirects';
+  static const _withCredentialsKey = 'http.html.with_credentials';
 
   /// Whether cross-site requests will include credentials such as cookies or
   /// or authorization headers.

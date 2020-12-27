@@ -10,7 +10,7 @@ import 'package:http_next/src/browser_client_context.dart';
 
 import 'utils.dart';
 
-const String _withCredentials = 'http.io.follow_redirects';
+const String _withCredentials = 'http.html.with_credentials';
 
 void main() {
   test('defaults', () {
