@@ -117,6 +117,6 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
     });
   }, 'localhost', 0);
 
-  serverUrl = Uri.parse('http://localhost:${server.port}');
+  serverUrl = Uri.http('localhost:${server.port}', '');
   channel.sink.add(serverUrl.toString());
 }
