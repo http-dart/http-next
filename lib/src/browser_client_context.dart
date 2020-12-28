@@ -3,8 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
+import 'context.dart';
 import 'request.dart';
-import 'utils.dart';
 
 /// Allows the [Request] to control the underlying [BrowserClient].
 extension BrowserClientContext on Request {
@@ -15,7 +15,7 @@ extension BrowserClientContext on Request {
   ///
   /// The default value is `false`. See also [HttpRequest.withCredentials].
   bool get withCredentials =>
-      getContext<bool>(context, _withCredentialsKey, false);
+      context.getOrDefault<bool>(_withCredentialsKey, false);
 
   /// Modifies the [Request.context] to set [BrowserClient] specific values.
   Request changeBrowserClientContext({

@@ -3,8 +3,8 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
+import 'context.dart';
 import 'request.dart';
-import 'utils.dart';
 
 /// Allows the [Request] to control the underlying [IOClient].
 extension IOClientContext on Request {
@@ -18,7 +18,7 @@ extension IOClientContext on Request {
   /// HTTP redirects. If it's `false`, the client will need to handle redirects
   /// manually. See also [HttpClientRequest.followRedirects].
   bool get followRedirects =>
-      getContext<bool>(context, _followRedirectsKey, true);
+      context.getOrDefault<bool>(_followRedirectsKey, true);
 
   /// The maximum number of redirects that will be followed if [followRedirects]
   /// is `true`.
@@ -26,7 +26,7 @@ extension IOClientContext on Request {
   /// If the site redirects more than this, [send] will throw a
   /// [ClientException]. It defaults to `5`. See also
   /// [HttpClientRequest.maxRedirects].
-  int get maxRedirects => getContext<int>(context, _maxRedirectsKey, 5);
+  int get maxRedirects => context.getOrDefault<int>(_maxRedirectsKey, 5);
 
   /// Whether the client will request that the TCP connection be kept alive
   /// after the request completes.
@@ -34,7 +34,7 @@ extension IOClientContext on Request {
   /// The default value is `true`. See also
   /// [HttpClientRequest.persistentConnection].
   bool get persistentConnection =>
-      getContext<bool>(context, _persistentConnectionKey, true);
+      context.getOrDefault<bool>(_persistentConnectionKey, true);
 
   /// Modifies the [Request.context] to set [IOClient] specific values.
   Request changeIOClientContext({

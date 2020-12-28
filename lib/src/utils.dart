@@ -51,18 +51,6 @@ String getHeader(Map<String, String> headers, String name) {
   return null;
 }
 
-/// Returns the value with the given [name] in [context].
-///
-/// If the value is not present in [context] then [defaultsTo] is returned.
-T getContext<T>(Map<String, Object> context, String name, T defaultsTo) {
-  if (context == null) {
-    return defaultsTo;
-  }
-
-  // ignore: avoid_as
-  return context.containsKey(name) ? context[name] as T : defaultsTo;
-}
-
 /// Returns a [Uri] from the [url], which can be a [Uri] or a [String].
 ///
 /// If the [url] is not a [Uri] or [String] an [ArgumentError] is thrown.
