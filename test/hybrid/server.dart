@@ -6,6 +6,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:shelf/shelf.dart' as shelf;
@@ -53,7 +54,8 @@ final _ignoreHeaders = <String>[
 ///     }
 Future<void> hybridMain(StreamChannel<dynamic> channel) async {
   Uri serverUrl;
-  final server = await shelf_io.serve((request) async {
+  HttpServer server;
+  server = await shelf_io.serve((request) async {
     if (request.url.path == 'error') {
       return shelf.Response(400);
     }
@@ -69,6 +71,12 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
 
     if (request.url.path == 'no-content-length') {
       return shelf.Response.ok(Stream.fromIterable([ascii.encode('body')]));
+    }
+
+    if (request.url.path == 'exit') {
+      // Add a delay to close the server
+      Timer(const Duration(seconds: 1), server.close);
+      return shelf.Response.ok(null);
     }
 
     final content = <String, Object>{

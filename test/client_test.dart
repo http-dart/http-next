@@ -29,7 +29,8 @@ void main() {
       client = Client();
     });
 
-    tearDownAll(() {
+    tearDownAll(() async {
+      await client.read(serverUrl.resolve('/exit'));
       client.close();
     });
 
