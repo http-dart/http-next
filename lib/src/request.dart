@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'boundary.dart';
+import 'content_headers.dart';
 import 'context.dart';
 import 'message.dart';
 import 'method.dart';
@@ -183,10 +184,7 @@ class Request extends Message {
         url,
         jsonEncode(body),
         encoding ?? utf8,
-        updateMap(
-          const <String, String>{'content-type': 'application/json'},
-          headers,
-        ),
+        updateMap(ContentHeaders.json(), headers),
         context,
       );
 
@@ -226,12 +224,7 @@ class Request extends Message {
       url,
       MultipartBody(fields, files, boundary),
       null,
-      updateMap(
-        <String, String>{
-          'content-type': 'multipart/form-data; boundary=$boundary'
-        },
-        headers,
-      ),
+      updateMap(ContentHeaders.multipart(boundary), headers),
       context,
     );
   }
@@ -271,12 +264,7 @@ class Request extends Message {
       url,
       pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
       null,
-      updateMap(
-        const <String, String>{
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        headers,
-      ),
+      updateMap(ContentHeaders.urlEncoded(), headers),
       context,
     );
   }
