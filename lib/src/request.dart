@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'boundary.dart';
 import 'context.dart';
 import 'message.dart';
+import 'method.dart';
 import 'multipart_body.dart';
 import 'multipart_file.dart';
 import 'utils.dart';
@@ -48,7 +49,7 @@ class Request extends Message {
     Object url, {
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('HEAD', url, headers: headers, context: context);
+  }) : this(MethodToken.head, url, headers: headers, context: context);
 
   /// Creates a new GET [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -61,7 +62,7 @@ class Request extends Message {
     Object url, {
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('GET', url, headers: headers, context: context);
+  }) : this(MethodToken.get, url, headers: headers, context: context);
 
   /// Creates a new POST [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -81,8 +82,14 @@ class Request extends Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('POST', url,
-            body: body, encoding: encoding, headers: headers, context: context);
+  }) : this(
+          MethodToken.post,
+          url,
+          body: body,
+          encoding: encoding,
+          headers: headers,
+          context: context,
+        );
 
   /// Creates a new PUT [Request] to [url], which can be a [Uri] or a [String].
   ///
@@ -102,8 +109,14 @@ class Request extends Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('PUT', url,
-            body: body, encoding: encoding, headers: headers, context: context);
+  }) : this(
+          MethodToken.put,
+          url,
+          body: body,
+          encoding: encoding,
+          headers: headers,
+          context: context,
+        );
 
   /// Creates a new PATCH [Request] to [url], which can be a [Uri] or a
   /// [String].
@@ -124,8 +137,14 @@ class Request extends Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('PATCH', url,
-            body: body, encoding: encoding, headers: headers, context: context);
+  }) : this(
+          MethodToken.patch,
+          url,
+          body: body,
+          encoding: encoding,
+          headers: headers,
+          context: context,
+        );
 
   /// Creates a new DELETE [Request] to [url], which can be a [Uri] or a
   /// [String].
@@ -139,7 +158,7 @@ class Request extends Message {
     Object url, {
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this('DELETE', url, headers: headers, context: context);
+  }) : this(MethodToken.delete, url, headers: headers, context: context);
 
   /// Creates a new [`application/json`](https://www.ietf.org/rfc/rfc4627.txt)
   /// [Request] to the [url], which can be a [Uri] or a [String].
@@ -163,7 +182,7 @@ class Request extends Message {
     Map<String, Object> context,
   }) =>
       Request._(
-        method ?? 'POST',
+        method ?? MethodToken.post,
         getUrl(url),
         jsonEncode(body),
         encoding ?? utf8,
@@ -206,7 +225,7 @@ class Request extends Message {
     boundary ??= boundaryString();
 
     return Request._(
-      method ?? 'POST',
+      method ?? MethodToken.post,
       getUrl(url),
       MultipartBody(fields, files, boundary),
       null,
@@ -251,7 +270,7 @@ class Request extends Message {
         ]));
 
     return Request._(
-      method ?? 'POST',
+      method ?? MethodToken.post,
       getUrl(url),
       pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
       null,
