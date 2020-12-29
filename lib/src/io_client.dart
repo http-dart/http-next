@@ -41,6 +41,10 @@ class IOClient implements Client {
         ..maxRedirects = request.maxRedirects
         ..persistentConnection = request.persistentConnection;
 
+      // The dart:io headers always default content length to 0 so set it to -1
+      // to prevent the content-length header from being sent
+      ioRequest.headers.contentLength = -1;
+
       request.headers.forEach(ioRequest.headers.set);
 
       unawaited(request.read().pipe(ioRequest));
