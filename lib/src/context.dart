@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'http_unmodifiable_map.dart';
+import 'unmodifiable_map.dart';
 
 /// Helpers for manipulating [Message.context] values.
 extension Context on Map<String, Object> {
@@ -19,13 +19,13 @@ extension Context on Map<String, Object> {
   /// [Map] to ensure changes to the parameter value after constructions are
   /// not reflected.
   static Map<String, Object> create(Map<String, Object> source) {
-    if (source is HttpUnmodifiableMap<Object>) {
+    if (source is UnmodifiableMap<String, Object>) {
       return source;
     }
 
     return source == null || source.isEmpty
-        ? const HttpUnmodifiableMap<Object>.empty()
-        : HttpUnmodifiableMap<Object>(Map.from(source));
+        ? const UnmodifiableMap<String, Object>.empty()
+        : UnmodifiableMap<String, Object>(Map.from(source));
   }
 
   /// Returns a [HttpUnmodifiableMap] with the values from [original] and the
@@ -41,7 +41,7 @@ extension Context on Map<String, Object> {
       return create(original);
     }
 
-    return HttpUnmodifiableMap<Object>(Map.from(original)..addAll(updates));
+    return UnmodifiableMap<String, Object>(Map.from(original)..addAll(updates));
   }
 
   /// Retrieves the value at [name] if present; otherwise [defaultsTo] is

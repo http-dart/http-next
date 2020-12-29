@@ -4,6 +4,7 @@
 // in the LICENSE file.
 
 import 'mime_types.dart';
+import 'unmodifiable_map.dart';
 
 /// Helpers for setting headers around the content of the message.
 extension ContentHeaders on Map<String, String> {
@@ -12,21 +13,23 @@ extension ContentHeaders on Map<String, String> {
 
   /// Returns an immutable map containing a `content-type` header for JSON
   /// data.
-  static Map<String, String> json() => const <String, String>{
+  static Map<String, String> json() => const UnmodifiableMap<String, String>({
         _contentTypeHeader: '$applicationType/$jsonSubtype',
-      };
+      });
 
   /// Returns an immutable map containing a `content-type` header for multi-part
   /// form data.
-  static Map<String, String> multipart(String boundary) => <String, String>{
+  static Map<String, String> multipart(String boundary) =>
+      UnmodifiableMap<String, String>({
         _contentTypeHeader: 'multipart/form-data; boundary=$boundary',
-      };
+      });
 
   /// Returns an immutable map containing a `content-type` header for url
   /// encoded form data.
-  static Map<String, String> urlEncoded() => const <String, String>{
+  static Map<String, String> urlEncoded() =>
+      const UnmodifiableMap<String, String>({
         _contentTypeHeader: '$applicationType/x-www-form-urlencoded',
-      };
+      });
 
   /// The `content-length` header value.
   String get contentLength => this[_contentLengthHeader];
