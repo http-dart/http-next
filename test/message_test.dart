@@ -62,8 +62,7 @@ void main() {
 
     test('default to a constant map', () {
       final message = _createMessage();
-      expect(message.headers, hasLength(1));
-      expect(message.headers.containsKey('content-length'), isTrue);
+      expect(message.headers.containsKey('content-length'), isFalse);
       expect(message.headers, same(_createMessage().headers));
       expect(() => message.headers['h1'] = 'value1', throwsUnsupportedError);
     });
@@ -181,9 +180,9 @@ void main() {
   });
 
   group('content-length', () {
-    test('is 0 with a default body and without a content-length header', () {
-      final request = _createMessage();
-      expect(request.contentLength, 0);
+    test('is null with a default body and without a content-length header', () {
+      final message = _createMessage();
+      expect(message.contentLength, isNull);
     });
 
     test('comes from a byte body', () {

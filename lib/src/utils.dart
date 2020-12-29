@@ -4,25 +4,6 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'package:collection/collection.dart';
-
-import 'http_unmodifiable_map.dart';
-
-/// Returns a [Map] with the values from [original] and the values from
-/// [updates].
-///
-/// For keys that are the same between [original] and [updates], the value in
-/// [updates] is used.
-///
-/// If [updates] is `null` or empty, [original] is returned unchanged.
-Map<K, V> updateMap<K, V>(Map<K, V> original, Map<K, V> updates) {
-  if (updates == null || updates.isEmpty) {
-    return original;
-  }
-
-  return Map<K, V>.from(original)..addAll(updates);
-}
-
 /// A regular expression that matches strings that are composed entirely of
 /// ASCII-compatible characters.
 final RegExp _asciiOnly = RegExp(r'^[\x00-\x7F]+$');
@@ -30,23 +11,3 @@ final RegExp _asciiOnly = RegExp(r'^[\x00-\x7F]+$');
 /// Returns whether [string] is composed entirely of ASCII-compatible
 /// characters.
 bool isPlainAscii(String string) => _asciiOnly.hasMatch(string);
-
-/// Returns the header with the given [name] in [headers].
-///
-/// This works even if [headers] is `null`, or if it's not yet a
-/// case-insensitive map.
-String getHeader(Map<String, String> headers, String name) {
-  if (headers == null) {
-    return null;
-  }
-  if (headers is HttpUnmodifiableMap) {
-    return headers[name];
-  }
-
-  for (final key in headers.keys) {
-    if (equalsIgnoreAsciiCase(key, name)) {
-      return headers[key];
-    }
-  }
-  return null;
-}

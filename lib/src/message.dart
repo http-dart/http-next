@@ -8,22 +8,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:async/async.dart';
-import 'package:collection/collection.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:meta/meta.dart';
 
 import 'body.dart';
 import 'content_headers.dart';
 import 'context.dart';
-import 'http_unmodifiable_map.dart';
+import 'headers.dart';
 import 'media_type_encoding.dart';
-import 'mime_types.dart';
-import 'utils.dart';
-
-/// The default set of headers for a message created with no body and no
-/// explicit headers.
-final _defaultHeaders =
-    HttpUnmodifiableMap<String>({'content-length': '0'}, ignoreKeyCase: true);
 
 /// Represents logic shared between [Request] and [Response].
 abstract class Message {
@@ -44,14 +36,11 @@ abstract class Message {
     Encoding encoding,
     Map<String, String> headers,
     Map<String, Object> context,
-  }) : this._(Body(body, encoding), headers, context);
+  }) : this._(Body(body, encoding), Headers.create(headers), context);
 
   Message._(Body body, Map<String, String> headers, Map<String, Object> context)
       : _body = body,
-        headers = HttpUnmodifiableMap<String>(
-          _adjustHeaders(headers, body),
-          ignoreKeyCase: true,
-        ),
+        headers = Headers.adjust(headers, body),
         context = Context.create(context);
 
   /// The HTTP headers.
@@ -173,84 +162,4 @@ abstract class Message {
   /// for subclasses of [Message] but hidden elsewhere.
   @protected
   Body getBody() => _body;
-
-  /// Adds information about encoding and content-type to [headers].
-  ///
-  /// Returns a new map without modifying [headers].
-  static Map<String, String> _adjustHeaders(
-    Map<String, String> headers,
-    Body body,
-  ) {
-    final contentType = _contentTypeHeader(headers, body);
-    final contentLength = _contentLengthHeader(headers, body);
-
-    if (contentType == null) {
-      if (contentLength == null) {
-        return headers ?? const HttpUnmodifiableMap.empty();
-      } else if (contentLength == '0' && (headers == null || headers.isEmpty)) {
-        return _defaultHeaders;
-      }
-    }
-
-    final newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
-    if (contentType != null) {
-      newHeaders.contentType = contentType;
-    }
-    if (contentLength != null) {
-      newHeaders.contentLength = contentLength;
-    }
-    return newHeaders;
-  }
-
-  /// Determines the `content-length` from the given [headers] and [body].
-  ///
-  /// Returns the value for the `content-length` header if it should be
-  /// modified, otherwise it returns `null`.
-  static String _contentLengthHeader(Map<String, String> headers, Body body) {
-    final bodyLength = body.contentLength;
-    if (bodyLength == null) {
-      return null;
-    }
-
-    final contentLengthHeader = bodyLength.toString();
-    if (contentLengthHeader == headers.contentLength) {
-      return null;
-    }
-
-    final coding = getHeader(headers, 'transfer-encoding');
-    return coding == null || equalsIgnoreAsciiCase(coding, 'identity')
-        ? contentLengthHeader
-        : null;
-  }
-
-  /// Determines the `content-type` from the given [headers] and [body].
-  ///
-  /// The function looks at the encoding of the body and encoding specified
-  /// within the `content-type` header. The body's encoding will always
-  /// override the value.
-  ///
-  /// If [originalBody] is a [Map] then a URL encoded form is assumed.
-  ///
-  /// Returns the value for the `content-type` header if it should be
-  /// modified, otherwise it returns `null`.
-  static String _contentTypeHeader(Map<String, String> headers, Body body) {
-    final contentTypeHeader = headers.contentType;
-    var changed = false;
-    MediaType mediaType;
-    Encoding mediaEncoding;
-
-    if (contentTypeHeader != null) {
-      mediaType = MediaType.parse(contentTypeHeader);
-      mediaEncoding = mediaType.encoding;
-    } else {
-      mediaType = octetStreamMediaType();
-    }
-
-    if (body.encoding != null && body.encoding != mediaEncoding) {
-      mediaType = mediaType.changeEncoding(body.encoding);
-      changed = true;
-    }
-
-    return changed ? mediaType.toString() : null;
-  }
 }
