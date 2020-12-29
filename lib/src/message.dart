@@ -13,6 +13,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:meta/meta.dart';
 
 import 'body.dart';
+import 'content_headers.dart';
 import 'context.dart';
 import 'http_unmodifiable_map.dart';
 import 'media_type_encoding.dart';
@@ -91,7 +92,7 @@ abstract class Message {
       return _contentLengthCache;
     }
 
-    final contentLengthHeader = getHeader(headers, 'content-length');
+    final contentLengthHeader = headers.contentLength;
     if (contentLengthHeader == null) {
       // ignore: avoid_returning_null
       return null;
@@ -127,7 +128,7 @@ abstract class Message {
       return _contentTypeCache;
     }
 
-    final contentTypeHeader = getHeader(headers, 'content-type');
+    final contentTypeHeader = headers.contentType;
     if (contentTypeHeader == null) {
       return null;
     }
@@ -193,10 +194,10 @@ abstract class Message {
 
     final newHeaders = CaseInsensitiveMap<String>.from(headers ?? const {});
     if (contentType != null) {
-      newHeaders['content-type'] = contentType;
+      newHeaders.contentType = contentType;
     }
     if (contentLength != null) {
-      newHeaders['content-length'] = contentLength;
+      newHeaders.contentLength = contentLength;
     }
     return newHeaders;
   }
@@ -212,7 +213,7 @@ abstract class Message {
     }
 
     final contentLengthHeader = bodyLength.toString();
-    if (contentLengthHeader == getHeader(headers, 'content-length')) {
+    if (contentLengthHeader == headers.contentLength) {
       return null;
     }
 
@@ -233,7 +234,7 @@ abstract class Message {
   /// Returns the value for the `content-type` header if it should be
   /// modified, otherwise it returns `null`.
   static String _contentTypeHeader(Map<String, String> headers, Body body) {
-    final contentTypeHeader = getHeader(headers, 'content-type');
+    final contentTypeHeader = headers.contentType;
     var changed = false;
     MediaType mediaType;
     Encoding mediaEncoding;
