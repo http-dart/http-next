@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 
+import 'context.dart';
 import 'message.dart';
 import 'utils.dart';
 
@@ -86,7 +87,7 @@ class Response extends Message {
     Object body,
   }) {
     final updatedHeaders = updateMap(this.headers, headers);
-    final updatedContext = updateMap(this.context, context);
+    final updatedContext = Context.update(this.context, context);
 
     return Response._(
       finalUrl,

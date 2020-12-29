@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'boundary.dart';
+import 'context.dart';
 import 'message.dart';
 import 'multipart_body.dart';
 import 'multipart_file.dart';
@@ -300,7 +301,7 @@ class Request extends Message {
     Object body,
   }) {
     final updatedHeaders = updateMap(this.headers, headers);
-    final updatedContext = updateMap(this.context, context);
+    final updatedContext = Context.update(this.context, context);
 
     return Request._(
       method,

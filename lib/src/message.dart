@@ -13,6 +13,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:meta/meta.dart';
 
 import 'body.dart';
+import 'context.dart';
 import 'http_unmodifiable_map.dart';
 import 'media_type_encoding.dart';
 import 'mime_types.dart';
@@ -50,7 +51,7 @@ abstract class Message {
           _adjustHeaders(headers, body),
           ignoreKeyCase: true,
         ),
-        context = HttpUnmodifiableMap<Object>(context);
+        context = Context.create(context);
 
   /// The HTTP headers.
   ///
