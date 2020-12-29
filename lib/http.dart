@@ -12,6 +12,7 @@ export 'src/client_methods.dart';
 export 'src/client_reader.dart';
 export 'src/exception.dart';
 export 'src/handler.dart';
+export 'src/method.dart';
 export 'src/middleware.dart';
 export 'src/multipart_file.dart';
 export 'src/pipeline.dart';
