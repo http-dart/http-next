@@ -20,22 +20,20 @@ import 'response.dart';
 /// as an example if an API expects a body for a `DELETE` call, then a [Request]
 /// should be created manually and passed to [Client.send].
 extension ClientMethods on Client {
-  /// Sends an HTTP HEAD request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String].
+  /// Sends an HTTP HEAD request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> head(Object url, {Map<String, String> headers}) =>
+  FutureOr<Response> head(Uri url, {Map<String, String> headers}) =>
       send(Request.head(url, headers: headers));
 
-  /// Sends an HTTP GET request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String].
+  /// Sends an HTTP GET request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> get(Object url, {Map<String, String> headers}) =>
+  FutureOr<Response> get(Uri url, {Map<String, String> headers}) =>
       send(Request.get(url, headers: headers));
 
   /// Sends an HTTP POST request with the given [headers] and [body] to the
-  /// given [url], which can be a [Uri] or a [String].
+  /// given [url].
   ///
   /// [body] sets the body of the request. It can be a [String], or a
   /// [List<int>]. If it's a String, it's encoded using [encoding] and used as
@@ -49,7 +47,7 @@ extension ClientMethods on Client {
   ///
   /// For more fine-grained control over the request, use [send] instead.
   FutureOr<Response> post(
-    Object url,
+    Uri url,
     Object body, {
     Map<String, String> headers,
     Encoding encoding,
@@ -57,7 +55,7 @@ extension ClientMethods on Client {
       send(Request.post(url, body, headers: headers, encoding: encoding));
 
   /// Sends an HTTP PUT request with the given [headers] and [body] to the given
-  /// [url], which can be a [Uri] or a [String].
+  /// [url].
   ///
   /// [body] sets the body of the request. It can be a [String], or a
   /// [List<int>]. If it's a String, it's encoded using [encoding] and used as
@@ -71,7 +69,7 @@ extension ClientMethods on Client {
   ///
   /// For more fine-grained control over the request, use [send] instead.
   FutureOr<Response> put(
-    Object url,
+    Uri url,
     Object body, {
     Map<String, String> headers,
     Encoding encoding,
@@ -79,7 +77,7 @@ extension ClientMethods on Client {
       send(Request.put(url, body, headers: headers, encoding: encoding));
 
   /// Sends an HTTP PATCH request with the given [headers] and [body] to the
-  /// given [url], which can be a [Uri] or a [String].
+  /// given [url].
   ///
   /// [body] sets the body of the request. It can be a [String], or a
   /// [List<int>]. If it's a String, it's encoded using [encoding] and used as
@@ -93,17 +91,16 @@ extension ClientMethods on Client {
   ///
   /// For more fine-grained control over the request, use [send] instead.
   FutureOr<Response> patch(
-    Object url,
+    Uri url,
     Object body, {
     Map<String, String> headers,
     Encoding encoding,
   }) =>
       send(Request.patch(url, body, headers: headers, encoding: encoding));
 
-  /// Sends an HTTP DELETE request with the given [headers] to the given [url],
-  /// which can be a [Uri] or a [String].
+  /// Sends an HTTP DELETE request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> delete(Object url, {Map<String, String> headers}) =>
+  FutureOr<Response> delete(Uri url, {Map<String, String> headers}) =>
       send(Request.delete(url, headers: headers));
 }

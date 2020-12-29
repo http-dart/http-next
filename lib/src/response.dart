@@ -12,8 +12,8 @@ import 'utils.dart';
 
 /// An HTTP response where the entire response body is known in advance.
 class Response extends Message {
-  /// Creates a new HTTP response for a resource at the [finalUrl], which can
-  /// be a [Uri] or a [String], with the given [statusCode].
+  /// Creates a new HTTP response for a resource at the [finalUrl] with the
+  /// given [statusCode].
   ///
   /// [body] is the request body. It may be either a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null` to indicate no body. If it's a [String],
@@ -26,7 +26,7 @@ class Response extends Message {
   /// Extra [context] can be used to pass information between outer middleware
   /// and handlers.
   Response(
-    Object finalUrl,
+    Uri finalUrl,
     int statusCode, {
     String reasonPhrase,
     Object body,
@@ -34,7 +34,7 @@ class Response extends Message {
     Map<String, String> headers,
     Map<String, Object> context,
   }) : this._(
-          getUrl(finalUrl),
+          finalUrl,
           statusCode,
           reasonPhrase ?? '',
           body,
