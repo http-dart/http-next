@@ -7,8 +7,8 @@
 import 'dart:convert';
 
 import 'context.dart';
+import 'headers.dart';
 import 'message.dart';
-import 'utils.dart';
 
 /// An HTTP response where the entire response body is known in advance.
 class Response extends Message {
@@ -86,7 +86,7 @@ class Response extends Message {
     Map<String, Object> context,
     Object body,
   }) {
-    final updatedHeaders = updateMap(this.headers, headers);
+    final updatedHeaders = Headers.update(this.headers, headers);
     final updatedContext = Context.update(this.context, context);
 
     return Response._(

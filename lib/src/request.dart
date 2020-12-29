@@ -9,11 +9,11 @@ import 'dart:convert';
 import 'boundary.dart';
 import 'content_headers.dart';
 import 'context.dart';
+import 'headers.dart';
 import 'message.dart';
 import 'method.dart';
 import 'multipart_body.dart';
 import 'multipart_file.dart';
-import 'utils.dart';
 
 /// Represents an HTTP request to be sent to a server.
 class Request extends Message {
@@ -184,7 +184,7 @@ class Request extends Message {
         url,
         jsonEncode(body),
         encoding ?? utf8,
-        updateMap(ContentHeaders.json(), headers),
+        Headers.update(ContentHeaders.json(), headers),
         context,
       );
 
@@ -224,7 +224,7 @@ class Request extends Message {
       url,
       MultipartBody(fields, files, boundary),
       null,
-      updateMap(ContentHeaders.multipart(boundary), headers),
+      Headers.update(ContentHeaders.multipart(boundary), headers),
       context,
     );
   }
@@ -264,7 +264,7 @@ class Request extends Message {
       url,
       pairs.map((pair) => '${pair[0]}=${pair[1]}').join('&'),
       null,
-      updateMap(ContentHeaders.urlEncoded(), headers),
+      Headers.update(ContentHeaders.urlEncoded(), headers),
       context,
     );
   }
@@ -304,7 +304,7 @@ class Request extends Message {
     Map<String, Object> context,
     Object body,
   }) {
-    final updatedHeaders = updateMap(this.headers, headers);
+    final updatedHeaders = Headers.update(this.headers, headers);
     final updatedContext = Context.update(this.context, context);
 
     return Request._(
