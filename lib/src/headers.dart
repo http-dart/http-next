@@ -8,9 +8,9 @@ import 'package:http_parser/http_parser.dart';
 
 import 'body.dart';
 import 'content_headers.dart';
-import 'http_unmodifiable_map.dart';
 import 'media_type_encoding.dart';
 import 'mime_types.dart';
+import 'unmodifiable_map.dart';
 
 /// Helpers for manipulating [Message.headers] values.
 extension Headers on Map<String, String> {
@@ -26,15 +26,14 @@ extension Headers on Map<String, String> {
   /// [Map] to ensure changes to the parameter value after constructions are
   /// not reflected.
   static Map<String, String> create(Map<String, String> source) {
-    if (source is HttpUnmodifiableMap<String>) {
+    if (source is UnmodifiableMap<String, String>) {
       return source;
     }
 
     return source == null || source.isEmpty
-        ? const HttpUnmodifiableMap<String>.empty()
-        : HttpUnmodifiableMap<String>(
-            Map<String, String>.from(source),
-            ignoreKeyCase: true,
+        ? const UnmodifiableMap<String, String>.empty()
+        : UnmodifiableMap<String, String>(
+            CaseInsensitiveMap<String>.from(source),
           );
   }
 
@@ -51,9 +50,8 @@ extension Headers on Map<String, String> {
       return create(original);
     }
 
-    return HttpUnmodifiableMap<String>(
-      Map<String, String>.from(original)..addAll(updates),
-      ignoreKeyCase: true,
+    return UnmodifiableMap<String, String>(
+      CaseInsensitiveMap<String>.from(original)..addAll(updates),
     );
   }
 
@@ -61,7 +59,7 @@ extension Headers on Map<String, String> {
   ///
   /// Returns a new map without modifying [headers].
   static Map<String, String> adjust(Map<String, String> headers, Body body) {
-    assert(headers is HttpUnmodifiableMap, 'headers are unmodifiable');
+    assert(headers is UnmodifiableMap, 'headers are unmodifiable');
 
     final contentLengthHeader = _contentLengthHeader(headers, body);
     final contentTypeHeader = _contentTypeHeader(headers, body);
