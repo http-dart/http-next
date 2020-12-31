@@ -4,48 +4,56 @@ name: dart-dev
 
 steps:
 - name: environment
-  image: google/dart:dev
+  image: google/dart:beta
   pull: always
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart --version
+  - dart --version
 
 - name: dependencies
-  image: google/dart:dev
+  image: google/dart:beta
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart pub get
+  - dart pub get
+
+- name: format
+  image: google/dart:beta
+  volumes:
+  - name: cache
+    path: /root/.pub-cache
+  commands:
+  - dart format --set-exit-if-changed .
 
 - name: lint
-  image: google/dart:dev
+  image: google/dart:beta
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart analyze lib
-    - dart analyze test
+  - dart analyze lib
+  - dart analyze test
 
 - name: test
-  image: google/dart:dev
-  failure: ignore # TODO: Remove after tests fixed
+  image: google/dart:beta
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart run test --coverage coverage
+  # Using `pub run test` is deprecated but this step using `dart run test` does not complete
+  - pub run test --coverage coverage
 
 - name: generate-lcov
-  image: google/dart:dev
+  image: google/dart:beta
   volumes:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart pub global activate coverage
-    - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
+  - dart pub global activate coverage
+  - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
 
 - name: upload-coverage
   image: plugins/codecov
