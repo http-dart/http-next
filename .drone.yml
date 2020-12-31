@@ -4,7 +4,7 @@ name: dart-dev
 
 steps:
 - name: environment
-  image: google/dart:dev
+  image: google/dart:2.11-beta
   pull: always
   volumes:
   - name: cache
@@ -13,7 +13,7 @@ steps:
     - dart --version
 
 - name: dependencies
-  image: google/dart:dev
+  image: google/dart:2.11-beta
   volumes:
   - name: cache
     path: /root/.pub-cache
@@ -21,7 +21,7 @@ steps:
     - dart pub get
 
 - name: lint
-  image: google/dart:dev
+  image: google/dart:2.11-beta
   volumes:
   - name: cache
     path: /root/.pub-cache
@@ -30,7 +30,7 @@ steps:
     - dart analyze test
 
 - name: test
-  image: google/dart:dev
+  image: google/dart:2.11-beta
   failure: ignore # TODO: Remove after tests fixed
   volumes:
   - name: cache
@@ -39,7 +39,7 @@ steps:
     - dart run test --coverage coverage
 
 - name: generate-lcov
-  image: google/dart:dev
+  image: google/dart:2.11-beta
   volumes:
   - name: cache
     path: /root/.pub-cache
