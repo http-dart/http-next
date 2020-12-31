@@ -36,7 +36,7 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart run test --coverage coverage
+    - pub run test --coverage coverage
 
 - name: generate-lcov
   image: google/dart:2.11-beta
@@ -44,7 +44,7 @@ steps:
   - name: cache
     path: /root/.pub-cache
   commands:
-    - dart pub global activate coverage
+    - pub global activate coverage
     - format_coverage --verbose --lcov --packages .packages --base-directory . --report-on lib --report-on test --in coverage --out coverage/lcov.cov
 
 - name: upload-coverage
