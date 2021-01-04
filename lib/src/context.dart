@@ -48,5 +48,5 @@ extension Context on Map<String, Object> {
   /// returned.
   T getOrDefault<T>(String name, T defaultsTo) =>
       // ignore: avoid_as
-      this[name] as T ?? defaultsTo;
+      (this[name] ?? defaultsTo) as T;
 }
