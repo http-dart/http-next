@@ -9,14 +9,14 @@ import 'package:http_next/http.dart';
 
 void main() {
   test('token', () {
-    expect(Method.get.token, 'GET');
-    expect(Method.head.token, 'HEAD');
-    expect(Method.post.token, 'POST');
-    expect(Method.put.token, 'PUT');
-    expect(Method.patch.token, 'PATCH');
-    expect(Method.delete.token, 'DELETE');
-    expect(Method.connect.token, 'CONNECT');
-    expect(Method.options.token, 'OPTIONS');
-    expect(Method.trace.token, 'TRACE');
+    expect(Method.get.token, equals('GET'));
+    expect(Method.head.token, equals('HEAD'));
+    expect(Method.post.token, equals('POST'));
+    expect(Method.put.token, equals('PUT'));
+    expect(Method.patch.token, equals('PATCH'));
+    expect(Method.delete.token, equals('DELETE'));
+    expect(Method.connect.token, equals('CONNECT'));
+    expect(Method.options.token, equals('OPTIONS'));
+    expect(Method.trace.token, equals('TRACE'));
   });
 }
