@@ -38,6 +38,24 @@ void main() {
       expect(mediaType.encoding, utf8);
     });
   });
+  group('defaultEncoding', () {
+    test('text', () {
+      final plain = _text();
+      expect(plain.defaultEncoding, ascii);
+      final csv = MediaType('text', 'csv');
+      expect(csv.defaultEncoding, ascii);
+    });
+    test('json', () {
+      final json = MediaType('application', 'json');
+      expect(json.defaultEncoding, utf8);
+    });
+    test('unknown', () {
+      final octet = MediaType('application', 'octet-stream');
+      expect(octet.defaultEncoding, isNull);
+      final image = MediaType('image', 'png');
+      expect(image.defaultEncoding, isNull);
+    });
+  });
   group('changeEncoding', () {
     test('ascii', () {
       final mediaType = _text().changeEncoding(ascii);
