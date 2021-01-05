@@ -266,6 +266,27 @@ void main() {
     });
   });
 
+  group('isMimeType', () {
+    test('is false without a content-type header', () {
+      final message = _createMessage();
+      expect(message.mimeType, isNull);
+      expect(message.isMimeType('application'), isFalse);
+      expect(message.isMimeType('text'), isFalse);
+      expect(message.isMimeType('application', 'octet-stream'), isFalse);
+      expect(message.isMimeType('text', 'plain'), isFalse);
+    });
+
+    test('can query based on type and subtype', () {
+      final message = _createMessage(headers: {'content-type': 'text/plain'});
+      expect(message.mimeType, isNotNull);
+      expect(message.isMimeType('application'), isFalse);
+      expect(message.isMimeType('text'), isTrue);
+      expect(message.isMimeType('application', 'octet-stream'), isFalse);
+      expect(message.isMimeType('text', 'plain'), isTrue);
+      expect(message.isMimeType('text', 'csv'), isFalse);
+    });
+  });
+
   group('encoding', () {
     group('is null and content-type header is unchanged with', () {
       group('no content-type header and', () {

@@ -16,6 +16,7 @@ import 'content_headers.dart';
 import 'context.dart';
 import 'headers.dart';
 import 'media_type_encoding.dart';
+import 'media_type_query.dart';
 
 /// Represents logic shared between [Request] and [Response].
 abstract class Message {
@@ -131,9 +132,11 @@ abstract class Message {
   /// and optional [subtype].
   bool isMimeType(String type, [String subtype]) {
     final mimeType = _contentType;
-    final subtypeMatch = subtype == null || subtype == mimeType.subtype;
+    if (mimeType == null) {
+      return false;
+    }
 
-    return type == mimeType.type && subtypeMatch;
+    return mimeType.isMimeType(type, subtype);
   }
 
   /// Returns the message body as byte chunks.
