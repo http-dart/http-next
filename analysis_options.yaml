@@ -1,7 +1,8 @@
 analyzer:
   language:
-    strict-inference: true
+    strict-casts: true
     strict-raw-types: true
+    strict-inference: true
 
   strong-mode:
     implicit-casts: false
