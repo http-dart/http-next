@@ -27,7 +27,7 @@ extension ClientReader on Client {
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  FutureOr<String> read(Uri url, {Map<String, String> headers}) async {
+  FutureOr<String> read(Uri url, {Map<String, String>? headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 
@@ -45,7 +45,7 @@ extension ClientReader on Client {
   /// [get] instead.
   FutureOr<Uint8List> readBytes(
     Uri url, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
@@ -61,7 +61,7 @@ extension ClientReader on Client {
   ///
   /// For more fine-grained control over the request and response, use [send] or
   /// [get] instead.
-  FutureOr<T> readJson<T>(Uri url, {Map<String, String> headers}) async {
+  FutureOr<T> readJson<T>(Uri url, {Map<String, String>? headers}) async {
     final response = await get(url, headers: headers);
     _checkResponseSuccess(url, response);
 

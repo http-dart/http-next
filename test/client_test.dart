@@ -17,9 +17,9 @@ import 'utils.dart';
 void main() {
   group('client', () {
     // The server url of the spawned server
-    Uri serverUrl;
+    late Uri serverUrl;
     // The HTTP client to use
-    Client client;
+    late Client client;
 
     setUpAll(() async {
       final channel = spawnHybridUri('hybrid/server.dart');

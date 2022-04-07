@@ -18,7 +18,7 @@ extension Context on Map<String, Object> {
   /// When creating a [HttpUnmodifiableMap] the [source] is copies to a new
   /// [Map] to ensure changes to the parameter value after constructions are
   /// not reflected.
-  static Map<String, Object> create(Map<String, Object> source) {
+  static Map<String, Object> create(Map<String, Object>? source) {
     if (source is UnmodifiableMap<String, Object>) {
       return source;
     }
@@ -35,7 +35,7 @@ extension Context on Map<String, Object> {
   /// [updates] is used.
   static Map<String, Object> update(
     Map<String, Object> original,
-    Map<String, Object> updates,
+    Map<String, Object>? updates,
   ) {
     if (updates == null || updates.isEmpty) {
       return create(original);
@@ -47,6 +47,5 @@ extension Context on Map<String, Object> {
   /// Retrieves the value at [name] if present; otherwise [defaultsTo] is
   /// returned.
   T getOrDefault<T>(String name, T defaultsTo) =>
-      // ignore: avoid_as
       (this[name] ?? defaultsTo) as T;
 }

@@ -28,11 +28,11 @@ class Response extends Message {
   Response(
     Uri finalUrl,
     int statusCode, {
-    String reasonPhrase,
-    Object body,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    String? reasonPhrase,
+    Object? body,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this._(
           finalUrl,
           statusCode,
@@ -47,10 +47,10 @@ class Response extends Message {
     this.finalUrl,
     this.statusCode,
     this.reasonPhrase,
-    Object body,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Object? body,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   ) : super(body, encoding: encoding, headers: headers, context: context);
 
   /// The location of the requested resource.
@@ -82,9 +82,9 @@ class Response extends Message {
   /// [Stream<List<int>>], or `null` to indicate no body.
   @override
   Response change({
-    Map<String, String> headers,
-    Map<String, Object> context,
-    Object body,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
+    Object? body,
   }) {
     final updatedHeaders = Headers.update(this.headers, headers);
     final updatedContext = Context.update(this.context, context);

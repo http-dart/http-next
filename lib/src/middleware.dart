@@ -55,10 +55,10 @@ typedef ResponseHandler = FutureOr<Response> Function(Response response);
 /// does not receive errors thrown by [requestHandler] or [responseHandler].
 /// It can either return a new response or throw an error.
 Middleware createMiddleware({
-  RequestHandler requestHandler,
-  ResponseHandler responseHandler,
-  void Function() onClose,
-  void Function(Exception, [StackTrace]) errorHandler,
+  RequestHandler? requestHandler,
+  ResponseHandler? responseHandler,
+  void Function()? onClose,
+  void Function(Exception, [StackTrace])? errorHandler,
 }) {
   requestHandler ??= _defaultRequestHandler;
   responseHandler ??= _defaultResponseHandler;
@@ -66,10 +66,10 @@ Middleware createMiddleware({
   return (inner) => HandlerClient(
         (request) async {
           try {
-            final req = await requestHandler(request);
+            final req = await requestHandler!(request);
             final res = await inner.send(req);
 
-            return responseHandler(res);
+            return responseHandler!(res);
           } on Exception catch (e, stackTrace) {
             errorHandler?.call(e, stackTrace);
             return Response(Uri(), 400);

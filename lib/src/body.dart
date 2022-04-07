@@ -18,13 +18,13 @@ class Body {
   /// [body] may be either a [Body], a [String], a [List<int>], a
   /// [Stream<List<int>>], or `null`. If it's a [String], [encoding] will be
   /// used to convert it to a [Stream<List<int>>].
-  factory Body(Object body, [Encoding encoding]) {
+  factory Body(Object? body, [Encoding? encoding]) {
     if (body is Body) {
       return body;
     }
 
     Stream<List<int>> stream;
-    int contentLength;
+    int? contentLength;
 
     if (body == null) {
       contentLength = 0;
@@ -63,15 +63,15 @@ class Body {
   /// The contents of the message body.
   ///
   /// This will be `null` after [read] is called.
-  Stream<List<int>> _stream;
+  Stream<List<int>>? _stream;
 
   /// The encoding used to encode the stream returned by [read], or `null` if no
   /// encoding was used.
-  final Encoding encoding;
+  final Encoding? encoding;
 
   /// The length of the stream returned by [read], or `null` if that can't be
   /// determined efficiently.
-  final int contentLength;
+  final int? contentLength;
 
   /// Returns whether [bytes] is plain ASCII.
   ///
@@ -99,6 +99,6 @@ class Body {
     final stream = _stream;
     _stream = null;
 
-    return stream;
+    return stream!;
   }
 }

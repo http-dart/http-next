@@ -38,9 +38,9 @@ extension IOClientContext on Request {
 
   /// Modifies the [Request.context] to set [IOClient] specific values.
   Request changeIOClientContext({
-    bool followRedirects,
-    int maxRedirects,
-    bool persistentConnection,
+    bool? followRedirects,
+    int? maxRedirects,
+    bool? persistentConnection,
   }) {
     final context = <String, Object>{};
 

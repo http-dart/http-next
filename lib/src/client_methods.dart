@@ -23,13 +23,13 @@ extension ClientMethods on Client {
   /// Sends an HTTP HEAD request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> head(Uri url, {Map<String, String> headers}) =>
+  FutureOr<Response> head(Uri url, {Map<String, String>? headers}) =>
       send(Request.head(url, headers: headers));
 
   /// Sends an HTTP GET request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> get(Uri url, {Map<String, String> headers}) =>
+  FutureOr<Response> get(Uri url, {Map<String, String>? headers}) =>
       send(Request.get(url, headers: headers));
 
   /// Sends an HTTP POST request with the given [headers] and [body] to the
@@ -49,8 +49,8 @@ extension ClientMethods on Client {
   FutureOr<Response> post(
     Uri url,
     Object body, {
-    Map<String, String> headers,
-    Encoding encoding,
+    Map<String, String>? headers,
+    Encoding? encoding,
   }) =>
       send(Request.post(url, body, headers: headers, encoding: encoding));
 
@@ -71,8 +71,8 @@ extension ClientMethods on Client {
   FutureOr<Response> put(
     Uri url,
     Object body, {
-    Map<String, String> headers,
-    Encoding encoding,
+    Map<String, String>? headers,
+    Encoding? encoding,
   }) =>
       send(Request.put(url, body, headers: headers, encoding: encoding));
 
@@ -93,14 +93,14 @@ extension ClientMethods on Client {
   FutureOr<Response> patch(
     Uri url,
     Object body, {
-    Map<String, String> headers,
-    Encoding encoding,
+    Map<String, String>? headers,
+    Encoding? encoding,
   }) =>
       send(Request.patch(url, body, headers: headers, encoding: encoding));
 
   /// Sends an HTTP DELETE request with the given [headers] to the given [url].
   ///
   /// For more fine-grained control over the request, use [send] instead.
-  FutureOr<Response> delete(Uri url, {Map<String, String> headers}) =>
+  FutureOr<Response> delete(Uri url, {Map<String, String>? headers}) =>
       send(Request.delete(url, headers: headers));
 }

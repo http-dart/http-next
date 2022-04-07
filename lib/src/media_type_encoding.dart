@@ -17,13 +17,13 @@ extension MediaTypeEncoding on MediaType {
 
   /// Retrieves the [Encoding] for the [MediaType] specified in the `charset`
   /// parameter.
-  Encoding get encoding => Encoding.getByName(parameters[_charsetParameter]);
+  Encoding? get encoding => Encoding.getByName(parameters[_charsetParameter]);
 
-  /// Retieves the default [Encoding] for the [MediaType].
+  /// Retrieves the default [Encoding] for the [MediaType].
   ///
   /// For `text` types the default encoding is [ascii]. For `application/json`
   /// the default is [utf8]. For all other types no default is specified.
-  Encoding get defaultEncoding {
+  Encoding? get defaultEncoding {
     if (isMimeType(textType)) {
       return ascii;
     }
