@@ -72,7 +72,6 @@ class _Parse extends Matcher {
       return false;
     }
 
-    // ignore: avoid_as
     final encoded = item as String;
     dynamic parsed;
 
@@ -108,7 +107,6 @@ class _MultipartBodyMatches extends Matcher {
       return false;
     }
 
-    // ignore: avoid_as
     final request = item as http.Request;
 
     final future = request.readAsBytes().then((bodyBytes) {
@@ -137,7 +135,6 @@ class _MultipartBodyMatches extends Matcher {
 Matcher isClientException([Object message]) => predicate<Exception>((error) {
       expect(error, const TypeMatcher<http.ClientException>());
       if (message != null) {
-        // ignore: avoid_as
         final except = error as http.ClientException;
         expect(except.message, message);
       }

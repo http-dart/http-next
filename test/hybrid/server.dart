@@ -99,7 +99,6 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
           return;
         }
 
-        // ignore: avoid_as
         final headers = content['headers'] as Map<String, String>;
         headers[name] = value;
       });
