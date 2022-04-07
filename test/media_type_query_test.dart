@@ -3,10 +3,9 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'package:test/test.dart';
-
-import 'package:http_parser/http_parser.dart';
 import 'package:http_next/src/media_type_query.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('isMimeType', () {

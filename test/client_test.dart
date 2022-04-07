@@ -6,9 +6,8 @@
 
 import 'dart:convert';
 
-import 'package:test/test.dart';
-
 import 'package:http_next/http.dart';
+import 'package:test/test.dart';
 
 import 'user_agent.dart'
     if (dart.library.html) 'hybrid/user_agent_html.dart'

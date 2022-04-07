@@ -5,10 +5,9 @@
 
 import 'dart:convert';
 
+import 'package:http_next/src/media_type_encoding.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:test/test.dart';
-
-import 'package:http_next/src/media_type_encoding.dart';
 
 MediaType _text() => MediaType('text', 'plain');
 

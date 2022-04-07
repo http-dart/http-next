@@ -7,10 +7,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:test/test.dart';
-
 import 'package:http_next/http.dart';
 import 'package:http_next/src/message.dart';
+import 'package:test/test.dart';
 
 import 'utils.dart';
 
