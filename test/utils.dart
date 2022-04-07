@@ -13,7 +13,7 @@ import 'package:test/test.dart';
 /// A dummy URL for constructing requests that won't be sent.
 Uri get dummyUrl => Uri.http('dartlang.org', '');
 
-/// Removes eight spaces of leading indentation from a multiline string.
+/// Removes eight spaces of leading indentation from a multi-line string.
 ///
 /// Note that this is very sensitive to how the literals are styled. They should
 /// be:
