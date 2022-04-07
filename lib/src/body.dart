@@ -51,7 +51,8 @@ class Body {
       stream = body.cast();
     } else {
       throw ArgumentError(
-          'Response body "$body" must be a String or a Stream.');
+        'Response body "$body" must be a String or a Stream.',
+      );
     }
 
     return Body._(stream, encoding, contentLength);

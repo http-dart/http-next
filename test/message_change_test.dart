@@ -15,23 +15,27 @@ import 'utils.dart';
 
 void main() {
   group('Request', () {
-    _testChange(({body, headers, context}) => Request(
-          'GET',
-          dummyUrl,
-          body: body,
-          headers: headers,
-          context: context,
-        ));
+    _testChange(
+      ({body, headers, context}) => Request(
+        'GET',
+        dummyUrl,
+        body: body,
+        headers: headers,
+        context: context,
+      ),
+    );
   });
 
   group('Response', () {
-    _testChange(({body, headers, context}) => Response(
-          dummyUrl,
-          200,
-          body: body,
-          headers: headers,
-          context: context,
-        ));
+    _testChange(
+      ({body, headers, context}) => Response(
+        dummyUrl,
+        200,
+        body: body,
+        headers: headers,
+        context: context,
+      ),
+    );
   });
 }
 
@@ -58,8 +62,8 @@ void _testChange(
     test('with Stream', () async {
       final request = factory(body: 'Hello, world');
       final copy = request.change(
-          body:
-              Stream.fromIterable(['Goodbye, world']).transform(utf8.encoder));
+        body: Stream.fromIterable(['Goodbye, world']).transform(utf8.encoder),
+      );
 
       final newBody = await copy.readAsString();
 

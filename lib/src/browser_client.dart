@@ -52,34 +52,42 @@ class BrowserClient implements Client {
     request.headers.forEach(xhr.setRequestHeader);
 
     final completer = Completer<Response>();
-    unawaited(xhr.onLoad.first.then((_) {
-      // ignore: avoid_as
-      final buffer = xhr.response as ByteBuffer;
-      completer.complete(Response(
-        Uri.parse(xhr.responseUrl),
-        xhr.status,
-        reasonPhrase: xhr.statusText,
-        body: Stream.fromIterable([buffer.asUint8List()]),
-        headers: xhr.responseHeaders,
-      ));
-    }));
+    unawaited(
+      xhr.onLoad.first.then((_) {
+        // ignore: avoid_as
+        final buffer = xhr.response as ByteBuffer;
+        completer.complete(
+          Response(
+            Uri.parse(xhr.responseUrl),
+            xhr.status,
+            reasonPhrase: xhr.statusText,
+            body: Stream.fromIterable([buffer.asUint8List()]),
+            headers: xhr.responseHeaders,
+          ),
+        );
+      }),
+    );
 
-    unawaited(xhr.onError.first.then((_) {
-      // Unfortunately, the underlying XMLHttpRequest API doesn't expose any
-      // specific information about the error itself.
-      completer.completeError(
-        ClientException('XMLHttpRequest error', request.url),
-        StackTrace.current,
-      );
-    }));
+    unawaited(
+      xhr.onError.first.then((_) {
+        // Unfortunately, the underlying XMLHttpRequest API doesn't expose any
+        // specific information about the error itself.
+        completer.completeError(
+          ClientException('XMLHttpRequest error', request.url),
+          StackTrace.current,
+        );
+      }),
+    );
 
     // Catch the abort event so futures complete when close is called.
-    unawaited(xhr.onAbort.first.then((_) {
-      completer.completeError(
-        ClientException('Request cancelled', request.url),
-        StackTrace.current,
-      );
-    }));
+    unawaited(
+      xhr.onAbort.first.then((_) {
+        completer.completeError(
+          ClientException('Request cancelled', request.url),
+          StackTrace.current,
+        );
+      }),
+    );
 
     xhr.send(bytes);
 

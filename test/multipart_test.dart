@@ -16,24 +16,31 @@ import 'utils.dart';
 void main() {
   test('empty', () {
     final request = http.Request.multipart(dummyUrl);
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('errors', () {
     expect(
-        () => http.Request.multipart(
-              dummyUrl,
-              fields: <String, Object>{'foo': 2},
-            ),
-        throwsArgumentError);
+      () => http.Request.multipart(
+        dummyUrl,
+        fields: <String, Object>{'foo': 2},
+      ),
+      throwsArgumentError,
+    );
     expect(
-        () => http.Request.multipart(
-              dummyUrl,
-              fields: <String, Object>{'foo': null},
-            ),
-        throwsArgumentError);
+      () => http.Request.multipart(
+        dummyUrl,
+        fields: <String, Object>{'foo': null},
+      ),
+      throwsArgumentError,
+    );
   });
 
   test('with fields and files', () {
@@ -49,7 +56,10 @@ void main() {
     final request =
         http.Request.multipart(dummyUrl, fields: fields, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="field1"
 
@@ -69,7 +79,9 @@ void main() {
 
         contents2
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a unicode field name', () {
@@ -77,46 +89,64 @@ void main() {
 
     final request = http.Request.multipart(dummyUrl, fields: fields);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="fïēld"
 
         value
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a field name with newlines', () {
     final fields = {'foo\nbar\rbaz\r\nbang': 'value'};
     final request = http.Request.multipart(dummyUrl, fields: fields);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="foo%0D%0Abar%0D%0Abaz%0D%0Abang"
 
         value
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a field name with a quote', () {
     final fields = {'foo"bar': 'value'};
     final request = http.Request.multipart(dummyUrl, fields: fields);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="foo%22bar"
 
         value
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a unicode field value', () {
     final fields = {'field': 'vⱥlūe'};
     final request = http.Request.multipart(dummyUrl, fields: fields);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="field"
         content-type: text/plain; charset=utf-8
@@ -124,7 +154,9 @@ void main() {
 
         vⱥlūe
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with multiple fields of the same name', () {
@@ -133,7 +165,10 @@ void main() {
     };
     final request = http.Request.multipart(dummyUrl, fields: fields);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-disposition: form-data; name="field"
 
@@ -143,7 +178,9 @@ void main() {
 
         value2
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a unicode filename', () {
@@ -152,14 +189,19 @@ void main() {
     ];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: text/plain; charset=utf-8
         content-disposition: form-data; name="file"; filename="fïlēname.txt"
 
         contents
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a filename with newlines', () {
@@ -168,63 +210,90 @@ void main() {
     ];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: text/plain; charset=utf-8
         content-disposition: form-data; name="file"; filename="foo%0D%0Abar%0D%0Abaz%0D%0Abang"
 
         contents
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a filename with a quote', () {
     final files = [http.MultipartFile('file', 'contents', filename: 'foo"bar')];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: text/plain; charset=utf-8
         content-disposition: form-data; name="file"; filename="foo%22bar"
 
         contents
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a string file with a content-type but no charset', () {
     final files = [
-      http.MultipartFile('file', '{"hello": "world"}',
-          contentType: MediaType('application', 'json'))
+      http.MultipartFile(
+        'file',
+        '{"hello": "world"}',
+        contentType: MediaType('application', 'json'),
+      )
     ];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: application/json; charset=utf-8
         content-disposition: form-data; name="file"
 
         {"hello": "world"}
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a file with a iso-8859-1 body', () {
     // "Ã¥" encoded as ISO-8859-1 and then read as UTF-8 results in "å".
     final files = [
-      http.MultipartFile('file', 'non-ascii: "Ã¥"',
-          encoding: latin1, contentType: MediaType('text', 'plain'))
+      http.MultipartFile(
+        'file',
+        'non-ascii: "Ã¥"',
+        encoding: latin1,
+        contentType: MediaType('text', 'plain'),
+      )
     ];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: text/plain; charset=iso-8859-1
         content-disposition: form-data; name="file"
 
         non-ascii: "å"
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 
   test('with a stream file', () {
@@ -232,14 +301,19 @@ void main() {
     final files = [http.MultipartFile.fromStream('file', controller.stream, 5)];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: application/octet-stream
         content-disposition: form-data; name="file"
 
         hello
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
 
     controller
       ..add([104, 101, 108, 108, 111])
@@ -251,14 +325,19 @@ void main() {
     final files = [http.MultipartFile.fromStream('file', controller.stream, 0)];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: application/octet-stream
         content-disposition: form-data; name="file"
 
 
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
 
     controller.close();
   });
@@ -269,13 +348,18 @@ void main() {
     ];
     final request = http.Request.multipart(dummyUrl, files: files);
 
-    expect(request, multipartBodyMatches('''
+    expect(
+      request,
+      multipartBodyMatches(
+        '''
         --{{boundary}}
         content-type: application/octet-stream
         content-disposition: form-data; name="file"
 
         hello
         --{{boundary}}--
-        '''));
+        ''',
+      ),
+    );
   });
 }

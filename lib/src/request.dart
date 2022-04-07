@@ -254,10 +254,12 @@ class Request extends Message {
     encoding ??= utf8;
 
     final pairs = <List<String>>[];
-    body.forEach((key, value) => pairs.add([
-          Uri.encodeQueryComponent(key, encoding: encoding),
-          Uri.encodeQueryComponent(value, encoding: encoding)
-        ]));
+    body.forEach(
+      (key, value) => pairs.add([
+        Uri.encodeQueryComponent(key, encoding: encoding),
+        Uri.encodeQueryComponent(value, encoding: encoding)
+      ]),
+    );
 
     return Request._(
       method ?? MethodToken.post,

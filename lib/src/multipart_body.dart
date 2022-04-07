@@ -33,7 +33,10 @@ class MultipartBody implements Body {
   ) {
     if (!validBoundaryString(boundary)) {
       throw ArgumentError.value(
-          boundary, 'boundary', 'not a valid boundary string');
+        boundary,
+        'boundary',
+        'not a valid boundary string',
+      );
     }
 
     final controller = StreamController<List<int>>(sync: true);
@@ -70,7 +73,10 @@ class MultipartBody implements Body {
         throw ArgumentError.notNull('field[$name]');
       } else {
         throw ArgumentError.value(
-            value, 'field[$name]', 'must be a String or List<String>');
+          value,
+          'field[$name]',
+          'must be a String or List<String>',
+        );
       }
     });
 
@@ -100,7 +106,9 @@ class MultipartBody implements Body {
     _writeFilesToStream(controller, fileList, fileHeaders, ending);
 
     return MultipartBody._(
-        controller.stream, buffer.length + fileContentsLength);
+      controller.stream,
+      buffer.length + fileContentsLength,
+    );
   }
 
   MultipartBody._(this._stream, this.contentLength);
@@ -120,8 +128,10 @@ class MultipartBody implements Body {
   @override
   Stream<List<int>> read() {
     if (_stream == null) {
-      throw StateError("The 'read' method can only be called once on a "
-          'http.Request/http.Response object.');
+      throw StateError(
+        "The 'read' method can only be called once on a "
+        'http.Request/http.Response object.',
+      );
     }
     final stream = _stream;
     _stream = null;

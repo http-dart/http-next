@@ -55,8 +55,13 @@ class IOClient implements Client {
         headers[key] = values.join(',');
       });
 
-      void _streamErrorHandler(HttpException error) =>
-          throw ClientException(error.message, error.uri ?? request.url);
+      void _streamErrorHandler(Object error) {
+        final httpException = error as HttpException;
+        throw ClientException(
+          httpException.message,
+          httpException.uri ?? request.url,
+        );
+      }
 
       return Response(
         _responseUrl(request, response),

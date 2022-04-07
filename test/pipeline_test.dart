@@ -13,34 +13,42 @@ void main() {
   test('compose middleware with Pipeline', () async {
     var accessLocation = 0;
 
-    final middlewareA = createMiddleware(requestHandler: (request) async {
-      expect(accessLocation, 0);
-      accessLocation = 1;
-      return request;
-    }, responseHandler: (response) async {
-      expect(accessLocation, 4);
-      accessLocation = 5;
-      return response;
-    });
+    final middlewareA = createMiddleware(
+      requestHandler: (request) async {
+        expect(accessLocation, 0);
+        accessLocation = 1;
+        return request;
+      },
+      responseHandler: (response) async {
+        expect(accessLocation, 4);
+        accessLocation = 5;
+        return response;
+      },
+    );
 
-    final middlewareB = createMiddleware(requestHandler: (request) async {
-      expect(accessLocation, 1);
-      accessLocation = 2;
-      return request;
-    }, responseHandler: (response) async {
-      expect(accessLocation, 3);
-      accessLocation = 4;
-      return response;
-    });
+    final middlewareB = createMiddleware(
+      requestHandler: (request) async {
+        expect(accessLocation, 1);
+        accessLocation = 2;
+        return request;
+      },
+      responseHandler: (response) async {
+        expect(accessLocation, 3);
+        accessLocation = 4;
+        return response;
+      },
+    );
 
     final client = const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
-        .addClient(Client.handler((request) async {
-      expect(accessLocation, 2);
-      accessLocation = 3;
-      return Response(dummyUrl, 200);
-    }));
+        .addClient(
+      Client.handler((request) async {
+        expect(accessLocation, 2);
+        accessLocation = 3;
+        return Response(dummyUrl, 200);
+      }),
+    );
 
     final response = await client.get(dummyUrl);
 
@@ -51,36 +59,43 @@ void main() {
   test('Pipeline can be used as middleware', () async {
     var accessLocation = 0;
 
-    final middlewareA = createMiddleware(requestHandler: (request) async {
-      expect(accessLocation, 0);
-      accessLocation = 1;
-      return request;
-    }, responseHandler: (response) async {
-      expect(accessLocation, 4);
-      accessLocation = 5;
-      return response;
-    });
+    final middlewareA = createMiddleware(
+      requestHandler: (request) async {
+        expect(accessLocation, 0);
+        accessLocation = 1;
+        return request;
+      },
+      responseHandler: (response) async {
+        expect(accessLocation, 4);
+        accessLocation = 5;
+        return response;
+      },
+    );
 
-    final middlewareB = createMiddleware(requestHandler: (request) async {
-      expect(accessLocation, 1);
-      accessLocation = 2;
-      return request;
-    }, responseHandler: (response) async {
-      expect(accessLocation, 3);
-      accessLocation = 4;
-      return response;
-    });
+    final middlewareB = createMiddleware(
+      requestHandler: (request) async {
+        expect(accessLocation, 1);
+        accessLocation = 2;
+        return request;
+      },
+      responseHandler: (response) async {
+        expect(accessLocation, 3);
+        accessLocation = 4;
+        return response;
+      },
+    );
 
     final innerPipeline =
         const Pipeline().addMiddleware(middlewareA).addMiddleware(middlewareB);
 
-    final client = const Pipeline()
-        .addMiddleware(innerPipeline.middleware)
-        .addClient(Client.handler((request) async {
-      expect(accessLocation, 2);
-      accessLocation = 3;
-      return Response(dummyUrl, 200);
-    }));
+    final client =
+        const Pipeline().addMiddleware(innerPipeline.middleware).addClient(
+      Client.handler((request) async {
+        expect(accessLocation, 2);
+        accessLocation = 3;
+        return Response(dummyUrl, 200);
+      }),
+    );
 
     final response = await client.get(dummyUrl);
 
@@ -91,26 +106,32 @@ void main() {
   test('Pipeline calls close on all middleware', () {
     var accessLocation = 0;
 
-    final middlewareA = createMiddleware(onClose: () {
-      expect(accessLocation, 0);
-      accessLocation = 1;
-    });
+    final middlewareA = createMiddleware(
+      onClose: () {
+        expect(accessLocation, 0);
+        accessLocation = 1;
+      },
+    );
 
-    final middlewareB = createMiddleware(onClose: () {
-      expect(accessLocation, 1);
-      accessLocation = 2;
-    });
+    final middlewareB = createMiddleware(
+      onClose: () {
+        expect(accessLocation, 1);
+        accessLocation = 2;
+      },
+    );
 
     const Pipeline()
         .addMiddleware(middlewareA)
         .addMiddleware(middlewareB)
-        .addClient(Client.handler(
-          (request) async => Response(dummyUrl, 200),
-          onClose: () {
-            expect(accessLocation, 2);
-            accessLocation = 3;
-          },
-        ))
+        .addClient(
+          Client.handler(
+            (request) async => Response(dummyUrl, 200),
+            onClose: () {
+              expect(accessLocation, 2);
+              accessLocation = 3;
+            },
+          ),
+        )
         .close();
 
     expect(accessLocation, 3);

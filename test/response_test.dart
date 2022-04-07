@@ -17,8 +17,11 @@ void main() {
     });
 
     test('is parsed from the header', () {
-      final response = http.Response(dummyUrl, 200,
-          headers: {'Expires': 'Wed, 21 Oct 2015 07:28:00 GMT'});
+      final response = http.Response(
+        dummyUrl,
+        200,
+        headers: {'Expires': 'Wed, 21 Oct 2015 07:28:00 GMT'},
+      );
       expect(response.expires, equals(DateTime.utc(2015, 10, 21, 7, 28)));
     });
 
@@ -36,8 +39,11 @@ void main() {
     });
 
     test('is parsed from the header', () {
-      final response = http.Response(dummyUrl, 200,
-          headers: {'Last-Modified': 'Wed, 21 Oct 2015 07:28:00 GMT'});
+      final response = http.Response(
+        dummyUrl,
+        200,
+        headers: {'Last-Modified': 'Wed, 21 Oct 2015 07:28:00 GMT'},
+      );
       expect(response.lastModified, equals(DateTime.utc(2015, 10, 21, 7, 28)));
     });
 

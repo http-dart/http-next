@@ -35,8 +35,11 @@ class _TestMessage extends Message {
   ) : super(body, headers: headers, context: context, encoding: encoding);
 
   @override
-  Message change(
-      {Map<String, String> headers, Map<String, Object> context, Object body}) {
+  Message change({
+    Map<String, String> headers,
+    Map<String, Object> context,
+    Object body,
+  }) {
     throw UnimplementedError();
   }
 }
@@ -123,11 +126,14 @@ void main() {
       final controller = StreamController<List<int>>();
       final message = _createMessage(body: controller.stream);
       expect(
-          message.readAsBytes(),
-          completion(equals(<int>[
+        message.readAsBytes(),
+        completion(
+          equals(<int>[
             ..._helloBytes,
             ..._worldBytes,
-          ])));
+          ]),
+        ),
+      );
 
       controller.add(_helloBytes);
       await pumpEventQueue();
@@ -145,8 +151,10 @@ void main() {
     test('returns a streamed body', () async {
       final controller = StreamController<List<int>>();
       final message = _createMessage(body: controller.stream);
-      expect(message.read().toList(),
-          completion(equals([_helloBytes, _worldBytes])));
+      expect(
+        message.read().toList(),
+        completion(equals([_helloBytes, _worldBytes])),
+      );
 
       controller.add(_helloBytes);
       await pumpEventQueue();
@@ -213,34 +221,43 @@ void main() {
 
     test('uses the content-length header for a stream body', () {
       final message = _createMessage(
-          body: const Stream<List<int>>.empty(),
-          headers: {'content-length': '42'});
+        body: const Stream<List<int>>.empty(),
+        headers: {'content-length': '42'},
+      );
       expect(message.contentLength, 42);
       expect(message.isEmpty, isFalse);
     });
 
     test('real body length takes precedence over content-length header', () {
-      final message =
-          _createMessage(body: [1, 2, 3], headers: {'content-length': '42'});
+      final message = _createMessage(
+        body: [1, 2, 3],
+        headers: {'content-length': '42'},
+      );
       expect(message.contentLength, 3);
       expect(message.isEmpty, isFalse);
     });
 
     test('is null for a chunked transfer encoding', () {
       final message = _createMessage(
-          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'chunked'});
+        body: '1\r\na0\r\n\r\n',
+        headers: {'transfer-encoding': 'chunked'},
+      );
       expect(message.contentLength, isNull);
     });
 
     test('is null for a non-identity transfer encoding', () {
       final message = _createMessage(
-          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'custom'});
+        body: '1\r\na0\r\n\r\n',
+        headers: {'transfer-encoding': 'custom'},
+      );
       expect(message.contentLength, isNull);
     });
 
     test('is set for identity transfer encoding', () {
       final message = _createMessage(
-          body: '1\r\na0\r\n\r\n', headers: {'transfer-encoding': 'identity'});
+        body: '1\r\na0\r\n\r\n',
+        headers: {'transfer-encoding': 'identity'},
+      );
       expect(message.contentLength, equals(9));
       expect(message.isEmpty, isFalse);
     });
@@ -252,16 +269,19 @@ void main() {
     });
 
     test('comes from the content-type header', () {
-      expect(_createMessage(headers: {'content-type': 'text/plain'}).mimeType,
-          equals('text/plain'));
+      expect(
+        _createMessage(headers: {'content-type': 'text/plain'}).mimeType,
+        equals('text/plain'),
+      );
     });
 
     test('does not include parameters', () {
       expect(
-          _createMessage(
-                  headers: {'content-type': 'text/plain; foo=bar; bar=baz'})
-              .mimeType,
-          equals('text/plain'));
+        _createMessage(
+          headers: {'content-type': 'text/plain; foo=bar; bar=baz'},
+        ).mimeType,
+        equals('text/plain'),
+      );
     });
   });
 
@@ -310,36 +330,47 @@ void main() {
 
       group('an unknown content-type header and', () {
         test('no body', () {
-          final message = _createMessage(headers: {
-            'Content-Type': 'text/plain; charset=not-a-real-charset'
-          });
+          final message = _createMessage(
+            headers: {'Content-Type': 'text/plain; charset=not-a-real-charset'},
+          );
           expect(message.encoding, isNull);
           expect(
-              message.headers,
-              containsPair(
-                  'content-type', 'text/plain; charset=not-a-real-charset'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'text/plain; charset=not-a-real-charset',
+            ),
+          );
         });
 
         test('a plain ASCII body', () {
-          final message = _createMessage(body: 'foo', headers: {
-            'Content-Type': 'text/plain; charset=not-a-real-charset'
-          });
+          final message = _createMessage(
+            body: 'foo',
+            headers: {'Content-Type': 'text/plain; charset=not-a-real-charset'},
+          );
           expect(message.encoding, isNull);
           expect(
-              message.headers,
-              containsPair(
-                  'content-type', 'text/plain; charset=not-a-real-charset'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'text/plain; charset=not-a-real-charset',
+            ),
+          );
         });
 
         test('body bytes', () {
-          final message = _createMessage(body: _utf8Bytes, headers: {
-            'Content-Type': 'text/plain; charset=not-a-real-charset'
-          });
+          final message = _createMessage(
+            body: _utf8Bytes,
+            headers: {'Content-Type': 'text/plain; charset=not-a-real-charset'},
+          );
           expect(message.encoding, isNull);
           expect(
-              message.headers,
-              containsPair(
-                  'content-type', 'text/plain; charset=not-a-real-charset'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'text/plain; charset=not-a-real-charset',
+            ),
+          );
           expect(message.readAsString(), completion(equals(_nonAscii)));
         });
       });
@@ -350,19 +381,25 @@ void main() {
         final message = _createMessage(body: _nonAscii);
         expect(message.encoding, equals(utf8));
         expect(
-            message.headers,
-            containsPair(
-                'content-type', 'application/octet-stream; charset=utf-8'));
+          message.headers,
+          containsPair(
+            'content-type',
+            'application/octet-stream; charset=utf-8',
+          ),
+        );
         expect(message.readAsBytes(), completion(equals(_utf8Bytes)));
       });
 
       test('a content-type header', () {
         final message = _createMessage(
-            body: _nonAscii,
-            headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
+          body: _nonAscii,
+          headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
+        );
         expect(message.encoding, equals(utf8));
-        expect(message.headers,
-            containsPair('content-type', 'text/plain; charset=utf-8'));
+        expect(
+          message.headers,
+          containsPair('content-type', 'text/plain; charset=utf-8'),
+        );
         expect(message.readAsBytes(), completion(equals(_utf8Bytes)));
       });
     });
@@ -373,27 +410,36 @@ void main() {
           final message = _createMessage(encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
-              message.headers,
-              containsPair('content-type',
-                  'application/octet-stream; charset=iso-8859-1'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'application/octet-stream; charset=iso-8859-1',
+            ),
+          );
         });
 
         test('a plain ASCII body', () {
           final message = _createMessage(body: 'foo', encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
-              message.headers,
-              containsPair('content-type',
-                  'application/octet-stream; charset=iso-8859-1'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'application/octet-stream; charset=iso-8859-1',
+            ),
+          );
         });
 
         test('a non-ASCII body', () {
           final message = _createMessage(body: _nonAscii, encoding: latin1);
           expect(message.encoding, equals(latin1));
           expect(
-              message.headers,
-              containsPair('content-type',
-                  'application/octet-stream; charset=iso-8859-1'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'application/octet-stream; charset=iso-8859-1',
+            ),
+          );
           expect(message.readAsBytes(), completion(equals(_latin1Bytes)));
         });
 
@@ -401,59 +447,78 @@ void main() {
           final message = _createMessage(encoding: latin1, body: _latin1Bytes);
           expect(message.encoding, equals(latin1));
           expect(
-              message.headers,
-              containsPair('content-type',
-                  'application/octet-stream; charset=iso-8859-1'));
+            message.headers,
+            containsPair(
+              'content-type',
+              'application/octet-stream; charset=iso-8859-1',
+            ),
+          );
           expect(message.readAsString(), completion(equals(_nonAscii)));
         });
       });
 
       test('a content-type header without a charset', () {
         final message = _createMessage(
-            encoding: latin1, headers: {'Content-Type': 'text/plain'});
-        expect(message.headers,
-            containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+          encoding: latin1,
+          headers: {'Content-Type': 'text/plain'},
+        );
+        expect(
+          message.headers,
+          containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+        );
       });
 
       group('a content-type header and', () {
         test('no body', () {
           final message = _createMessage(
-              encoding: latin1,
-              headers: {'Content-Type': 'text/plain; charset=utf-8'});
+            encoding: latin1,
+            headers: {'Content-Type': 'text/plain; charset=utf-8'},
+          );
           expect(message.encoding, equals(latin1));
-          expect(message.headers,
-              containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+          expect(
+            message.headers,
+            containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+          );
         });
 
         test('a plain ASCII body', () {
           final message = _createMessage(
-              body: 'foo',
-              encoding: latin1,
-              headers: {'Content-Type': 'text/plain; charset=utf-8'});
+            body: 'foo',
+            encoding: latin1,
+            headers: {'Content-Type': 'text/plain; charset=utf-8'},
+          );
           expect(message.encoding, equals(latin1));
-          expect(message.headers,
-              containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+          expect(
+            message.headers,
+            containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+          );
         });
 
         test('a non-ASCII body', () {
           final message = _createMessage(
-              body: _nonAscii,
-              encoding: latin1,
-              headers: {'Content-Type': 'text/plain; charset=utf-8'});
+            body: _nonAscii,
+            encoding: latin1,
+            headers: {'Content-Type': 'text/plain; charset=utf-8'},
+          );
           expect(message.encoding, equals(latin1));
-          expect(message.headers,
-              containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+          expect(
+            message.headers,
+            containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+          );
           expect(message.readAsBytes(), completion(equals(_latin1Bytes)));
         });
 
         test('body bytes', () {
           final message = _createMessage(
-              encoding: latin1,
-              body: _latin1Bytes,
-              headers: {'Content-Type': 'text/plain; charset=utf-8'});
+            encoding: latin1,
+            body: _latin1Bytes,
+            headers: {'Content-Type': 'text/plain; charset=utf-8'},
+          );
           expect(message.encoding, equals(latin1));
-          expect(message.headers,
-              containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+          expect(
+            message.headers,
+            containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+          );
           expect(message.readAsString(), completion(equals(_nonAscii)));
         });
       });
@@ -462,28 +527,37 @@ void main() {
     group('uses the content-type header with', () {
       test('no body', () {
         final message = _createMessage(
-            headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
+          headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
+        );
         expect(message.encoding.name, equals(latin1.name));
-        expect(message.headers,
-            containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+        expect(
+          message.headers,
+          containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+        );
       });
 
       test('a plain ASCII body', () {
         final message = _createMessage(
-            body: 'foo',
-            headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
+          body: 'foo',
+          headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
+        );
         expect(message.encoding.name, equals(latin1.name));
-        expect(message.headers,
-            containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+        expect(
+          message.headers,
+          containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+        );
       });
 
       test('body bytes', () {
         final message = _createMessage(
-            body: _latin1Bytes,
-            headers: {'Content-Type': 'text/plain; charset=iso-8859-1'});
+          body: _latin1Bytes,
+          headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
+        );
         expect(message.encoding.name, equals(latin1.name));
-        expect(message.headers,
-            containsPair('content-type', 'text/plain; charset=iso-8859-1'));
+        expect(
+          message.headers,
+          containsPair('content-type', 'text/plain; charset=iso-8859-1'),
+        );
         expect(message.readAsString(), completion(equals(_nonAscii)));
       });
     });

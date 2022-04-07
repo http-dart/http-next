@@ -41,17 +41,21 @@ void main() {
     });
 
     test('get', () async {
-      final response = await client.get(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.get(
+        serverUrl,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'GET',
             'path': '',
             'headers': {
@@ -59,21 +63,28 @@ void main() {
               'x-random-header': 'Value',
               'x-other-header': 'Other Value'
             }
-          })));
+          }),
+        ),
+      );
     });
 
     test('post with string', () async {
-      final response = await client.post(serverUrl, 'request body', headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.post(
+        serverUrl,
+        'request body',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'POST',
             'path': '',
             'headers': {
@@ -83,22 +94,29 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('request body')
-          })));
+          }),
+        ),
+      );
     });
 
     test('post with string and encoding', () async {
-      final response = await client
-          .post(serverUrl, 'request body', encoding: utf8, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.post(
+        serverUrl,
+        'request body',
+        encoding: utf8,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'POST',
             'path': '',
             'headers': {
@@ -109,22 +127,28 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': 'request body'
-          })));
+          }),
+        ),
+      );
     });
 
     test('post with bytes', () async {
-      final response =
-          await client.post(serverUrl, ascii.encode('hello'), headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.post(
+        serverUrl,
+        ascii.encode('hello'),
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'POST',
             'path': '',
             'headers': {
@@ -134,7 +158,9 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('hello')
-          })));
+          }),
+        ),
+      );
     });
 
     test('post with fields', () async {
@@ -154,8 +180,9 @@ void main() {
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'POST',
             'path': '',
             'headers': {
@@ -166,21 +193,28 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('some-field=value&other-field=other+value')
-          })));
+          }),
+        ),
+      );
     });
 
     test('put with string', () async {
-      final response = await client.put(serverUrl, 'request body', headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.put(
+        serverUrl,
+        'request body',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PUT',
             'path': '',
             'headers': {
@@ -190,22 +224,29 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('request body')
-          })));
+          }),
+        ),
+      );
     });
 
     test('put with string and encoding', () async {
-      final response =
-          await client.put(serverUrl, 'request body', encoding: utf8, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.put(
+        serverUrl,
+        'request body',
+        encoding: utf8,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PUT',
             'path': '',
             'headers': {
@@ -216,22 +257,28 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': 'request body'
-          })));
+          }),
+        ),
+      );
     });
 
     test('put with bytes', () async {
-      final response =
-          await client.put(serverUrl, ascii.encode('hello'), headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.put(
+        serverUrl,
+        ascii.encode('hello'),
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PUT',
             'path': '',
             'headers': {
@@ -241,7 +288,9 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('hello')
-          })));
+          }),
+        ),
+      );
     });
 
     test('put with fields', () async {
@@ -260,8 +309,9 @@ void main() {
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PUT',
             'path': '',
             'headers': {
@@ -272,21 +322,28 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('some-field=value&other-field=other+value')
-          })));
+          }),
+        ),
+      );
     });
 
     test('patch with string', () async {
-      final response = await client.patch(serverUrl, 'request body', headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.patch(
+        serverUrl,
+        'request body',
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PATCH',
             'path': '',
             'headers': {
@@ -296,22 +353,29 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('request body')
-          })));
+          }),
+        ),
+      );
     });
 
     test('patch with string and encoding', () async {
-      final response = await client
-          .patch(serverUrl, 'request body', encoding: utf8, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.patch(
+        serverUrl,
+        'request body',
+        encoding: utf8,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PATCH',
             'path': '',
             'headers': {
@@ -322,22 +386,28 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': 'request body'
-          })));
+          }),
+        ),
+      );
     });
 
     test('patch with bytes', () async {
-      final response =
-          await client.patch(serverUrl, ascii.encode('hello'), headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.patch(
+        serverUrl,
+        ascii.encode('hello'),
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PATCH',
             'path': '',
             'headers': {
@@ -347,7 +417,9 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('hello')
-          })));
+          }),
+        ),
+      );
     });
 
     test('patch with fields', () async {
@@ -366,8 +438,9 @@ void main() {
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'PATCH',
             'path': '',
             'headers': {
@@ -378,21 +451,27 @@ void main() {
               'x-other-header': 'Other Value'
             },
             'body': ascii.encode('some-field=value&other-field=other+value')
-          })));
+          }),
+        ),
+      );
     });
 
     test('delete', () async {
-      final response = await client.delete(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final response = await client.delete(
+        serverUrl,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
       final body = await response.readAsString();
 
       expect(response.statusCode, equals(200));
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'DELETE',
             'path': '',
             'headers': {
@@ -400,19 +479,25 @@ void main() {
               'x-random-header': 'Value',
               'x-other-header': 'Other Value'
             }
-          })));
+          }),
+        ),
+      );
     });
 
     test('read', () async {
-      final body = await client.read(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final body = await client.read(
+        serverUrl,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
 
       expect(
-          body,
-          parse(equals({
+        body,
+        parse(
+          equals({
             'method': 'GET',
             'path': '',
             'headers': {
@@ -420,24 +505,32 @@ void main() {
               'x-random-header': 'Value',
               'x-other-header': 'Other Value'
             }
-          })));
+          }),
+        ),
+      );
     });
 
     test('read throws an error for a 4** status code', () async {
-      expect(() => client.read(serverUrl.resolve('/error')),
-          throwsClientException());
+      expect(
+        () => client.read(serverUrl.resolve('/error')),
+        throwsClientException(),
+      );
     });
 
     test('readBytes', () async {
-      final body = await client.readBytes(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': userAgent()
-      });
+      final body = await client.readBytes(
+        serverUrl,
+        headers: {
+          'X-Random-Header': 'Value',
+          'X-Other-Header': 'Other Value',
+          'User-Agent': userAgent()
+        },
+      );
 
       expect(
-          String.fromCharCodes(body),
-          parse(equals({
+        String.fromCharCodes(body),
+        parse(
+          equals({
             'method': 'GET',
             'path': '',
             'headers': {
@@ -445,12 +538,16 @@ void main() {
               'x-random-header': 'Value',
               'x-other-header': 'Other Value'
             }
-          })));
+          }),
+        ),
+      );
     });
 
     test('readBytes throws an error for a 4** status code', () async {
-      expect(() => client.readBytes(serverUrl.resolve('/error')),
-          throwsClientException());
+      expect(
+        () => client.readBytes(serverUrl.resolve('/error')),
+        throwsClientException(),
+      );
     });
   });
 }
