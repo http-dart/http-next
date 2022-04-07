@@ -24,10 +24,10 @@ class Pipeline {
   Pipeline._(this._parent, this._middleware);
 
   /// The outer pipeline.
-  final Pipeline _parent;
+  final Pipeline? _parent;
 
   /// The [Middleware] that is invoked at this stage.
-  final Middleware _middleware;
+  final Middleware? _middleware;
 
   /// Returns a new [Pipeline] with [middleware] added to the existing set of
   /// [Middleware].
@@ -40,7 +40,7 @@ class Pipeline {
   /// [Request] if all of the middleware in the pipeline have passed the request
   /// through.
   Client addClient(Client client) =>
-      _middleware == null ? client : _parent.addClient(_middleware(client));
+      _middleware == null ? client : _parent!.addClient(_middleware!(client));
 
   /// Returns a new [Client] with [handler] as the final processor of a
   /// [Request] if all of the middleware in the pipeline have passed the request

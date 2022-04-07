@@ -5,6 +5,7 @@
 // in the LICENSE file.
 
 /// A composable, [Future]-based library for making HTTP requests.
+library;
 
 export 'src/cache_response.dart';
 export 'src/client.dart';

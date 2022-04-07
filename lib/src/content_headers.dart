@@ -32,18 +32,18 @@ extension ContentHeaders on Map<String, String> {
       });
 
   /// The `content-length` header value.
-  String get contentLength => this[_contentLengthHeader];
-  set contentLength(String value) {
+  String? get contentLength => this[_contentLengthHeader];
+  set contentLength(String? value) {
     _setOrRemove(_contentLengthHeader, value);
   }
 
   /// The `content-type` header value.
-  String get contentType => this[_contentTypeHeader];
-  set contentType(String value) {
+  String? get contentType => this[_contentTypeHeader];
+  set contentType(String? value) {
     _setOrRemove(_contentTypeHeader, value);
   }
 
-  void _setOrRemove(String key, String value) {
+  void _setOrRemove(String key, String? value) {
     if (value == null) {
       remove(key);
     } else {

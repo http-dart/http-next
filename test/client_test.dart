@@ -17,9 +17,9 @@ import 'utils.dart';
 void main() {
   group('client', () {
     // The server url of the spawned server
-    Uri serverUrl;
+    late Uri serverUrl;
     // The HTTP client to use
-    Client client;
+    late Client client;
 
     setUpAll(() async {
       final channel = spawnHybridUri('hybrid/server.dart');
@@ -467,6 +467,17 @@ void main() {
       );
       final body = await response.readAsString();
 
+      // Chrome is adding in a content-length
+      final expectedHeaders = {
+        'user-agent': userAgent(),
+        'x-random-header': 'Value',
+        'x-other-header': 'Other Value'
+      };
+
+      if (userAgent() != 'Dart') {
+        expectedHeaders['content-length'] = '0';
+      }
+
       expect(response.statusCode, equals(200));
       expect(
         body,
@@ -474,11 +485,7 @@ void main() {
           equals({
             'method': 'DELETE',
             'path': '',
-            'headers': {
-              'user-agent': userAgent(),
-              'x-random-header': 'Value',
-              'x-other-header': 'Other Value'
-            }
+            'headers': expectedHeaders,
           }),
         ),
       );

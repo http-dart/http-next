@@ -69,8 +69,6 @@ class MultipartBody implements Body {
         value.forEach(writeField);
       } else if (value is String) {
         writeField(value);
-      } else if (value == null) {
-        throw ArgumentError.notNull('field[$name]');
       } else {
         throw ArgumentError.value(
           value,
@@ -103,7 +101,7 @@ class MultipartBody implements Body {
     fileContentsLength += ending.length;
 
     // Write the files to the stream asynchronously.
-    _writeFilesToStream(controller, fileList, fileHeaders, ending);
+    unawaited(_writeFilesToStream(controller, fileList, fileHeaders, ending));
 
     return MultipartBody._(
       controller.stream,
@@ -116,14 +114,14 @@ class MultipartBody implements Body {
   /// The contents of the message body.
   ///
   /// This will be `null` after [read] is called.
-  Stream<List<int>> _stream;
+  Stream<List<int>>? _stream;
 
   @override
   final int contentLength;
 
   /// Multipart forms do not have an encoding.
   @override
-  Encoding get encoding => null;
+  Encoding? get encoding => null;
 
   @override
   Stream<List<int>> read() {
@@ -135,7 +133,7 @@ class MultipartBody implements Body {
     }
     final stream = _stream;
     _stream = null;
-    return stream;
+    return stream!;
   }
 
   /// Writes the [files] to the [controller].
@@ -191,7 +189,7 @@ class MultipartBody implements Body {
     var header = 'content-type: ${file.contentType}\r\n'
         'content-disposition: form-data; name="${_browserEncode(file.field)}"';
 
-    final filename = file.filename;
+    final filename = file.filename!;
     if (filename.isNotEmpty) {
       header = '$header; filename="${_browserEncode(filename)}"';
     }

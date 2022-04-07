@@ -33,14 +33,17 @@ abstract class Message {
   /// in [headers] will be set appropriately. If there is no existing
   /// Content-Type header, it will be set to "application/octet-stream".
   Message(
-    Object body, {
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Object? body, {
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this._(Body(body, encoding), Headers.create(headers), context);
 
-  Message._(Body body, Map<String, String> headers, Map<String, Object> context)
-      : _body = body,
+  Message._(
+    Body body,
+    Map<String, String> headers,
+    Map<String, Object>? context,
+  )   : _body = body,
         headers = Headers.adjust(headers, body),
         context = Context.create(context);
 
@@ -77,7 +80,7 @@ abstract class Message {
   /// The contents of the content-length field in [headers].
   ///
   /// If not set, `null`.
-  int get contentLength {
+  int? get contentLength {
     if (_contentLengthCache != null) {
       return _contentLengthCache;
     }
@@ -91,7 +94,7 @@ abstract class Message {
     return _contentLengthCache = int.parse(contentLengthHeader);
   }
 
-  int _contentLengthCache;
+  int? _contentLengthCache;
 
   /// The MIME type declared in [headers].
   ///
@@ -99,7 +102,7 @@ abstract class Message {
   /// the MIME type, without any Content-Type parameters.
   ///
   /// If [headers] doesn't have a Content-Type header, this will be `null`.
-  String get mimeType => _contentType?.mimeType;
+  String? get mimeType => _contentType?.mimeType;
 
   /// The encoding of the body returned by [read].
   ///
@@ -108,12 +111,12 @@ abstract class Message {
   ///
   /// If [headers] doesn't have a Content-Type header or it specifies an
   /// encoding that [dart:convert] doesn't support, this will be `null`.
-  Encoding get encoding => _contentType?.encoding;
+  Encoding? get encoding => _contentType?.encoding;
 
   /// The parsed version of the Content-Type header in [headers].
   ///
   /// This is cached for efficient access.
-  MediaType get _contentType {
+  MediaType? get _contentType {
     if (_contentTypeCache != null) {
       return _contentTypeCache;
     }
@@ -126,11 +129,11 @@ abstract class Message {
     return _contentTypeCache = MediaType.parse(contentTypeHeader);
   }
 
-  MediaType _contentTypeCache;
+  MediaType? _contentTypeCache;
 
   /// Determines if the MIME type declared in [headers] is of the same [type]
   /// and optional [subtype].
-  bool isMimeType(String type, [String subtype]) {
+  bool isMimeType(String type, [String? subtype]) {
     final mimeType = _contentType;
     if (mimeType == null) {
       return false;

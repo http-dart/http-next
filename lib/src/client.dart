@@ -29,7 +29,7 @@ abstract class Client {
   /// [FutureOr<Response>]. It will be called when [Client.send] is invoked.
   ///
   /// When [Client.close] is called the [onClose] function will be called.
-  factory Client.handler(Handler handler, {void Function() onClose}) =>
+  factory Client.handler(Handler handler, {void Function()? onClose}) =>
       HandlerClient(handler, onClose ?? () {});
 
   /// Sends an HTTP request and asynchronously returns the response.

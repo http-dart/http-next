@@ -11,7 +11,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:test/test.dart';
 
 /// A dummy URL for constructing requests that won't be sent.
-Uri get dummyUrl => Uri.http('dartlang.org', '');
+Uri get dummyUrl => Uri.http('dartlang.org');
 
 /// Removes eight spaces of leading indentation from a multi-line string.
 ///
@@ -65,7 +65,7 @@ class _Identical extends Matcher {
   final Object _object;
 
   @override
-  bool matches(Object item, Map<dynamic, dynamic> matchState) =>
+  bool matches(Object? item, Map<dynamic, dynamic> matchState) =>
       identical(item, _object);
 
   @override
@@ -83,16 +83,15 @@ class _Parse extends Matcher {
   final Matcher _matcher;
 
   @override
-  bool matches(Object item, Map<dynamic, dynamic> matchState) {
+  bool matches(Object? item, Map<dynamic, dynamic> matchState) {
     if (item is! String) {
       return false;
     }
 
-    final encoded = item as String;
     dynamic parsed;
 
     try {
-      parsed = jsonDecode(encoded);
+      parsed = jsonDecode(item);
     } on Exception catch (_) {
       return false;
     }
@@ -118,23 +117,21 @@ class _MultipartBodyMatches extends Matcher {
   final String _pattern;
 
   @override
-  bool matches(Object item, Map<dynamic, dynamic> matchState) {
+  bool matches(Object? item, Map<dynamic, dynamic> matchState) {
     if (item is! http.Request) {
       return false;
     }
 
-    final request = item as http.Request;
-
-    final future = request.readAsBytes().then((bodyBytes) {
+    final future = item.readAsBytes().then((bodyBytes) {
       final body = utf8.decode(bodyBytes);
-      final contentType = MediaType.parse(request.headers['content-type']);
-      final boundary = contentType.parameters['boundary'];
+      final contentType = MediaType.parse(item.headers['content-type']!);
+      final boundary = contentType.parameters['boundary']!;
       final expected = cleanUpLiteral(_pattern)
           .replaceAll('\n', '\r\n')
           .replaceAll('{{boundary}}', boundary);
 
       expect(body, equals(expected));
-      expect(request.contentLength, equals(bodyBytes.length));
+      expect(item.contentLength, equals(bodyBytes.length));
     });
 
     return completes.matches(future, matchState);
@@ -148,7 +145,7 @@ class _MultipartBodyMatches extends Matcher {
 /// A matcher that matches a [http.ClientException] with the given [message].
 ///
 /// [message] can be a String or a [Matcher].
-Matcher isClientException([Object message]) => predicate<Exception>((error) {
+Matcher isClientException([Object? message]) => predicate<Exception>((error) {
       expect(error, const TypeMatcher<http.ClientException>());
       if (message != null) {
         final except = error as http.ClientException;
@@ -161,5 +158,5 @@ Matcher isClientException([Object message]) => predicate<Exception>((error) {
 /// [http.ClientException] with the given [message].
 ///
 /// [message] can be a String or a [Matcher].
-Matcher throwsClientException([Object message]) =>
+Matcher throwsClientException([Object? message]) =>
     throwsA(isClientException(message));
