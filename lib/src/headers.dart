@@ -86,13 +86,17 @@ extension Headers on Map<String, String> {
   static String _contentLengthHeader(Map<String, String> headers, Body body) {
     final contentLengthHeader = headers.contentLength;
     final bodyLength = body.contentLength;
-    if (bodyLength == null || bodyLength == 0) {
+    if (bodyLength == null) {
       return contentLengthHeader;
     }
 
     final bodyLengthString = bodyLength.toString();
     if (bodyLengthString == contentLengthHeader) {
       return contentLengthHeader;
+    }
+
+    if (bodyLength == 0) {
+      return null;
     }
 
     final coding = headers['transfer-encoding'];
