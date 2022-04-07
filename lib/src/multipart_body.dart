@@ -48,7 +48,9 @@ class MultipartBody implements Body {
     }
 
     void writeLine() {
-      buffer..add(13)..add(10); // \r\n
+      buffer
+        ..add(13)
+        ..add(10); // \r\n
     }
 
     // Write the fields to the buffer.

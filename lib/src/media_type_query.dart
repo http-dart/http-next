@@ -9,7 +9,7 @@ import 'package:http_parser/http_parser.dart';
 extension MediaTypeQuery on MediaType {
   /// Determines if the [MediaType] is the same [type], and optional [subtype].
   ///
-  /// If no [subtype] is specified only the [type] is checked. 
+  /// If no [subtype] is specified only the [type] is checked.
   bool isMimeType(String type, [String subtype]) {
     final subtypeMatch = subtype == null || subtype == this.subtype;
     return type == this.type && subtypeMatch;
