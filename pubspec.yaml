@@ -2,7 +2,6 @@ name: http_next
 version: 2.0.0-dev
 
 description: HTTP request middleware for Dart
-author: Don Olmstead <don.j.olmstead@gmail.com>
 homepage: https://github.com/http-dart/http-next
 
 environment:
