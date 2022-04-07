@@ -21,13 +21,13 @@ class UnmodifiableMap<K, V>
   Map<RK, RV> cast<RK, RV>() => _map.cast<RK, RV>();
 
   @override
-  bool containsKey(Object key) => _map.containsKey(key);
+  bool containsKey(Object? key) => _map.containsKey(key);
 
   @override
-  bool containsValue(Object value) => _map.containsValue(value);
+  bool containsValue(Object? value) => _map.containsValue(value);
 
   @override
-  V operator [](Object key) => _map[key];
+  V? operator [](Object? key) => _map[key];
 
   @override
   Iterable<MapEntry<K, V>> get entries => _map.entries;
@@ -77,7 +77,7 @@ mixin UnmodifiableMapMixin<K, V> implements Map<K, V> {
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
   @override
-  V update(K key, V Function(V value) update, {V Function() ifAbsent}) =>
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) =>
       _throw();
 
   /// Throws an [UnsupportedError];
@@ -103,7 +103,7 @@ mixin UnmodifiableMapMixin<K, V> implements Map<K, V> {
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
   @override
-  V remove(Object key) => _throw();
+  V remove(Object? key) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.

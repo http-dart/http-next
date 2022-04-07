@@ -25,7 +25,7 @@ extension Headers on Map<String, String> {
   /// When creating a [HttpUnmodifiableMap] the [source] is copies to a new
   /// [Map] to ensure changes to the parameter value after constructions are
   /// not reflected.
-  static Map<String, String> create(Map<String, String> source) {
+  static Map<String, String> create(Map<String, String>? source) {
     if (source is UnmodifiableMap<String, String>) {
       return source;
     }
@@ -44,7 +44,7 @@ extension Headers on Map<String, String> {
   /// [updates] is used.
   static Map<String, String> update(
     Map<String, String> original,
-    Map<String, String> updates,
+    Map<String, String>? updates,
   ) {
     if (updates == null || updates.isEmpty) {
       return create(original);
@@ -83,7 +83,7 @@ extension Headers on Map<String, String> {
     return create(updatedHeaders);
   }
 
-  static String _contentLengthHeader(Map<String, String> headers, Body body) {
+  static String? _contentLengthHeader(Map<String, String> headers, Body body) {
     final contentLengthHeader = headers.contentLength;
     final bodyLength = body.contentLength;
     if (bodyLength == null) {
@@ -105,7 +105,7 @@ extension Headers on Map<String, String> {
         : contentLengthHeader;
   }
 
-  static String _contentTypeHeader(Map<String, String> headers, Body body) {
+  static String? _contentTypeHeader(Map<String, String> headers, Body body) {
     final contentTypeHeader = headers.contentType;
     final mediaType = contentTypeHeader != null
         ? MediaType.parse(contentTypeHeader)
@@ -116,6 +116,6 @@ extension Headers on Map<String, String> {
 
     return useEncoding == mediaEncoding
         ? contentTypeHeader
-        : mediaType.changeEncoding(useEncoding).toString();
+        : mediaType.changeEncoding(useEncoding!).toString();
   }
 }

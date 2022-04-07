@@ -24,7 +24,7 @@ extension TextMessage on Message {
   ///
   /// Throws a [StateError] if [read] or [readAsBytes] or [readAsString] has
   /// already been called.
-  Future<String> readAsString([Encoding encoding]) {
+  Future<String> readAsString([Encoding? encoding]) {
     encoding ??= this.encoding ?? utf8;
     return encoding.decodeStream(read());
   }

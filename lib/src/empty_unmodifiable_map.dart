@@ -16,13 +16,13 @@ class EmptyUnmodifiableMap<K, V>
   Map<RK, RV> cast<RK, RV>() => const {};
 
   @override
-  bool containsKey(Object key) => false;
+  bool containsKey(Object? key) => false;
 
   @override
-  bool containsValue(Object value) => false;
+  bool containsValue(Object? value) => false;
 
   @override
-  V operator [](Object key) => null;
+  V? operator [](Object? key) => null;
 
   @override
   Iterable<MapEntry<K, V>> get entries => const Iterable.empty();

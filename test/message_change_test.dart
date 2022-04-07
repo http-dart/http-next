@@ -43,9 +43,9 @@ void main() {
 /// the behavior of `change` with different `headers` and `context` values.
 void _testChange(
   Message Function({
-    Object body,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Object? body,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   })
       factory,
 ) {
