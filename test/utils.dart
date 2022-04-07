@@ -57,6 +57,22 @@ int _getLeadingSpaces(String value) {
   return count;
 }
 
+Matcher isIdentical(Object object) => _Identical(object);
+
+class _Identical extends Matcher {
+  _Identical(this._object);
+
+  final Object _object;
+
+  @override
+  bool matches(Object item, Map<dynamic, dynamic> matchState) =>
+      identical(item, _object);
+
+  @override
+  Description describe(Description description) =>
+      description.add('item is identical to "$_object"');
+}
+
 /// A matcher that matches JSON that parses to a value that matches the inner
 /// matcher.
 Matcher parse(Matcher matcher) => _Parse(matcher);
