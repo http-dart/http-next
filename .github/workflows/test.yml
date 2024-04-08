@@ -45,5 +45,21 @@ jobs:
         id: install
         run: dart pub get
       - name: Run VM tests
-        run: dart test --platform vm
+        run: dart test --platform vm --coverage coverage
+        if: always() && steps.install.outcome == 'success'
+      - name: Run Chrome tests
+        run: dart test --platform chrome --coverage coverage
+        if: always() && steps.install.outcome == 'success'
+      - name: Code coverage
+        run: |
+          dart pub global activate coverage
+          format_coverage --verbose --lcov --report-on lib --report-on test --in coverage -o coverage/lcov.info
+        if: always() && steps.install.outcome == 'success'
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          fail_ci_if_error: true
+          files: ./coverage/lconv.info
         if: always() && steps.install.outcome == 'success'
