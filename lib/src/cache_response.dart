@@ -21,7 +21,7 @@ extension CacheResponse on Response {
   ///
   /// This value is not cached internally so subsequent calls will reparse the
   /// HTTP date header.
-  DateTime get expires => _parseHeaderHttpDate('expires');
+  DateTime? get expires => _parseHeaderHttpDate('expires');
 
   /// The date and time the source of the response's data was last modified.
   ///
@@ -30,9 +30,9 @@ extension CacheResponse on Response {
   ///
   /// This value is not cached internally so subsequent calls will reparse the
   /// HTTP date header.
-  DateTime get lastModified => _parseHeaderHttpDate('last-modified');
+  DateTime? get lastModified => _parseHeaderHttpDate('last-modified');
 
-  DateTime _parseHeaderHttpDate(String key) {
+  DateTime? _parseHeaderHttpDate(String key) {
     final value = headers[key];
 
     return value != null ? parseHttpDate(value) : null;

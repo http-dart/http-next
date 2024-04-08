@@ -33,9 +33,9 @@ class MultipartFile {
   factory MultipartFile(
     String field,
     Object value, {
-    String filename,
-    MediaType contentType,
-    Encoding encoding,
+    String? filename,
+    MediaType? contentType,
+    Encoding? encoding,
   }) {
     List<int> bytes;
     MediaType defaultMediaType;
@@ -82,8 +82,8 @@ class MultipartFile {
     this.field,
     Stream<List<int>> stream,
     this.length, {
-    String filename,
-    MediaType contentType,
+    String? filename,
+    MediaType? contentType,
   })  : _stream = stream,
         filename = filename ?? '',
         contentType = contentType ??
@@ -91,7 +91,7 @@ class MultipartFile {
             octetStreamMediaType();
 
   /// The stream that will emit the file's contents.
-  Stream<List<int>> _stream;
+  Stream<List<int>>? _stream;
 
   /// The name of the form field for the file.
   final String field;
@@ -105,12 +105,12 @@ class MultipartFile {
   /// The basename of the file.
   ///
   /// If unspecified the value will be the empty string.
-  final String filename;
+  final String? filename;
 
   /// The content-type of the file.
   ///
   /// Defaults to `application/octet-stream`.
-  final MediaType contentType;
+  final MediaType? contentType;
 
   /// Creates a new [MultipartFile] from the [stream].
   ///
@@ -123,8 +123,8 @@ class MultipartFile {
   static Future<MultipartFile> loadStream(
     String field,
     Stream<List<int>> stream, {
-    String filename,
-    MediaType contentType,
+    String? filename,
+    MediaType? contentType,
   }) async {
     final bytes = await collectBytes(stream);
 
@@ -148,12 +148,12 @@ class MultipartFile {
     }
     final stream = _stream;
     _stream = null;
-    return stream;
+    return stream!;
   }
 
   /// Looks up the [MediaType] from the [filename]'s extension or from
   /// magic numbers contained within a file header's [bytes].
-  static MediaType _lookUpMediaType(String filename, [List<int> bytes]) {
+  static MediaType? _lookUpMediaType(String filename, [List<int>? bytes]) {
     if (filename.isEmpty && bytes == null) {
       return null;
     }

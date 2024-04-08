@@ -27,30 +27,25 @@ final _helloBytes = ascii.encode('hello,');
 final _worldBytes = ascii.encode(' world');
 
 class _TestMessage extends Message {
-  _TestMessage(
-    Map<String, String> headers,
-    Map<String, Object> context,
-    Object body,
-    Encoding encoding,
-  ) : super(body, headers: headers, context: context, encoding: encoding);
+  _TestMessage(super.body, {super.encoding, super.headers, super.context});
 
   @override
   Message change({
-    Map<String, String> headers,
-    Map<String, Object> context,
-    Object body,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
+    Object? body,
   }) {
     throw UnimplementedError();
   }
 }
 
 Message _createMessage({
-  Map<String, String> headers,
-  Map<String, Object> context,
-  Object body,
-  Encoding encoding,
+  Map<String, String>? headers,
+  Map<String, Object>? context,
+  Object? body,
+  Encoding? encoding,
 }) =>
-    _TestMessage(headers, context, body, encoding);
+    _TestMessage(body, encoding: encoding, headers: headers, context: context);
 
 void main() {
   group('headers', () {
@@ -529,7 +524,7 @@ void main() {
         final message = _createMessage(
           headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
         );
-        expect(message.encoding.name, equals(latin1.name));
+        expect(message.encoding!.name, equals(latin1.name));
         expect(
           message.headers,
           containsPair('content-type', 'text/plain; charset=iso-8859-1'),
@@ -541,7 +536,7 @@ void main() {
           body: 'foo',
           headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
         );
-        expect(message.encoding.name, equals(latin1.name));
+        expect(message.encoding!.name, equals(latin1.name));
         expect(
           message.headers,
           containsPair('content-type', 'text/plain; charset=iso-8859-1'),
@@ -553,7 +548,7 @@ void main() {
           body: _latin1Bytes,
           headers: {'Content-Type': 'text/plain; charset=iso-8859-1'},
         );
-        expect(message.encoding.name, equals(latin1.name));
+        expect(message.encoding!.name, equals(latin1.name));
         expect(
           message.headers,
           containsPair('content-type', 'text/plain; charset=iso-8859-1'),

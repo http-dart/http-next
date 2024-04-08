@@ -32,10 +32,10 @@ class Request extends Message {
   Request(
     String method,
     Uri url, {
-    Object body,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Object? body,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this._(method, url, body, encoding, headers, context);
 
   /// Creates a new HEAD [Request] for a [url].
@@ -47,8 +47,8 @@ class Request extends Message {
   /// and handlers.
   Request.head(
     Uri url, {
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(MethodToken.head, url, headers: headers, context: context);
 
   /// Creates a new GET [Request] for a [url].
@@ -60,8 +60,8 @@ class Request extends Message {
   /// and handlers.
   Request.get(
     Uri url, {
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(MethodToken.get, url, headers: headers, context: context);
 
   /// Creates a new POST [Request] for a [url].
@@ -79,9 +79,9 @@ class Request extends Message {
   Request.post(
     Uri url,
     Object body, {
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(
           MethodToken.post,
           url,
@@ -106,9 +106,9 @@ class Request extends Message {
   Request.put(
     Uri url,
     Object body, {
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(
           MethodToken.put,
           url,
@@ -133,9 +133,9 @@ class Request extends Message {
   Request.patch(
     Uri url,
     Object body, {
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(
           MethodToken.patch,
           url,
@@ -154,8 +154,8 @@ class Request extends Message {
   /// and handlers.
   Request.delete(
     Uri url, {
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) : this(MethodToken.delete, url, headers: headers, context: context);
 
   /// Creates a new [`application/json`](https://www.ietf.org/rfc/rfc4627.txt)
@@ -174,10 +174,10 @@ class Request extends Message {
   factory Request.json(
     Uri url,
     Object body, {
-    String method,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    String? method,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) =>
       Request._(
         method ?? MethodToken.post,
@@ -208,12 +208,12 @@ class Request extends Message {
   /// and handlers.
   factory Request.multipart(
     Uri url, {
-    String method,
-    Map<String, String> headers,
-    Map<String, Object> context,
-    Map<String, Object> fields,
-    Iterable<MultipartFile> files,
-    String boundary,
+    String? method,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
+    Map<String, Object>? fields,
+    Iterable<MultipartFile>? files,
+    String? boundary,
   }) {
     fields ??= const <String, Object>{};
     files ??= const <MultipartFile>[];
@@ -246,17 +246,17 @@ class Request extends Message {
   factory Request.urlEncoded(
     Uri url,
     Map<String, String> body, {
-    String method,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    String? method,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   }) {
     encoding ??= utf8;
 
     final pairs = <List<String>>[];
     body.forEach(
       (key, value) => pairs.add([
-        Uri.encodeQueryComponent(key, encoding: encoding),
+        Uri.encodeQueryComponent(key, encoding: encoding!),
         Uri.encodeQueryComponent(value, encoding: encoding)
       ]),
     );
@@ -274,10 +274,10 @@ class Request extends Message {
   Request._(
     this.method,
     this.url,
-    Object body,
-    Encoding encoding,
-    Map<String, String> headers,
-    Map<String, Object> context,
+    Object? body,
+    Encoding? encoding,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
   ) : super(body, encoding: encoding, headers: headers, context: context);
 
   /// The HTTP method of the request.
@@ -302,9 +302,9 @@ class Request extends Message {
   /// [Stream<List<int>>], or `null` to indicate no body.
   @override
   Request change({
-    Map<String, String> headers,
-    Map<String, Object> context,
-    Object body,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
+    Object? body,
   }) {
     final updatedHeaders = Headers.update(this.headers, headers);
     final updatedContext = Context.update(this.context, context);

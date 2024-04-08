@@ -7,8 +7,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:pedantic/pedantic.dart';
-
 import 'client.dart';
 import 'exception.dart';
 import 'io_client_context.dart';
@@ -26,15 +24,15 @@ Client platformClient() => IOClient();
 /// [Request.context] through [IOClientContext].
 class IOClient implements Client {
   /// Creates a new HTTP client.
-  IOClient([HttpClient inner]) : _inner = inner ?? HttpClient();
+  IOClient([HttpClient? inner]) : _inner = inner ?? HttpClient();
 
   /// The underlying `dart:io` HTTP client.
-  HttpClient _inner;
+  HttpClient? _inner;
 
   @override
   FutureOr<Response> send(Request request) async {
     try {
-      final ioRequest = await _inner.openUrl(request.method, request.url);
+      final ioRequest = await _inner!.openUrl(request.method, request.url);
 
       ioRequest
         ..followRedirects = request.followRedirects
@@ -55,7 +53,7 @@ class IOClient implements Client {
         headers[key] = values.join(',');
       });
 
-      void _streamErrorHandler(Object error) {
+      void streamErrorHandler(Object error) {
         final httpException = error as HttpException;
         throw ClientException(
           httpException.message,
@@ -68,7 +66,7 @@ class IOClient implements Client {
         response.statusCode,
         reasonPhrase: response.reasonPhrase,
         body: StreamView(response)
-            .handleError(_streamErrorHandler, test: _isHttpException),
+            .handleError(streamErrorHandler, test: _isHttpException),
         headers: headers,
       );
     } on HttpException catch (error) {
@@ -100,5 +98,5 @@ class IOClient implements Client {
   }
 
   /// Determines if the [value] is a [HttpException].
-  static bool _isHttpException(Object value) => value is HttpException;
+  static bool _isHttpException(Object? value) => value is HttpException;
 }

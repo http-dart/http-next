@@ -93,6 +93,5 @@ extension MethodToken on Method {
       case Method.trace:
         return trace;
     }
-    return '';
   }
 }

@@ -19,7 +19,7 @@ extension BrowserClientContext on Request {
 
   /// Modifies the [Request.context] to set [BrowserClient] specific values.
   Request changeBrowserClientContext({
-    bool withCredentials,
+    bool? withCredentials,
   }) {
     final context = <String, Object>{};
 

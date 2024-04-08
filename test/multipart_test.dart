@@ -34,13 +34,6 @@ void main() {
       ),
       throwsArgumentError,
     );
-    expect(
-      () => http.Request.multipart(
-        dummyUrl,
-        fields: <String, Object>{'foo': null},
-      ),
-      throwsArgumentError,
-    );
   });
 
   test('with fields and files', () {

@@ -43,11 +43,10 @@ void main() {
 /// the behavior of `change` with different `headers` and `context` values.
 void _testChange(
   Message Function({
-    Object body,
-    Map<String, String> headers,
-    Map<String, Object> context,
-  })
-      factory,
+    Object? body,
+    Map<String, String>? headers,
+    Map<String, Object>? context,
+  }) factory,
 ) {
   group('body', () {
     test('with String', () async {

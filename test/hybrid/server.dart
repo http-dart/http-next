@@ -16,11 +16,17 @@ import 'package:stream_channel/stream_channel.dart';
 final _ignoreHeaders = <String>[
   // Browser headers (Chrome)
   'accept',
-  'accept-language',
   'accept-encoding',
+  'accept-language',
   'connection',
   'origin',
   'referer',
+  'sec-ch-ua',
+  'sec-ch-ua-mobile',
+  'sec-ch-ua-platform',
+  'sec-fetch-dest',
+  'sec-fetch-mode',
+  'sec-fetch-site',
 
   // Dart IO headers
   'cookie',
@@ -52,7 +58,7 @@ final _ignoreHeaders = <String>[
 ///       body: OPTIONAL
 ///     }
 Future<void> hybridMain(StreamChannel<dynamic> channel) async {
-  Uri serverUrl;
+  late Uri serverUrl;
 
   final server = await shelf_io.serve(
     (request) async {
@@ -99,7 +105,7 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
           return;
         }
 
-        final headers = content['headers'] as Map<String, String>;
+        final headers = content['headers']! as Map<String, String>;
         headers[name] = value;
       });
 
@@ -110,7 +116,7 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
       return shelf.Response.ok(
         jsonEncode(content),
         headers: {
-          'content-type': 'application/json; charset=${outputEncoding.name}',
+          'content-type': 'application/json; charset=${outputEncoding!.name}',
 
           // CORS headers for browser testing
           'access-control-allow-origin': '*',
@@ -124,6 +130,6 @@ Future<void> hybridMain(StreamChannel<dynamic> channel) async {
     0,
   );
 
-  serverUrl = Uri.http('localhost:${server.port}', '');
+  serverUrl = Uri.http('localhost:${server.port}');
   channel.sink.add(serverUrl.toString());
 }

@@ -9,7 +9,6 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 
 import 'package:async/async.dart';
-import 'package:pedantic/pedantic.dart';
 
 import 'browser_client_context.dart';
 import 'client.dart';
@@ -58,9 +57,9 @@ class BrowserClient implements Client {
         final buffer = xhr.response as ByteBuffer;
         completer.complete(
           Response(
-            Uri.parse(xhr.responseUrl),
-            xhr.status,
-            reasonPhrase: xhr.statusText,
+            Uri.parse(xhr.responseUrl!),
+            xhr.status!,
+            reasonPhrase: xhr.statusText ?? '',
             body: Stream.fromIterable([buffer.asUint8List()]),
             headers: xhr.responseHeaders,
           ),
