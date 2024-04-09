@@ -136,4 +136,60 @@ void main() {
 
     expect(accessLocation, 3);
   });
+
+  test('Exception in requestHandler calls error handler', () async {
+    final exception = Exception('EXCEPTION');
+    var handled = false;
+
+    final middlewareA = createMiddleware();
+    final middlewareB = createMiddleware(
+      requestHandler: (_) => throw exception,
+      errorHandler: (e, [StackTrace? stackTrace]) {
+        handled = true;
+        expect(e, exception);
+      },
+    );
+
+    final client = const Pipeline()
+        .addMiddleware(middlewareA)
+        .addMiddleware(middlewareB)
+        .addClient(
+      Client.handler((request) async {
+        return Response(dummyUrl, 200);
+      }),
+    );
+
+    final response = await client.get(dummyUrl);
+
+    expect(handled, isTrue);
+    expect(response.statusCode, 400);
+  });
+
+  test('Exception in responseHandler calls error handler', () async {
+    final exception = Exception('EXCEPTION');
+    var handled = false;
+
+    final middlewareA = createMiddleware();
+    final middlewareB = createMiddleware(
+      responseHandler: (_) => throw exception,
+      errorHandler: (e, [StackTrace? stackTrace]) {
+        handled = true;
+        expect(e, exception);
+      },
+    );
+
+    final client = const Pipeline()
+        .addMiddleware(middlewareA)
+        .addMiddleware(middlewareB)
+        .addClient(
+      Client.handler((request) async {
+        return Response(dummyUrl, 200);
+      }),
+    );
+
+    final response = await client.get(dummyUrl);
+
+    expect(handled, isTrue);
+    expect(response.statusCode, 400);
+  });
 }
