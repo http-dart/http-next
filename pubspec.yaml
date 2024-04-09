@@ -5,7 +5,7 @@ description: HTTP request middleware for Dart
 homepage: https://github.com/http-dart/http-next
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.3.0
 
 dependencies:
   async: ^2.5.0
