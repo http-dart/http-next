@@ -17,30 +17,19 @@ import 'middleware.dart';
 ///         .addClient(new Client());
 class Pipeline {
   /// Creates a [Pipeline].
-  const Pipeline()
-      : _parent = null,
-        _middleware = null;
-
-  Pipeline._(this._parent, this._middleware);
-
-  /// The outer pipeline.
-  final Pipeline? _parent;
-
-  /// The [Middleware] that is invoked at this stage.
-  final Middleware? _middleware;
+  const Pipeline();
 
   /// Returns a new [Pipeline] with [middleware] added to the existing set of
   /// [Middleware].
   ///
   /// [middleware] will be the last [Middleware] to process a request and
   /// the first to process a response.
-  Pipeline addMiddleware(Middleware middleware) => Pipeline._(this, middleware);
+  Pipeline addMiddleware(Middleware middleware) => _Pipeline(this, middleware);
 
   /// Returns a new [Client] with [client] as the final processor of a
   /// [Request] if all of the middleware in the pipeline have passed the request
   /// through.
-  Client addClient(Client client) =>
-      _middleware == null ? client : _parent!.addClient(_middleware!(client));
+  Client addClient(Client client) => client;
 
   /// Returns a new [Client] with [handler] as the final processor of a
   /// [Request] if all of the middleware in the pipeline have passed the request
@@ -49,4 +38,14 @@ class Pipeline {
 
   /// Exposes this pipeline of [Middleware] as a single middleware instance.
   Middleware get middleware => addClient;
+}
+
+class _Pipeline extends Pipeline {
+  final Pipeline _parent;
+  final Middleware _middleware;
+
+  _Pipeline(this._parent, this._middleware);
+
+  @override
+  Client addClient(Client client) => _parent.addClient(_middleware(client));
 }
