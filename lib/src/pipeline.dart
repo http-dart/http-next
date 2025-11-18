@@ -49,3 +49,23 @@ class _Pipeline extends Pipeline {
   @override
   Client addClient(Client client) => _parent.addClient(_middleware(client));
 }
+
+/// Extensions on [Middleware] to aid in composing [Middleware] and [Client]s.
+///
+/// These members can be used in place of [Pipeline].
+extension MiddlewareExtensions on Middleware {
+  Pipeline addMiddleware(Middleware middleware) =>
+      _pipeline.addMiddleware(middleware);
+
+  /// Returns a new [Client] with [client] as the final processor of a
+  /// [Request] if all of the middleware in the pipeline have passed the request
+  /// through.
+  Client addClient(Client client) => _pipeline.addClient(client);
+
+  /// Returns a new [Client] with [handler] as the final processor of a
+  /// [Request] if all of the middleware in the pipeline have passed the request
+  /// through.
+  Client addHandler(Handler handler) => addClient(Client.handler(handler));
+
+  Pipeline get _pipeline => _Pipeline(const Pipeline(), this);
+}
